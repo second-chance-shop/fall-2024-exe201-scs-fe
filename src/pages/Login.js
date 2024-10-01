@@ -6,15 +6,24 @@ import loginIcons from '../assest/signin.gif';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [data, setData] = useState({
+    email: '',
+    password: ''
+  });
+  
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
     // Add login logic here
   };
 
@@ -44,32 +53,34 @@ const Login = () => {
           onClick={handleBack}
         />
 
-        <div className='w-20 h-20 mx-auto'>
+        <div className='w-20 h-20 mx-auto relative overflow-hidden rounded-full'>
           <img src={loginIcons} alt='login Icons' 
           className='w-full h-full mix-blend-multiply'/>
         </div>
 
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Đăng nhập</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='pt-6 flex flex-col gap-2'>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name='email'
+              value={data.email}
+              onChange={handleOnChange}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
               required
             />
           </div>
           <div className="mb-4 relative">
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">Mật khẩu</label>
             
             <div className='flex items-center'>
               <input
                 type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={data.password}
+                name='password'
+                onChange={handleOnChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm pr-10" 
                 required
               />
@@ -78,23 +89,23 @@ const Login = () => {
               >
                 <span>
                   {
-                    showPassword ? (
-                      <FaEyeSlash />
-                    )
-                    :
-                    (
-                      <FaEye />
-                    )
+                    showPassword ? ( <FaEyeSlash /> ) : ( <FaEye /> )
                   }
                 </span>
               </div>
             </div>
+
+            <div>
+              <Link to={'/forgot-password'} className='block w-fit ml-auto hover:underline hover:text-orange-500' >
+                Quên mật khẩu
+              </Link>
+            </div>
           </div>
           <button
             type="submit"
-            className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 mb-4"
+            className="w-full bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600 mb-4"
           >
-            Login
+            Đăng nhập
           </button>
 
           {/* Google Login Button */}
@@ -103,14 +114,14 @@ const Login = () => {
             onClick={handleGoogleLogin}
             className="w-full bg-white-500 text-red-500 py-2 rounded-md hover:bg-gray-300 flex justify-center items-center mb-4"
           >
-            <i className="fab fa-google mr-2"></i> Login with Google
+            <i className="fab fa-google mr-2"></i> Đăng nhập bằng Google
           </button>
           {/* Register Link */}
           <div className="text-center mt-4">
             <p className="text-sm text-gray-700">
-              Don't have an account?{' '}
+              Bạn chưa có tài khoản?{' '}
               <Link to="/register" className="text-orange-500 hover:underline">
-                Register here
+                Đăng ký
               </Link>
             </p>
           </div>

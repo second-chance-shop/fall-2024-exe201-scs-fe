@@ -19,8 +19,7 @@ const QuickLinks = () => {
                     <a href="#" className="hover:text-gray-300">
                         Services
                     </a>
-                </li>{" "}
-                 
+                </li>
                 <li>
                     <a href="#" className="hover:text-gray-300">
                         Contact

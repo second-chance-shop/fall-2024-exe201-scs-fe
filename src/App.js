@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 function App() {
     const location = useLocation();
     // Array of paths where you DON'T want the header
-    const noHeaderPaths = ["/login", "/register"];
+    const noHeaderPaths = ["/login", "/register", '/forgot-password'];
 
     return (
         <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
