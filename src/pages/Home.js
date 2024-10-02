@@ -7,13 +7,21 @@ import BonusCoupons from "../components/home_components/BonusCoupons";
 
 const Home = () => {
     return (
-        <div classname="box-border ">
-            <HeroBanner />
+        <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation flex w-full">
+            <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation">
+                <HeroBanner />
+                <WarningBanner />
+                <LightningDeals />
+                <ClearanceDeals />
+                <BonusCoupons />
+            </div>
             <div></div>
-            <WarningBanner classname="mt-7" />
-            <LightningDeals />
-            <ClearanceDeals />
-            <BonusCoupons />
+
+            {/* <ThreeBoxes></ThreeBoxes>
+            <TwoBoxes></TwoBoxes>
+            <CategoriesFest></CategoriesFest>
+            <LocalProvider></LocalProvider>
+            <PayLatterBanner></PayLatterBanner> */}
         </div>
     );
 };
