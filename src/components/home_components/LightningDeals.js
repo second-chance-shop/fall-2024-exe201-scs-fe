@@ -1,6 +1,7 @@
-import React from "react";
-import { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ProductCard from "../ProductCard";
+import Banner from "./Banner";
+import ProductDeal from "./ProductDeal";
 
 /* MOCK DATA*/
 const deals = [
@@ -81,51 +82,57 @@ const deals = [
 
 const LightningDeals = ({}) => {
     const scrollRef = useRef(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [startX, setStartX] = useState(0);
+    const [scrollLeft, setScrollLeft] = useState(0);
 
-    // Handle drag to scroll behavior
     const handleMouseDown = (e) => {
-        const slider = scrollRef.current;
-        slider.isDown = true;
-        slider.startX = e.pageX - slider.offsetLeft;
-        slider.scrollLeftStart = slider.scrollLeft;
+        setIsDragging(true);
+        setStartX(e.pageX - scrollRef.current.offsetLeft);
+        setScrollLeft(scrollRef.current.scrollLeft);
     };
 
     const handleMouseMove = (e) => {
-        const slider = scrollRef.current;
-        if (!slider.isDown) return;
+        if (!isDragging) return;
         e.preventDefault();
-        const x = e.pageX - slider.offsetLeft;
-        const walk = (x - slider.startX) * 1.5; // Scroll speed
-        slider.scrollLeft = slider.scrollLeftStart - walk;
+        const x = e.pageX - scrollRef.current.offsetLeft;
+        const walk = (x - startX) * 2; // The multiplier controls scroll speed
+        scrollRef.current.scrollLeft = scrollLeft - walk;
     };
 
     const handleMouseUp = () => {
-        scrollRef.current.isDown = false;
+        setIsDragging(false);
     };
 
     const handleMouseLeave = () => {
-        scrollRef.current.isDown = false;
+        setIsDragging(false);
     };
 
     return (
-        <div className="container mx-auto py-8">
-            <h2 className="text-2xl font-bold mb-4">Lightning Deals</h2>
-            <div
-                ref={scrollRef}
-                className="flex overflow-x-auto space-x-4 pb-2 cursor-grab scrollbar-hide"
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
-            >
-                <div className="flex space-x-4 w-full">
-                    {deals.map((deal) => (
-                        <div className="min-w-[25%] max-w-[25%] flex-shrink-0" key={deal.id}>
-                            <ProductCard deal={deal} />
+        <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 mx-auto mt-[30px] p-[0_44px] user-select-none box-border touch-manipulation flex w-full min-w-[1080px] max-w-[1440px]">
+            <section class="w-full text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation block relative">
+                <Banner />
+                <div
+                    ref={scrollRef}
+                    className="flex overflow-x-auto space-x-4 pb-2 cursor-grab scrollbar-hide"
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <div className="relative">
+                        <div className="relative visible">
+                            <div className="relative overflow-hidden z-0">
+                                <ul className="flex h-full backface-hidden translate-x-0">
+                                    {deals.map((deal) => (
+                                        <ProductDeal key={deal.id} deal={deal}></ProductDeal>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
-                    ))}
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
     );
 };
