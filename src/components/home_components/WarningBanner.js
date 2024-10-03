@@ -28,7 +28,7 @@ const WarningComponent = () => {
                             alt=""
                             aria-hidden="true"
                         />
-                        <span>Temu's Commitments</span>
+                        <span>Cam Kết của chúng tôi</span>
                     </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-6">
@@ -40,7 +40,7 @@ const WarningComponent = () => {
                                     class="text-[16px] leading-[20px] font-normal text-white border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation max-w-full align-top w-6 h-6 flex-shrink-0 mr-1.5"
                                 />
                                 <span class="list-none leading-5 font-normal border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation text-white text-[16px]">
-                                    Secure privacy
+                                    Bảo mật thông tin
                                 </span>
                             </div>
                             <div class="flex items-center ml-6">
@@ -52,7 +52,7 @@ const WarningComponent = () => {
                                         aria-hidden="true"
                                         class="text-[16px] leading-[20px] font-normal text-white list-none tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation border-0 max-w-full align-top w-6 h-6 flex-shrink-0 mr-1.5"
                                     />
-                                    <span>Safe payments</span>
+                                    <span>Thanh toán an toàn</span>
                                 </div>
                             </div>
                             <div class="flex items-center ml-6">
@@ -64,7 +64,7 @@ const WarningComponent = () => {
                                         aria-hidden="true"
                                         class="text-[16px] leading-[20px] font-normal text-white list-none tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation border-0 max-w-full align-top w-6 h-6 flex-shrink-0 mr-1.5"
                                     />
-                                    <span>Delivery guarantee</span>
+                                    <span>Cam kết giao hàng </span>
                                 </div>
                             </div>
                         </div>
@@ -95,11 +95,11 @@ const WarningComponent = () => {
                                 <path d={d[0]}></path>
                             </svg>
                             <span class="text-[16px] font-medium leading-[20px] text-[#0A8800] list-none cursor-pointer border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation overflow-hidden break-words line-clamp-2">
-                                Be wary of messages about delivery issues claiming to be from USPS.
+                                Hãy cảnh giác với những tin nhắn giả mạo về vấn đề giao hàng
                             </span>
                         </div>
                         <div class="flex items-center">
-                            <span>View</span>
+                            <span>Xem thêm</span>
                             <svg
                                 viewBox="0 0 1024 1024"
                                 version="1.1"
