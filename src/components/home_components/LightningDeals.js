@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import ProductCard from "../ProductCard";
 import Banner from "./Banner";
+import ProductDeal from "./ProductDeal";
 
 /* MOCK DATA*/
 const deals = [
@@ -108,8 +109,8 @@ const LightningDeals = ({}) => {
     };
 
     return (
-        <div class="text-[12px] leading-6 text-black list-none tap-highlight-transparent user-select-none box-border touch-manipulation flex w-full min-w-[1080px] max-w-[1440px] mx-auto border-0 p-0 mt-[30px] px-[44px]">
-            <section class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation block relative">
+        <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 mx-auto mt-[30px] p-[0_44px] user-select-none box-border touch-manipulation flex w-full min-w-[1080px] max-w-[1440px]">
+            <section class="w-full text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation block relative">
                 <Banner />
                 <div
                     ref={scrollRef}
@@ -124,16 +125,7 @@ const LightningDeals = ({}) => {
                             <div className="relative overflow-hidden z-0">
                                 <ul className="flex h-full backface-hidden translate-x-0">
                                     {deals.map((deal) => (
-                                        <li
-                                            className="relative flex-shrink-0 mr-[18px] w-[calc(20%_-_14.4px)]"
-                                            key={deal.id}
-                                        >
-                                            <div className="block cursor-pointer flex-shrink-0 w-full">
-                                                <div className="h-full pb-[14px] cursor-pointer">
-                                                    <ProductCard deal={deal} />
-                                                </div>
-                                            </div>
-                                        </li>
+                                        <ProductDeal key={deal.id} deal={deal}></ProductDeal>
                                     ))}
                                 </ul>
                             </div>

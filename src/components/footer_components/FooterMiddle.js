@@ -30,7 +30,7 @@ const cardImages = [
 
 const FooterMiddle = () => {
     return (
-        <div class="text-[12px] leading-6 text-white flex flex-row items-start pr-[40px] justify-center items-center">
+        <div class="text-[12px] leading-6 text-white flex flex-row pr-[40px] justify-center items-center">
             <div class="mr-[25px] shrink-0 w-[509.984px]">
                 <h6 class="text-[14px]">Chứng nhận bảo mật</h6>
                 <div class="flex flex-row flex-wrap items-center mt-[12px]">
