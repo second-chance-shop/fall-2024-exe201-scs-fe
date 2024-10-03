@@ -109,7 +109,7 @@ const LightningDeals = ({}) => {
     };
 
     return (
-        <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 mx-auto mt-[30px] p-[0_44px] user-select-none box-border touch-manipulation flex w-full min-w-[1080px] max-w-[1440px]">
+        <div class="text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 mx-auto mt-8 user-select-none box-border touch-manipulation flex w-full min-w-[1080px] max-w-[1840px] mb-32   ">
             <section class="w-full text-[12px] leading-6 text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation block relative">
                 <Banner />
                 <div

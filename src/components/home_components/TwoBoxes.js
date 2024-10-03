@@ -23,21 +23,21 @@ const leftImageHolders = [
 const ImageCard = ({ src, alt, price }) => {
     return (
         <div class="flex justify-center items-center w-full cursor-pointer select-none">
-            <div class="w-full h-[250px] relative">
+            <div class="w-full h-[200px] relative">
                 <div class="absolute inset-0">
                     <img
                         data-state="succ"
                         alt={alt}
                         src={src}
                         data-was-processed="true"
-                        class="w-full h-full object-contain"
+                        class="w-full h-full"
                     />
-                    <div class="flex justify-center items-center w-full h-[26px] absolute bottom-2 px-4 z-1">
+                    <div class="flex justify-center items-center w-full absolute bottom-2 px-4 z-1">
                         <div
                             title={`$${price}`}
-                            class="text-[14px] leading-[16px] font-semibold text-white bg-[rgba(0,0,0,0.6)] rounded-[20px] border border-[hsla(0,0%,100%,.4)] text-center px-2 py-1 min-h-[26px] max-h-[34px]"
+                            class="text-[14px] font-semibold text-white bg-[rgba(0,0,0,0.6)] rounded-[20px] border border-[hsla(0,0%,100%,.4)] text-center px-2 py-2"
                         >
-                            <span class="flex-1 break-all overflow-hidden line-clamp-2">
+                            <span class="">
                                 <div class="relative top-1">
                                     $<span class="font-semibold">{Math.floor(price)}</span>.
                                     {(price % 1).toFixed(2).split(".")[1]}
@@ -55,7 +55,7 @@ const TwoBoxes = () => {
     return (
         <div
             role="region"
-            class="mx-auto w-full min-w-[1080px] max-w-[1440px] p-8 mt-8 flex flex-1 gap-4"
+            class="mx-auto w-full min-w-[1080px] max-w-[1600px] p-8 mt-8 flex flex-1 gap-4"
         >
             {/* First <a> tag */}
             <a
@@ -71,14 +71,14 @@ const TwoBoxes = () => {
                     class="absolute inset-0 w-full h-full object-cover"
                 />
                 {/* Everything inside will scale on hover */}
-                <div class="flex flex-col justify-between items-stretch absolute inset-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="flex flex-col pb-5 justify-between items-stretch absolute inset-0 group-hover:scale-110 transition-transform duration-300">
                     <img
                         data-state="succ"
-                        alt="24b9fbc2 ec64 4932 acec f7d1e7f1fce2.png"
+                        alt="6cd4f3e3 6143 4e40 8ac1 2d8f58f98e7e.png"
                         src="https://commimg-us.kwcdn.com/anta-image/24b9fbc2-ec64-4932-acec-f7d1e7f1fce2.png?imageView2/2/w/1000/q/70/format/webp"
                         class="w-full h-[31.15%] object-contain"
                     />
-                    <div class="w-full flex justify-between items-center cursor-pointer px-4 gap-4">
+                    <div class="px-4 w-full flex justify-between items-center gap-4">
                         {leftImageHolders.map((image, index) => (
                             <div class="w-1/3">
                                 <ImageCard
