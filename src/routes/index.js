@@ -8,6 +8,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ShoppingCart from "../pages/ShoppingCart";
 import UserProfile from "../pages/User/Profile";
 import UserSetting from "../pages/User/Setting";
+import Product from "../pages/Product";
 
 const router = createBrowserRouter([
     {
@@ -31,20 +32,24 @@ const router = createBrowserRouter([
                 element: <Test />,
             },
             {
-                path: 'shopping-cart',
+                path: "shopping-cart",
                 element: <ShoppingCart />,
             },
             {
-                path: 'forgot-password',
-                element: <ForgotPassword/>,
+                path: "forgot-password",
+                element: <ForgotPassword />,
             },
             {
-                path: 'user-profile',
+                path: "user-profile",
                 element: <UserProfile />,
             },
             {
-                path: 'user-setting',
+                path: "user-setting",
                 element: <UserSetting />,
+            },
+            {
+                path: "product",
+                element: <Product />,
             },
         ],
     },

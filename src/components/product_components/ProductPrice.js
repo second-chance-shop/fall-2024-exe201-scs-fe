@@ -1,66 +1,77 @@
 import React from "react";
 
-const ProductPrice = () => {
+// Product details object containing price-related information
+const mockProductDetails = {
+    price: 6.79,
+    discountPrice: 9.99,
+    discountPercentage: 32,
+    sold: "4.5K+",
+};
+
+// ProductPrice component receiving details as props
+const ProductPrice = ({
+    price = mockProductDetails.price,
+    discountPrice = mockProductDetails.discountPrice,
+    discountPercentage = mockProductDetails.discountPercentage,
+    sold = mockProductDetails.sold,
+}) => {
     return (
-        <div class="text-[12px] leading-6 text-black cursor-pointer mt-2 relative">
+        <div className="text-[12px] leading-6 text-black cursor-pointer mt-2 relative">
             <div
                 data-sales="true"
                 data-priority-list="5321489"
-                class="flex w-full h-auto min-w-0 flex-wrap"
+                className="flex w-full h-auto min-w-0"
             >
-                <div
-                    data-ignore="true"
-                    class="flex flex-wrap justify-between max-w-full flex-shrink-0"
-                >
+                <div data-ignore="true" className="flex justify-between max-w-full">
                     <div
                         data-type="price"
                         role="link"
-                        aria-label="$6.79"
-                        class="text-[#222] flex h-auto whitespace-nowrap origin-[0_50%] mb-[10px]"
+                        aria-label={`$${price}`}
+                        className="text-[#222] flex h-auto whitespace-nowrap"
                     >
                         <div
                             aria-hidden="true"
-                            class="text-[12px] font-semibold leading-[20px] text-[#FB7701] mt-1"
+                            className="text-[12px] font-semibold text-[#FB7701]"
                         >
-                            <span class="text-[18px] font-semibold leading-5">$</span>
-                            <span class="text-[18px] font-semibold leading-5">6</span>
-                            <span class="text-[13px] font-bold leading-5">.79</span>
+                            <span className="text-[18px] font-semibold leading-5">$</span>
+                            <span className="text-[18px] font-semibold leading-5">
+                                {Math.floor(price)}
+                            </span>
+                            <span className="text-[13px] font-bold leading-5">
+                                .{(price % 1).toFixed(2).split(".")[1]}
+                            </span>
                         </div>
                     </div>
-                    <img
-                        data-state="succ"
-                        aria-hidden="true"
-                        alt="$6.79"
-                        data-type="priceIcon"
-                        class="min-w-[1px] min-h-[1px] h-auto w-auto relative top-2 mx-1 align-baseline"
-                    />
                 </div>
 
-                <div class="flex items-baseline relative h-[100%] shrink-0 mt-3">
-                    <div class="max-w-full flex flex-wrap mb-2">
+                <div className="flex items-baseline relative shrink-0">
+                    <div className="max-w-full flex flex-wrap mb-2">
                         <div
                             data-type="marketPrice"
-                            class="text-[13px] leading-6 text-[#777] whitespace-nowrap origin-[0_50%] mb-2 ml-1 w-auto inline-block"
+                            className="text-[13px] leading-6 text-[#777] whitespace-nowrap mb-2 ml-1 w-auto inline-block"
                         >
-                            <span class="relative">$9.99</span>
+                            <span className="relative line-through">${discountPrice}</span>
                         </div>
                         <div
                             data-type="saleTips"
-                            class="text-[13px] leading-6 text-[#777] whitespace-nowrap origin-[0_50%] mb-2 ml-1 w-auto inline-block"
+                            className="text-[13px] leading-6 text-[#777] whitespace-nowrap mb-2 ml-1 w-auto inline-block"
                         >
                             <span
-                                tabindex="0"
+                                tabIndex="0"
                                 role="link"
-                                aria-label="4.5K+sold"
-                                class="inline-flex"
+                                aria-label={`${sold} sold`}
+                                className="inline-flex"
                             >
-                                <span>4.5K+</span>
-                                <span class="ml-2">sold</span>
+                                <span className="ml-1">{sold}</span>
+                                <span className="ml-1">đã bán</span>
                             </span>
                         </div>
-                        <div data-type="discount" class="ml-2 origin-[0_50%] w-auto translate-z-0">
-                            <div class="inline-flex items-center justify-center h-[18px] text-[#fb7701] border-[1px] border-[#fb7701] rounded-[3px] p-[4px]">
-                                <span>-32%</span>
+                        <div
+                            data-type="discount"
+                            className="ml-2 origin-[0_50%] w-auto translate-z-0"
+                        >
+                            <div className="inline-flex items-center justify-center h-[18px] text-[#fb7701] border-[1px] border-[#fb7701] rounded-[3px] p-[4px]">
+                                <span>-{discountPercentage}%</span>
                             </div>
                         </div>
                     </div>

@@ -5,9 +5,12 @@ function App() {
     const location = useLocation();
     const noHeaderPaths = ["/login", "/register", "/forgot-password"];
     return (
-        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+        <div className="flex flex-col min-h-screen w-2000 mx-auto">
             {!noHeaderPaths.includes(location.pathname) && <Header />}
-            <main style={{ flexGrow: 1 }}>
+            <main
+                style={{ flexGrow: 1 }}
+                class="border-0 m-0 p-0 box-border flex justify-center items-center"
+            >
                 <Outlet />
             </main>
             <Footer />

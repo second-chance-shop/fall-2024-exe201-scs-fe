@@ -6,13 +6,18 @@ import ProductImage from "../product_components/ProductImage";
 
 const ProductDeal = ({ deal }) => {
     return (
-        <li className="relative flex-shrink-0 mr-[18px] w-[calc(20%_-_14.4px)]" key={deal.id}>
+        <li className="relative flex-shrink-0 mr-[18px] group" key={deal.id}>
             <div className="block cursor-pointer flex-shrink-0 w-full">
                 <div className="h-full pb-[14px] cursor-pointer">
-                    <ProductImage />
-                    <ProductPrice />
-                    <ProductCountdown />
-                    <ProductStars />
+                    <ProductImage src={deal.src} alt={deal.description || deal.alt} />
+                    <ProductPrice
+                        price={deal.price}
+                        discountPrice={deal.discountPrice}
+                        discountPercentage={deal.discountPercentage}
+                        sold={deal.sold}
+                    />
+                    <ProductCountdown initialTimeInSeconds={100000} />
+                    <ProductStars rating={deal.rating} />
                 </div>
             </div>
         </li>
