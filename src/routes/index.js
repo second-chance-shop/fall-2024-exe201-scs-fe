@@ -9,6 +9,7 @@ import ShoppingCart from "../pages/ShoppingCart";
 import UserProfile from "../pages/User/Profile";
 import UserSetting from "../pages/User/Setting";
 import Product from "../pages/Product";
+import OtpVerification from "../pages/OTP_Verification";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: "product",
                 element: <Product />,
+            },
+            {
+                path: "otp-verification",
+                element: <OtpVerification />,
             },
         ],
     },

@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -22,34 +23,27 @@ const Login = () => {
     setErrorMessage('');
 
     try {
-        const response = await fetch('https://scs-api.arisavinh.dev/api/v1/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-        });
+      const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/auth/login', data);
 
-        const result = await response.json();
-        console.log("API Response:", result);
+      console.log("API Response:", response.data);
 
-        // Kiểm tra phản hồi từ server
-        if (response.ok && result.isSuccess) { // Chỉnh sửa ở đây
-            const { accessToken, tokenType } = result.data;
+      if (response.status === 200 && response.data.isSuccess) {
+        const { accessToken, tokenType } = response.data.data;
 
-            // Lưu token vào AsyncStorage
-            await AsyncStorage.setItem('userToken', `${tokenType} ${accessToken}`);
+        // Save token in AsyncStorage
+        await AsyncStorage.setItem('userToken', `${tokenType} ${accessToken}`);
 
-            toast.info(`Chào mừng bạn, ${result.message}`); // Sử dụng message từ result
-            navigate('/user-profile'); 
-        } else {
-            toast.error(result.message || 'Đã xảy ra lỗi');
-        }
+        toast.success(`Chào mừng bạn, ${data.username}`);
+        navigate('/user-profile');
+      } else {
+        toast.error(response.data.message || 'Đã xảy ra lỗi');
+      }
     } catch (error) {
-        toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
+      toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
   };
 
-
-  const handleBack = () => navigate('/');  
+  const handleBack = () => navigate('/');
 
   return (
     <section id='login' className="min-h-screen flex items-center justify-center bg-cover bg-center relative" 

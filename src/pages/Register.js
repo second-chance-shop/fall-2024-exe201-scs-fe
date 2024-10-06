@@ -8,76 +8,70 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 
 const Register = () => {
-    const [data, setData] = useState({
-      username: '',
-      email: '',
-      phoneNumber: '',
-      name: '',
-      password: '',
-      confirmPassword: '',
-      avatar: '',
-      gender: '',
-      dob: '',
-      address: '',
-    });
+  const [data, setData] = useState({
+    username: '',
+    email: '',
+    phoneNumber: '',
+    name: '',
+    password: '',
+    confirmPassword: '',
+    avatar: '',
+    gender: '',
+    dob: '',
+    address: '',
+  });
 
-    const navigate = useNavigate();
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-    const handleOnChange = (e) => {
-      const { name, value } = e.target;
-      setData((prevData) => ({
-        ...prevData,
-        [name]: value,
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage('');
+
+    if (data.password !== data.confirmPassword) {
+      toast.error('Mật khẩu không trùng khớp');
+      return;
+    }
+
+    try {
+      const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/user/register', data);
+
+      if (response.status === 200 && response.data.isSuccess) {
+        console.log("check register",response.data)
+        toast.success('OTP đã được gửi đến email của bạn. Vui lòng nhập OTP để hoàn tất đăng ký.');
+        navigate('/otp-verification', { state: { email: data.email } }); 
+      } else {
+        toast.error(response.data.message || 'Đã xảy ra lỗi');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
+    }
+  };
+
+  const handleUploadPic = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imagePic = await imageTobase64(file);
+      setData((prev) => ({
+        ...prev,
+        avatar: imagePic,
       }));
-    };
+    }
+  };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setErrorMessage(''); 
-
-      if (data.password !== data.confirmPassword) {
-          toast.error('Mật khẩu không trùng khớp');
-          return;
-      }
-  
-      try {
-          const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/user/register', data, {
-              withCredentials: true, 
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-          });
-  
-          if (response.status === 200 && response.data.isSuccess) {
-              toast.success(response.data.message);
-              navigate('/login');
-          } else {
-              toast.error(response.data.message || 'Đã xảy ra lỗi');
-          }
-  
-      } catch (error) {
-          // Handle error more gracefully
-          toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
-      }
-    };
-
-    const handleUploadPic = async (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        const imagePic = await imageTobase64(file);
-        setData((prev) => ({
-          ...prev,
-          avatar: imagePic,
-        }));
-      }
-    };
-
-    const handleBack = () => {
-      navigate('/');
-    };
+  const handleBack = () => {
+    navigate('/');
+  };
 
     return (
       <div
