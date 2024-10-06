@@ -9,6 +9,7 @@ module.exports = {
                 "-ms-overflow-style": "none",
                 "scrollbar-width": "none",
             },
+            width: "2000px",
         },
     },
     plugins: [],

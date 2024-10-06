@@ -30,10 +30,10 @@ const Banner = () => {
                                 class="relative text-white font-extrabold italic text-[24px]"
                                 aria-label="Lightning deals"
                             >
-                                Lightning deals
+                                Deals nhanh như chớp
                             </h2>
                             <span class="relative top-[1px] text-white text-[14px] font-medium ml-[20px] mr-[2px]">
-                                Limited time offer
+                                Ưu đãi có hạn
                             </span>
                             <svg
                                 class="relative top-[1px] rotate-[-90deg] w-4 h-4 fill-white"

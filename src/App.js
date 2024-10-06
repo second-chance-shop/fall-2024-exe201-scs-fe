@@ -7,11 +7,12 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
     const location = useLocation();
     const noHeaderPaths = ["/login", "/register", "/forgot-password"];
+    
     return (
-        <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-            <ToastContainer/>
+        <div className="flex flex-col min-h-screen w-full mx-auto">
+            <ToastContainer />
             {!noHeaderPaths.includes(location.pathname) && <Header />}
-            <main style={{ flexGrow: 1 }}>
+            <main className="flex-grow flex justify-center items-center">
                 <Outlet />
             </main>
             <Footer />

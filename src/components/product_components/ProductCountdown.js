@@ -46,7 +46,7 @@ const ProductCountdown = ({ initialTimeInSeconds }) => {
                 dir="ltr"
                 className="text-[12px] font-bold leading-6 ml-[5px] w-[90px] flex items-center"
             >
-                {parseInt(days) > 0 && <span>{days}:</span>} {/* Show days only if > 0 */}
+                <span>{days}:</span>
                 <span>{hours}:</span>
                 <span>{minutes}:</span>
                 <span>{seconds}</span>

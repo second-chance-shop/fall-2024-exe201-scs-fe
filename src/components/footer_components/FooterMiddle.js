@@ -30,9 +30,9 @@ const cardImages = [
 
 const FooterMiddle = () => {
     return (
-        <div class="text-[12px] leading-6 text-white flex flex-row pr-[40px] justify-center items-center">
-            <div class="mr-[25px] shrink-0 w-[509.984px]">
-                <h6 class="text-[14px]">Chứng nhận bảo mật</h6>
+        <div class="text-[12px] leading-6 text-white flex flex-row pr-[40px] justify-center items-cente mt-[30px]">
+            <div class="mr-[25px] shrink-0 w-[650px]">
+                <h6 class="text-[18px] font-bold	">Chứng nhận bảo mật</h6>
                 <div class="flex flex-row flex-wrap items-center mt-[12px]">
                     {securityImages.map((imageSrc, index) => (
                         <img
@@ -49,10 +49,10 @@ const FooterMiddle = () => {
                 </div>
             </div>
             <div>
-                <h6 class="text-[14px]">Châp nhận thanh toán</h6>
+                <h6 class="text-[18px] font-bold	">Chấp nhận thanh toán</h6>
                 <div class="flex flex-wrap mt-[10px]">
                     {cardImages.map((imageSrc, index) => (
-                        <div key={index} class="w-[42px] h-[28px] rounded-[3px] mr-[8px] mb-[10px]">
+                        <div key={index} class="w-[52px] h-[35px] rounded-[3px] mr-[8px] mb-[10px]">
                             <img
                                 class="w-full h-full block"
                                 data-cui-image="1"
