@@ -44,8 +44,7 @@ const Login = () => {
             toast.error(result.message || 'Đã xảy ra lỗi');
         }
     } catch (error) {
-        console.error("Error during login:", error); 
-        setErrorMessage(error.message); 
+        toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
   };
 
