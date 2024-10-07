@@ -9,7 +9,7 @@ function App() {
             {!noHeaderPaths.includes(location.pathname) && <Header />}
             <main
                 style={{ flexGrow: 1 }}
-                class="border-0 m-0 p-0 box-border flex justify-center items-center"
+                class="border-0 m-0 p-0 box-border flex justify-center items-center w-full"
             >
                 <Outlet />
             </main>
