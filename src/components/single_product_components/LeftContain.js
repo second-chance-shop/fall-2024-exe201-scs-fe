@@ -264,7 +264,7 @@ const LeftContain = () => {
     const [currentImage, setCurrentImage] = useState(mockImageList[0]); // Default to first image
 
     return (
-        <div id="leftcontain" className="relative pr-12 box-border max-w-[771px] min-w-[325px]">
+        <div id="leftcontain" className=" pr-12 box-border max-w-[771px] min-w-[325px]">
             <div id="imageContent" class="flex-1 user-select-none relative pl-[70px]">
                 <SmallImage setCurrentImage={setCurrentImage} currentImage={currentImage} />
                 <BigImages currentImage={currentImage} />

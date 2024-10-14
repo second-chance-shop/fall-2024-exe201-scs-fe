@@ -9,15 +9,20 @@ const mockImages = {
 // ProductImage component
 const ProductImage = ({ src = mockImages.src, alt = mockImages.alt }) => {
     return (
-        <div className="text-[12px] leading-6 text-black cursor-pointer tap-highlight-transparent user-select-none touch-manipulation">
+        <div className="text-[12px] leading-6 text-black cursor-grab  tap-highlight-transparent user-select-none select-nonetouch-manipulation">
             <div className="w-full h-0 relative pb-[100%]">
                 <div className="w-full h-full absolute top-0 left-0">
                     <div
                         tabIndex="0"
                         role="link"
-                        className="w-full h-full flex justify-center items-center relative cursor-pointer overflow-hidden"
+                        className="w-full h-full flex justify-center items-center relative cursor-grab overflow-hidden "
+                        style={{
+                            WebkitUserDrag: "none",
+                            userSelect: "none",
+                            pointerEvents: "none",
+                        }}
                     >
-                        <div className="bg-cover bg-no-repeat bg-center min-w-full min-h-full">
+                        <div className="bg-cover bg-no-repeat bg-center min-w-full cursor-grab min-h-full">
                             <img
                                 alt={alt}
                                 className="max-w-full w-full align-bottom transition-transform duration-300 ease-in-out group-hover:scale-110"

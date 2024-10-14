@@ -4,8 +4,8 @@ import RightContain from "../components/single_product_components/RightContain";
 
 const Product = () => {
     return (
-        <div className="pt-8 flex justify-center items-center  flex-1 max-w-[1352px] min-w-[728px] w-[1352px]">
-            <div className="relative w-full flex bg-transparent justify-center items-center">
+        <div className="pt-8 flex justify-center items-center  flex-1  ">
+            <div className="relative flex bg-transparent justify-center min-w-[728px] w-[1352px] max-w-[1352px]">
                 <LeftContain />
                 <RightContain />
             </div>

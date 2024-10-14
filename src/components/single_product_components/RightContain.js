@@ -1,113 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import StarRating from "./StarRating";
+import ShareTo from "./rightcontain_components/ShareTo";
+import ExclusiveOffer from "./rightcontain_components/ExclusiveOffer";
+import Shipping from "./rightcontain_components/Shipping";
 
 const mockProduct = {
     name: "Vibrant Floral Print Long Sleeve Crew Neck T-Shirt - Soft, Breathable, and Comfortable Casual Top for Spring and Fall - Women's Fashion Clothing for Everyday Wear",
-};
-
-const ExclusiveOffer = () => {
-    return (
-        <div class="text-[16px] leading-6 transition-all duration-150 ease-linear max-h-[100px] will-change-height">
-            <div class="bg-[#feefe1] rounded-md pt-[10px] pr-[16px] pb-[10px] pl-[12px] min-h-[38px] box-border z-1 overflow-hidden relative flex justify-start items-center flex-row mb-[12px]">
-                <div></div>
-                <img
-                    data-cui-image="1"
-                    data-state="succ"
-                    src="https://aimg.kwcdn.com/upload_aimg/promotion/8992b9e0-d3a2-42e6-9fd7-6022bdeed06e.png.slim.png?imageView2/2/w/800/q/70/format/webp"
-                    alt=""
-                    aria-hidden="true"
-                    data-did-mount="1"
-                    class="max-w-full align-top w-[16px] h-[16px] mr-[8px]"
-                />
-                <div class="max-h-[100%] relative flex flex-col items-start justify-center flex-1">
-                    <div
-                        aria-label="Free shipping special for you"
-                        tabindex="0"
-                        role="button"
-                        aria-haspopup="dialog"
-                    >
-                        <span class="text-[14px] font-medium leading-6 text-black">
-                            Free shipping special for you
-                        </span>
-                    </div>
-                </div>
-                <div>
-                    <div aria-label="Exclusive offer" tabindex="0" role="button">
-                        <span></span>
-                        <span>
-                            <span class="text-[14px] font-normal leading-[18px] text-[#4B4743] list-none border-0 shrink  max-h-[36px] relative text-right ml-2">
-                                Exclusive offer
-                            </span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const ShareTo = () => {
-    const imageArray = [
-        "https://aimg.kwcdn.com/upload_aimg/m-img/a4be7db3-f267-4e33-84fc-e5353601676e.png.slim.png?imageView2/2/w/800/q/70/format/webp",
-        "https://aimg.kwcdn.com/upload_aimg/pc/c5ad282e-6bc7-4001-af37-540aa54b2c96.png.slim.png?imageView2/2/w/800/q/70/format/webp",
-        "https://aimg.kwcdn.com/upload_aimg/m-img/0ac31232-2f8f-43fe-8e21-aa0183fe7a48.png.slim.png?imageView2/2/w/800/q/70/format/webp",
-        "https://aimg.kwcdn.com/upload_aimg/pc/e0ee1ad9-a15a-4dc3-8310-758e7d9791fb.png.slim.png?imageView2/2/w/800/q/70/format/webp",
-        "https://aimg.kwcdn.com/upload_aimg/pc/c2372c56-c43c-4cf9-8111-82560d0c5fd9.png.slim.png?imageView2/2/w/800/q/70/format/webp",
-    ];
-
-    return (
-        <div id="shareTo" class="fixed z-[1000] left-[1592.48px] top-[200px] w-[24px] h-0">
-            <div class="absolute top-[100%] left-[50%] -translate-x-[50%] w-max border-t-[10px] border-t-transparent -mt-[10px]">
-                <svg
-                    alt="bubble_arrow"
-                    aria-label="bubble_arrow"
-                    xmlns="http://www.w3.org/2000/svg"
-                    version="1.1"
-                    viewBox="1 0 22 8"
-                    width="1em"
-                    height="1em"
-                    class="w-[22px] h-[8px] stroke-[#dfdfdf] stroke-1 fill-white mx-auto"
-                >
-                    <path
-                        d="M0.913721065,9 C2.56449311,9 4.14234104,8.31987419 5.27579998,7.1197412 L10.5459737,1.53955726 C11.3043971,0.73652071 12.5702105,0.700354613 13.3732471,1.45877803 C13.4009372,1.48492978 13.4278746,1.51186717 13.4540263,1.53955726 L18.7242,7.1197412 C19.857659,8.31987419 21.4355069,9 23.0862789,9"
-                        class="stroke-gray-300 stroke-1 fill-white"
-                    ></path>
-                </svg>
-
-                <div class="relative bg-white shadow-[0_6px_10px_0_rgba(0,0,0,0.1)] border border-[#dfdfdf] rounded z-[1] text-center p-[16px_22px_20px]">
-                    <div
-                        role="dialog"
-                        tabindex="0"
-                        class="absolute w-0 h-0 top-0 left-0 z-[-9999] opacity-0"
-                    ></div>
-                    <div class="text-[14px] leading-none text-[#222] font-medium mb-[17px]">
-                        <div class="text-[14px] leading-none text-[#222] font-medium">Share to</div>
-                        <div class="mt-2 text-[#888] font-normal w-full flex items-center justify-center">
-                            Item ID: RU196570
-                            <div class="px-2 rounded-[9px] border inline-flex items-center justify-center text-[12px] font-medium cursor-pointer ml-1.5 pb-[2px] text-[#888] h-[18px]">
-                                Copy
-                            </div>
-                        </div>
-                    </div>
-                    <div class="whitespace-nowrap w-[220px] flex justify-evenly items-center">
-                        {imageArray.map((image, index) => (
-                            <div
-                                key={index}
-                                class="relative inline-block w-[29px] h-[29px] cursor-pointer"
-                            >
-                                <img
-                                    src={image}
-                                    alt={`Image ${index + 1}`}
-                                    class="w-[29px] h-[29px] rounded-full"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
 };
 
 const ProductName = ({ name }) => {
@@ -284,11 +183,154 @@ const PriceArea = () => {
     );
 };
 
+const Card = () => {
+    const images = [
+        {
+            src: "https://aimg.kwcdn.com/upload_aimg/temu/b1832bbb-07be-4b19-bbd2-40df0752b212.png?imageView2/2/w/100/q/90/format/webp",
+            alt: "Image 1",
+            width: "36px",
+            height: "17px",
+        },
+        {
+            src: "https://aimg.kwcdn.com/upload_aimg/temu/e71ca4d4-c694-42d0-9042-9e71907fc25a.png?imageView2/2/w/100/q/90/format/webp",
+            alt: "Image 2",
+            width: "36px",
+            height: "17px",
+        },
+        {
+            src: "https://commimg-eu.kwcdn.com/upload_commimg_eu/temu/dbbe6f40-8aaf-4b3b-a18b-92f9e2f04840.png?imageView2/2/w/100/q/90/format/webp",
+            alt: "Image 3",
+            width: "36px",
+            height: "17px",
+        },
+    ];
+    return (
+        <div class="relative mt-[7px]">
+            <div class="w-[22px] h-[8px] absolute top-[-7px] left-[208px] z-10 opacity-100"></div>
+            <div class="border border-[#222] rounded-md mt-2 cursor-pointer flex w-full relative overflow-hidden px-[4px] py-[3px]">
+                <div
+                    class="inline-flex whitespace-nowrap"
+                    style={{
+                        "--pay-later-translate-distance": "-8px",
+                        "--pay-later-translate-duration": "2s",
+                    }}
+                >
+                    {images.map((image, index) => (
+                        <div key={index} class="flex justify-center items-center px-1">
+                            <img
+                                data-cui-image="1"
+                                data-state="succ"
+                                src={image.src}
+                                alt={image.alt}
+                                style={{ width: image.width, height: image.height }}
+                                aria-hidden="true"
+                                data-did-mount="1"
+                            />
+                        </div>
+                    ))}
+                    <div
+                        class="text-[#222] text-[13px] font-normal mr-1"
+                        aria-label="4 interest-free biweekly installments"
+                        tabIndex="0"
+                        role="button"
+                        aria-haspopup="dialog"
+                    >
+                        4 interest-free biweekly installments
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const VariationBox = () => {
+    return <div className="h-[100px]"></div>;
+};
+
+const PurchaseButton = () => {
+    const [hover, setHover] = useState(false);
+    return (
+        <div id="PurchaseButton" class="w-full">
+            <div class="text-[16px] leading-6 text-black pt-5 flex flex-row justify-start items-center">
+                <div class="flex-1 max-w-full flex flex-row justify-start items-center overflow-visible">
+                    <div
+                        aria-label="Add to cart"
+                        role="button"
+                        data-id="button"
+                        class="flex-1 relative min-w-0 "
+                    >
+                        <div
+                            tabindex="0"
+                            role="button"
+                            class="text-center cursor-pointer select-none relative z-[1] w-full h-12 text-lg font-semibold leading-[18px] flex flex-col justify-center items-center "
+                            onMouseEnter={() => setHover(true)}
+                            onMouseLeave={() => setHover(false)}
+                        >
+                            <span
+                                class="absolute z-[-1] inset-0 rounded-full bg-[#fb7701] transition-all ease-in-out duration-150"
+                                style={{
+                                    backgroundColor: hover ? "#fbb401" : "#fb7701",
+                                    transition: "all 0.15s ease-in-out",
+                                    transform: hover ? "scale(1.1)" : "scale(1)",
+                                    boxShadow: hover
+                                        ? "0 4px 12px rgba(0, 0, 0, 0.15)"
+                                        : "0 2px 6px rgba(0, 0, 0, 0.1)",
+                                }}
+                            ></span>
+                            <span
+                                tabindex="0"
+                                role="button"
+                                class="w-full px-[19px] overflow-hidden flex text-white text-[16px] font-semibold leading-[18px]"
+                                style={{
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    display: "-webkit-box",
+                                }}
+                            >
+                                Add to cart
+                            </span>
+                            <div
+                                class="whitespace-nowrap opacity-95 w-[calc(100%-50px)] text-[12px] text-white leading-4 font-normal justify-center items-start inline-flex overflow-hidden h-0"
+                                style={{
+                                    transform: "translateZ(0)",
+                                    animation: "_1Ttp-ZWB .3s linear 1s forwards",
+                                }}
+                            >
+                                <div
+                                    aria-hidden="true"
+                                    class="flex w-full text-center justify-center items-center"
+                                >
+                                    <img
+                                        data-cui-image="1"
+                                        data-state="succ"
+                                        src="https://aimg.kwcdn.com/upload_aimg_b/lightningdeal/cd4d3f96-3f87-4324-bb2c-eea621fd48f1.png?imageView2/2/w/300/q/70/format/webp"
+                                        data-type="100"
+                                        alt=""
+                                        aria-hidden="true"
+                                        class="w-[12px] h-[12px] align-middle"
+                                    />
+                                    <span
+                                        data-type="0"
+                                        aria-hidden="true"
+                                        class="pl-1 overflow-hidden text-ellipsis whitespace-nowrap align-middle"
+                                    >
+                                        Almost sold out
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const RightContain = ({ product = mockProduct }) => {
     return (
         <div
             id="rightContain"
-            class="tab-size-4 font-normal tap-highlight-transparent antialiased leading-inherit box-border border-0 border-solid border-[#e5e7eb] relative w-[45.3859%] flex-shrink-0"
+            class="tab-size-4 font-normal tap-highlight-transparent antialiased leading-inherit box-border border-0 border-solid border-[#e5e7eb]  w-[45.3859%] flex-shrink-0 sticky"
         >
             <div class="w-full bg-white p-[5px_15px_40px_6px] overflow-y-auto overflow-x-hidden scrollbar-none m-[-5px_-6px_0_-5px] relative max-h-[930px]">
                 <ExclusiveOffer />
@@ -299,19 +341,19 @@ const RightContain = ({ product = mockProduct }) => {
 
                 <PriceArea />
 
-                <div></div>
+                <Card />
 
-                <div></div>
+                <VariationBox />
 
-                <div></div>
+                <PurchaseButton />
 
-                <div></div>
+                <div data-id="modules">
+                    <Shipping></Shipping>
 
-                <div></div>
+                    <div></div>
 
-                <div></div>
-
-                <div></div>
+                    <div></div>
+                </div>
             </div>
         </div>
     );

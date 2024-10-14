@@ -7,17 +7,18 @@ const FooterSection = ({ title, links }) => {
             <h3 className="text-lg font-semibold mb-4">{title}</h3>
             <ul className="space-y-2">
                 {links.map((link, index) => (
-                    <FooterLink key={index} link={link} />
+                    <FooterLink key={index} link_data={link} />
                 ))}
             </ul>
         </div>
     );
 };
-const FooterLink = ({ link }) => {
+const FooterLink = ({ link_data }) => {
+    const { text, link } = link_data;
     return (
         <li>
-            <a href="#" className="text-sm hover:underline">
-                {link}
+            <a href={link} className="text-sm hover:underline">
+                {text}
             </a>
         </li>
     );
@@ -83,40 +84,40 @@ const FooterSocialIcons = () => {
 
 const FooterTop = () => {
     return (
-        <div className=" text-white py-8">
+        <div className="text-white py-8">
             <div className="container grid grid-cols-5 gap-4 px-">
                 <FooterSection
-                    title="Company info"
+                    title="Thông tin"
                     links={[
-                        "About Temu",
-                        "Temu - Team Up, Price Down!",
-                        "Affiliate & Influencer: Earn Commission",
-                        "Contact us",
-                        "Careers",
-                        "Press",
-                        "Temu’s Tree Planting Program",
+                        { text: "Về chúng mình", link: "about-us" },
+                        { text: "SCS - Team Up, Price Down!", link: "" },
+                        { text: "Cộng tác viên & Influencer: Earn Commission", link: "" },
+                        { text: "Liên hệ chúng mình", link: "" },
+                        { text: "Nghề nghiệp", link: "" },
+                        { text: "Tin tức", link: "" },
+                        { text: "Chương trình đặc biệt", link: "" },
                     ]}
                 />
                 <FooterSection
-                    title="Customer service"
+                    title="Dịch vụ khách hàng"
                     links={[
-                        "Return and refund policy",
-                        "Intellectual property policy",
-                        "Shipping info",
-                        "Your Recalls and Product Safety Alerts",
-                        "Report suspicious activity",
+                        { text: "Chính sách đổi trả", link: "" },
+                        { text: "Quy định về sở hữu trí tuệ", link: "" },
+                        { text: "Thông tin vận chuyển", link: "" },
+                        { text: "Quy định về sở hữu trí tuệ", link: "" },
+                        { text: "Báo cáo hành vi nghi vấn", link: "" },
                     ]}
                 />
                 <FooterSection
-                    title="Help"
+                    title="Hỗ trợ"
                     links={[
-                        "Support center & FAQ",
-                        "Safety center",
-                        "Temu purchase protection",
-                        "Sitemap",
-                        "How to order",
-                        "How to track",
-                        "Partner with Temu",
+                        { text: "Trung tâm hỗ trợ & FAQ", link: "" },
+                        { text: "Trung tâm An ninh", link: "" },
+                        { text: "Chương trình bảo vệ Người mua", link: "" },
+                        { text: "Bản đồ", link: "" },
+                        { text: "Cách thức đặt hàng", link: "" },
+                        { text: "Theo dõi đơn hàng", link: "" },
+                        { text: "Liên kết với chúng mình", link: "" },
                     ]}
                 />
                 <div className="col-span-1">

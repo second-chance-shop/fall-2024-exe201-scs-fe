@@ -9,10 +9,10 @@ function App() {
     const noHeaderPaths = ["/login", "/register", "/forgot-password"];
 
     return (
-        <div>
+        <div className="relative w-[1900px]">
             <ToastContainer />
             {!noHeaderPaths.includes(location.pathname) && <Header />}
-            <main className="min-h-[calc(100vh-100px)]">
+            <main className="min-h-[calc(100vh-100px)] ">
                 <Outlet />
             </main>
             <Footer />

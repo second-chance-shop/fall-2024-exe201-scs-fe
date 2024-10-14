@@ -55,7 +55,7 @@ const TwoBoxes = () => {
     return (
         <div
             role="region"
-            class="mx-auto w-full min-w-[1080px] max-w-[1600px] p-8 mt-8 flex flex-1 gap-4"
+            class="mx-auto w-full min-w-[1080px] max-w-[1440px] mt-8 flex flex-1 gap-4"
         >
             {/* First <a> tag */}
             <a
@@ -68,10 +68,10 @@ const TwoBoxes = () => {
                     alt="fashion collection 15868 2 a psurl"
                     src="https://commimg-us.kwcdn.com/anta-image/df5c5f09-aaed-4fca-8b52-fd3566d5f789.png?imageView2/q/70/format/webp"
                     data-was-processed="true"
-                    class="absolute inset-0 w-full h-full object-cover"
+                    class="absolute inset-0 w-full h-[320px] object-cover"
                 />
                 {/* Everything inside will scale on hover */}
-                <div class="flex flex-col pb-5 justify-between items-stretch absolute inset-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="flex flex-col pb-5 absolute inset-0 group-hover:scale-110 transition-transform duration-300">
                     <img
                         data-state="succ"
                         alt="6cd4f3e3 6143 4e40 8ac1 2d8f58f98e7e.png"
@@ -104,10 +104,10 @@ const TwoBoxes = () => {
                     alt="todays pick 16039 2 a psurl"
                     src="https://commimg-us.kwcdn.com/anta-image/444fade2-8761-4ba1-9a63-6ae45a5d6b68.png?imageView2/q/70/format/webp"
                     data-was-processed="true"
-                    class="absolute inset-0 w-full h-full object-cover"
+                    class="absolute inset-0 w-full h-[320px]  object-cover"
                 />
                 {/* Everything inside will scale on hover */}
-                <div class="flex flex-col pb-5 justify-between items-stretch absolute inset-0 group-hover:scale-110 transition-transform duration-300">
+                <div class="flex flex-col pb-5  absolute inset-0 group-hover:scale-110 transition-transform duration-300">
                     <img
                         data-state="succ"
                         alt="6cd4f3e3 6143 4e40 8ac1 2d8f58f98e7e.png"

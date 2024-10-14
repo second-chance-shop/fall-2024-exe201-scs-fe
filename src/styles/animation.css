@@ -1,0 +1,25 @@
+.floating-images-container {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+}
+
+.floating-images-container:active {
+}
+
+.floating-images {
+    display: flex;
+    gap: 16px; /* Equivalent to space-x-4 */
+    animation: float-left 30s linear infinite;
+    animation-play-state: paused; /* Ensure the animation starts running */
+}
+
+/* Infinite floating animation keyframes */
+@keyframes float-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}

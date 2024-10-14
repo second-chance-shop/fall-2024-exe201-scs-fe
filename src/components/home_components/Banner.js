@@ -1,8 +1,16 @@
 import React from "react";
 
-const Banner = () => {
+const image = [
+    "https://aimg.kwcdn.com/material-put/1f14f500e88/95a36a07-662e-4d77-bbf0-607e271451a7.png?imageView2/2/w/2000/q/80/format/webp",
+    "https://aimg.kwcdn.com/material-put/1f14f5013d8/613be121-7fdc-4575-91dd-6ffb72811353.png?imageView2/2/w/2000/q/80/format/webp",
+];
+
+const Banner = ({ imageIndex, text1, text2 }) => {
     return (
-        <a href="/channel/lightning-deals.html" class="bg-transparent no-underline text-inherit">
+        <a
+            href="/channel/lightning-deals.html"
+            class="bg-transparent no-underline text-inherit hover:brightness-110"
+        >
             <div class="relative mb-7 pb-[4.88%] w-full h-0">
                 <div class="absolute inset-0 w-full h-full">
                     <div class="flex items-center justify-center w-full h-full bg-[#CE0909]">
@@ -11,7 +19,7 @@ const Banner = () => {
                             data-state="succ"
                             alt="95a36a07 662e 4d77 bbf0 607e271451a7.png"
                             aria-hidden="true"
-                            src="https://aimg.kwcdn.com/material-put/1f14f500e88/95a36a07-662e-4d77-bbf0-607e271451a7.png?imageView2/2/w/2000/q/80/format/webp"
+                            src={image[imageIndex]}
                             data-was-processed="true"
                         />
                         <div class="absolute w-full h-full"></div>
@@ -30,10 +38,10 @@ const Banner = () => {
                                 class="relative text-white font-extrabold italic text-[24px]"
                                 aria-label="Lightning deals"
                             >
-                                Deals nhanh như chớp
+                                {text1}
                             </h2>
                             <span class="relative top-[1px] text-white text-[14px] font-medium ml-[20px] mr-[2px]">
-                                Ưu đãi có hạn
+                                {text2}
                             </span>
                             <svg
                                 class="relative top-[1px] rotate-[-90deg] w-4 h-4 fill-white"

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -10,6 +10,7 @@ import UserProfile from "../pages/User/Profile";
 import UserSetting from "../pages/User/Setting";
 import Product from "../pages/Product";
 import OtpVerification from "../pages/OTP_Verification";
+import About from "../pages/About";
 
 const router = createBrowserRouter([
     {
@@ -55,6 +56,15 @@ const router = createBrowserRouter([
             {
                 path: "otp-verification",
                 element: <OtpVerification />,
+            },
+            {
+                path: "about-us",
+                element: <About />,
+            },
+            // Redirect to homepage ("/") if route not found
+            {
+                path: "*",
+                element: <Navigate to="/" replace />,
             },
         ],
     },

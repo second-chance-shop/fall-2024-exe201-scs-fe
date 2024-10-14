@@ -38,7 +38,7 @@ const ThreeBoxes = () => {
     return (
         <div
             role="region"
-            className="flex-1 mx-auto w-full min-w-[1080px] max-w-[1600px] px-[44px] mt-[60px]"
+            className="flex-1 mx-auto w-full min-w-[1080px] max-w-[1440px] mt-[60px]"
         >
             <div className="flex justify-between items-center">
                 {/* Map through the images array and render ImageBox for each */}

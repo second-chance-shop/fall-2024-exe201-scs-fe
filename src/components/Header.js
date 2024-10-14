@@ -36,17 +36,14 @@ const Header = () => {
     }, [dropdownOpen]); // Effect runs when dropdownOpen changes
 
     return (
-        <header className="h-16 shadow-md bg-yellow-400 z-30 flex items-center">
+        <header className="h-16 shadow-md bg-yellow-400 z-30 flex items-center sticky top-0">
             <div className="container mx-auto flex items-center justify-between h-full px-4 max-w-[1840px]">
                 <div className="logo-container">
                     <Link to={"/"}>
                         <Logo w={90} h={50} />
                     </Link>
                 </div>
-                <div
-                    className="flex-grow hidden md:flex items-center rounded-full border 
-        justify-between max-w-sm focus-within:shadow pl-2 bg-white"
-                >
+                <div className="flex-grow hidden md:flex items-center rounded-full border justify-between max-w-sm focus-within:shadow pl-2 bg-white">
                     <input
                         type="text"
                         placeholder="Vui lòng nhập từ khoá..."

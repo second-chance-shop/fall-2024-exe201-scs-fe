@@ -1,174 +1,35 @@
 import React from "react";
 
 // Array containing product details
-const mockProducts = [
-    {
-        src: "https://img.kwcdn.com/product/fancy/7750bef3-3be0-497b-a258-890975939ff6.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "35PCS Nicpro Art Mechanical Pencil Set",
-        href: "/attendance/local-warehouse-15109-2-a-psurl.html",
-        price: 16.93,
-        description:
-            "35PCS Nicpro Art Mechanical Pencil Set - 3PCS Metal Drafting Pencils in 0.5mm, 0.7mm, 0.9mm, 3PCS 2mm Lead Holder, 20 Tube Lead Refills, 6B, 4B, 2B, HB, 2H, 4H Colors for Sketching and Drawing",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/7750bef3-3be0-497b-a258-890975939ff6.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "35PCS Nicpro Art Mechanical Pencil Set",
-        href: "/attendance/local-warehouse-15109-2-a-psurl.html",
-        price: 16.93,
-        description:
-            "35PCS Nicpro Art Mechanical Pencil Set - 3PCS Metal Drafting Pencils in 0.5mm, 0.7mm, 0.9mm, 3PCS 2mm Lead Holder, 20 Tube Lead Refills, 6B, 4B, 2B, HB, 2H, 4H Colors for Sketching and Drawing",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/7750bef3-3be0-497b-a258-890975939ff6.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "35PCS Nicpro Art Mechanical Pencil Set",
-        href: "/attendance/local-warehouse-15109-2-a-psurl.html",
-        price: 16.93,
-        description:
-            "35PCS Nicpro Art Mechanical Pencil Set - 3PCS Metal Drafting Pencils in 0.5mm, 0.7mm, 0.9mm, 3PCS 2mm Lead Holder, 20 Tube Lead Refills, 6B, 4B, 2B, HB, 2H, 4H Colors for Sketching and Drawing",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/7750bef3-3be0-497b-a258-890975939ff6.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "35PCS Nicpro Art Mechanical Pencil Set",
-        href: "/attendance/local-warehouse-15109-2-a-psurl.html",
-        price: 16.93,
-        description:
-            "35PCS Nicpro Art Mechanical Pencil Set - 3PCS Metal Drafting Pencils in 0.5mm, 0.7mm, 0.9mm, 3PCS 2mm Lead Holder, 20 Tube Lead Refills, 6B, 4B, 2B, HB, 2H, 4H Colors for Sketching and Drawing",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/16f3f68c-3f1f-4f9b-bc75-c24f44b71c6b.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "1pc Heavy Duty Collapsible Wagon Cart",
-        href: "/1pc-heavy-duty-wagon.html",
-        price: 25.28,
-        description:
-            '1pc Heavy Duty Collapsible Wagon Cart - 330LBS Capacity, All-Terrain Wheels, Foldable, Pet Carrier, Beach, Lawn, Sports, Camping, 30" Black Utility Garden Cart',
-    },
-    {
-        src: "https://img.kwcdn.com/product/fancy/9c37bed3-f7f9-417a-aa99-e56868affe87.jpg?imageView2/2/w/500/q/70/format/webp",
-        alt: "24 Pieces Airtight Glass Food Storage Containers",
-        href: "/24-pieces-glass-food-storage.html",
-        price: 23.99,
-        description:
-            "24 Pieces Airtight Glass Food Storage Containers - Reusable, Microwave, Oven, Refrigerator, Dishwasher Safe - Ideal for Offices, Schools, Camping, and Home Organization",
-    },
-    // Add more products as needed
-];
 
 // Reusable ProductCard component
+import { useState } from "react";
+
 const ProductCard = ({ src, alt, href, price, description }) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setIsHovered(true); // Trigger animation on hover.
+    };
+
+    const handleMouseLeave = () => {
+        setTimeout(() => {
+            setIsHovered(false);
+        }, 100); // Adjust the delay (in milliseconds) as needed
+    };
+
     return (
-        <div className="bg-white p-0 flex flex-col justify-between items-center border rounded-md w-full transition-shadow duration-200 ease-in-out hover:shadow-lg">
+        <div
+            className={`bg-white p-0 flex flex-col justify-between items-center border rounded-md w-full 
+                        transition-transform duration-150 ease-in-out 
+                        ${
+                            isHovered
+                                ? "scale-105 shadow-[0_10px_30px_rgba(0,0,0,0.15)]"
+                                : "scale-100 shadow-none"
+                        }`}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
             <a href={href} className="product-link flex flex-col items-center">
                 <div className="image-container w-full flex justify-center items-center">
                     <img
@@ -190,10 +51,10 @@ const ProductCard = ({ src, alt, href, price, description }) => {
 };
 
 // Main component to display all products
-const HomeRecommendList = () => {
+const ProductRecommendList = ({ products }) => {
     return (
-        <div className="product-list grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
-            {mockProducts.map((product, index) => (
+        <div className="product-list grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
+            {products.map((product, index) => (
                 <ProductCard
                     key={index}
                     src={product.src}
@@ -207,4 +68,4 @@ const HomeRecommendList = () => {
     );
 };
 
-export default HomeRecommendList;
+export default ProductRecommendList;

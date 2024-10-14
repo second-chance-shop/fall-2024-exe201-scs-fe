@@ -16,7 +16,7 @@ const ProductPrice = ({
     sold = mockProductDetails.sold,
 }) => {
     return (
-        <div className="text-[12px] leading-6 text-black cursor-pointer mt-2 relative">
+        <div className="text-[12px] h-[22px] leading-6 text-black cursor-pointer mt-2 relative">
             <div
                 data-sales="true"
                 data-priority-list="5321489"
@@ -26,19 +26,16 @@ const ProductPrice = ({
                     <div
                         data-type="price"
                         role="link"
-                        aria-label={`$${price}`}
+                        aria-label={`${price}`}
                         className="text-[#222] flex h-auto whitespace-nowrap"
                     >
                         <div
                             aria-hidden="true"
                             className="text-[12px] font-semibold text-[#FB7701]"
                         >
-                            <span className="text-[18px] font-semibold leading-5">$</span>
-                            <span className="text-[18px] font-semibold leading-5">
-                                {Math.floor(price)}
-                            </span>
+                            <span className="text-[18px] font-semibold leading-5">{price}</span>
                             <span className="text-[13px] font-bold leading-5">
-                                .{(price % 1).toFixed(2).split(".")[1]}
+                                {(price % 1).toFixed(2).split(".")[1]}
                             </span>
                         </div>
                     </div>
@@ -63,7 +60,7 @@ const ProductPrice = ({
                                 className="inline-flex"
                             >
                                 <span className="ml-1">{sold}</span>
-                                <span className="ml-1">đã bán</span>
+                                <span className="ml-[2px]">đã bán</span>
                             </span>
                         </div>
                         <div
@@ -71,7 +68,7 @@ const ProductPrice = ({
                             className="ml-2 origin-[0_50%] w-auto translate-z-0"
                         >
                             <div className="inline-flex items-center justify-center h-[18px] text-[#fb7701] border-[1px] border-[#fb7701] rounded-[3px] p-[4px]">
-                                <span>-{discountPercentage}%</span>
+                                <span>{discountPercentage}</span>
                             </div>
                         </div>
                     </div>
