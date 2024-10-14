@@ -1,4 +1,5 @@
 import React from "react";
+import FooterSocialIcons from "./footer_top_components/FooterSocialIcons";
 
 // FooterSection.jsx
 const FooterSection = ({ title, links }) => {
@@ -27,7 +28,7 @@ const FooterLink = ({ link_data }) => {
 const FooterDownloadButtons = () => {
     return (
         <div>
-            <h3 className="text-lg font-semibold mb-4">Download the Temu App</h3>
+            <h3 className="text-lg font-semibold mb-4">Cài đặt ứng dụng SCS</h3>
             <ul className="space-y-2">
                 <li className="flex items-center">
                     <img src="/apple-store-logo.png" alt="App Store" className="mr-2" />
@@ -42,50 +43,10 @@ const FooterDownloadButtons = () => {
     );
 };
 
-const FooterSocialIcons = () => {
-    return (
-        <div>
-            <h3 className="text-lg font-semibold mb-4">Connect with Temu</h3>
-            <ul className="flex space-x-4">
-                <li>
-                    <a href="#">
-                        <img src="/instagram-icon.png" alt="Instagram" />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="/facebook-icon.png" alt="Facebook" />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="/twitter-icon.png" alt="X (Twitter)" />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="/tiktok-icon.png" alt="TikTok" />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="/youtube-icon.png" alt="YouTube" />
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img src="/pinterest-icon.png" alt="Pinterest" />
-                    </a>
-                </li>
-            </ul>
-        </div>
-    );
-};
-
 const FooterTop = () => {
     return (
         <div className="text-white py-8">
-            <div className="container grid grid-cols-5 gap-4 px-">
+            <div className="container grid grid-cols-5 gap-20 w-auto">
                 <FooterSection
                     title="Thông tin"
                     links={[
@@ -123,7 +84,7 @@ const FooterTop = () => {
                 <div className="col-span-1">
                     <FooterDownloadButtons />
                 </div>
-                <div className="col-span-1">
+                <div className="w-auto">
                     <FooterSocialIcons />
                 </div>
             </div>

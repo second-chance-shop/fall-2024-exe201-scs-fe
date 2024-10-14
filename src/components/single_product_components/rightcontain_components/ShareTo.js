@@ -10,7 +10,7 @@ const ShareTo = () => {
     ];
 
     return (
-        <div id="shareTo" class="fixed z-[1000] left-[1592.48px] top-[200px] w-[24px] h-0">
+        <div id="shareTo" class="fixed z-[1000] left-[1582.48px] top-[180px] w-[24px] h-0">
             <div class="absolute top-[100%] left-[50%] -translate-x-[50%] w-max border-t-[10px] border-t-transparent -mt-[10px]">
                 <svg
                     alt="bubble_arrow"

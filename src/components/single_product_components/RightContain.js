@@ -6,7 +6,7 @@ import ExclusiveOffer from "./rightcontain_components/ExclusiveOffer";
 import Shipping from "./rightcontain_components/Shipping";
 
 const mockProduct = {
-    name: "Vibrant Floral Print Long Sleeve Crew Neck T-Shirt - Soft, Breathable, and Comfortable Casual Top for Spring and Fall - Women's Fashion Clothing for Everyday Wear",
+    name: "Áo thun nữ tay dài cổ tròn in họa tiết hoa sống động - Chất liệu mềm mại, thoáng khí, thoải mái cho mùa xuân và mùa thu - Thời trang thường ngày đầy phong cách",
 };
 
 const ProductName = ({ name }) => {

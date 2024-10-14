@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     const location = useLocation();
-    const noHeaderPaths = ["/login", "/register", "/forgot-password"];
+    const noHeaderPaths = ["/login", "/register", "/forgot-password", "/otp-verification"];
 
     return (
         <div className="relative w-[1900px]">

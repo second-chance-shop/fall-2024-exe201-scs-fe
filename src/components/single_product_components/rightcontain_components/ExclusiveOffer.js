@@ -22,7 +22,7 @@ const ExclusiveOffer = () => {
                         aria-haspopup="dialog"
                     >
                         <span class="text-[14px] font-medium leading-6 text-black">
-                            Free shipping special for you
+                            Miễn phí vận chuyển dành riêng cho bạn
                         </span>
                     </div>
                 </div>
@@ -31,7 +31,7 @@ const ExclusiveOffer = () => {
                         <span></span>
                         <span>
                             <span class="text-[14px] font-normal leading-[18px] text-[#4B4743] list-none border-0 shrink  max-h-[36px] relative text-right ml-2">
-                                Exclusive offer
+                                Ưu đãi đặc quyền
                             </span>
                         </span>
                     </div>
