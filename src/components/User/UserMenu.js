@@ -1,19 +1,13 @@
-// UserMenu.js
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { logoutUser } from '../authUtils';
 
 const UserMenu = () => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    // Show a message indicating that the user is logging out
-    alert('Đăng xuất...');
-
-    // Here you can add your logout logic (e.g., clearing tokens, user data, etc.)
-    // For example: localStorage.removeItem('token');
-
-    // Redirect to the home page after the alert is acknowledged
-    navigate('/');
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate('/login');
   };
 
   return (
@@ -26,6 +20,14 @@ const UserMenu = () => {
             className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
           >
             Hồ sơ
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/user-update"
+            className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
+          >
+            Cập nhật thông tin
           </Link>
         </li>
         <li>

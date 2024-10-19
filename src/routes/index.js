@@ -11,6 +11,11 @@ import UserSetting from "../pages/User/Setting";
 import Product from "../pages/Product";
 import OtpVerification from "../pages/OTP_Verification";
 import About from "../pages/About";
+import NotFound from "../pages/NotFound";
+import RegisterShop from "../pages/Shop/RegisterShop";
+import ShopDashboard from "../pages/Shop/ShopDashboard";
+import Order from '../pages/Shop/Order'
+import UserUpdate from "../pages/User/Update";
 
 const router = createBrowserRouter([
     {
@@ -50,6 +55,10 @@ const router = createBrowserRouter([
                 element: <UserSetting />,
             },
             {
+                path: "user-update",
+                element: <UserUpdate />,
+            },
+            {
                 path: "product",
                 element: <Product />,
             },
@@ -61,10 +70,27 @@ const router = createBrowserRouter([
                 path: "about-us",
                 element: <About />,
             },
-            // Redirect to homepage ("/") if route not found
+            {
+                path: "shop-register",
+                element: <RegisterShop />,
+            },
+            {
+                path: "shop-dashboard",
+                element: <ShopDashboard />,
+                children: [
+                    {
+                        path: "add-product",
+                        element: <RegisterShop />,
+                    },
+                    {
+                        path: "orders",
+                        element: <Order />,
+                    },
+                ],
+            },
             {
                 path: "*",
-                element: <Navigate to="/" replace />,
+                element: <NotFound />
             },
         ],
     },

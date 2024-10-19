@@ -1,124 +1,160 @@
-import React, { useState, useEffect, useRef } from "react";
-import Logo from "./Logo";
+import React, { useEffect, useState } from 'react';
+import Logo from './Logo';
 import { IoMdSearch } from "react-icons/io";
-import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUserProfile, setUserProfile } from '../store/userSlice';
+import { toast } from 'react-toastify';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import defaultProfilePic from '../assest/avatar-user-default.png';
+import { FaRegCircleUser } from 'react-icons/fa6';
+import { logoutUser } from './authUtils';
 
 const Header = () => {
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const navigate = useNavigate();
-    const dropdownRef = useRef(null); // Create a ref for the dropdown
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state?.user?.user);
 
-    const handleLogout = () => {
-        setDropdownOpen(false);
-        navigate("/login");
-    };
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem("userToken");
+      setIsLoggedIn(!!token);
 
-    const handleOptionClick = () => {
-        setDropdownOpen(false); // Close dropdown when clicking on any option
-    };
-
-    const handleClickOutside = (event) => {
-        if (dropdownOpen && dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-            setDropdownOpen(false); // Close the dropdown if clicking outside
+      if (token) {
+        try {
+          const response = await fetch('https://scs-api.arisavinh.dev/api/v1/user/profile', {
+            headers: {
+              Authorization: `${token}`,
+            },
+          });
+          const userProfile = await response.json();
+          console.log('Fetch thành công: ', userProfile)
+          dispatch(setUserProfile(userProfile));
+        } catch (error) {
+          console.error('Failed to fetch user profile:', error);
         }
+      }
     };
+    checkLoginStatus();
+  }, [dispatch]);
 
-    useEffect(() => {
-        // Add event listener to document
-        document.addEventListener("mousedown", handleClickOutside);
+  useEffect(() => {
+    // Re-check login status when user object updates
+    setIsLoggedIn(!!user);
+  }, [user]);
 
-        return () => {
-            // Cleanup event listener on component unmount
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [dropdownOpen]); // Effect runs when dropdownOpen changes
+  const handleLogout = async () => {
+    await logoutUser();
+    dispatch(clearUserProfile());
+    setDropdownOpen(false); 
+    navigate('/login');
+  };
 
-    return (
-        <header className="h-16 shadow-md bg-yellow-400 z-30 flex items-center sticky top-0">
-            <div className="container mx-auto flex items-center justify-between h-full px-4 max-w-[1840px]">
-                <div className="logo-container">
-                    <Link to={"/"}>
-                        <Logo w={90} h={50} />
-                    </Link>
-                </div>
-                <div className="flex-grow hidden md:flex items-center rounded-full border justify-between max-w-sm focus-within:shadow pl-2 bg-white">
-                    <input
-                        type="text"
-                        placeholder="Vui lòng nhập từ khoá..."
-                        className="w-full outline-none"
-                    />
-                    <div className="flex rounded-r-full items-center h-8 justify-center min-w-[50px] bg-orange-600">
-                        <IoMdSearch className="text-white text-lg" />
-                    </div>
-                </div>
-                <div className="flex items-center gap-7">
-                    <div className="relative" ref={dropdownRef}>
-                        <div
-                            className="text-2xl cursor-pointer"
-                            onClick={() => setDropdownOpen(!dropdownOpen)}
-                        >
-                            <FaRegCircleUser />
-                        </div>
-                        {dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg border transition-all ease-in-out duration-300">
-                                <ul className="py-2">
-                                    <li className="border-b last:border-none">
-                                        <Link
-                                            to="/user-profile"
-                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
-                                            onClick={handleOptionClick}
-                                        >
-                                            Hồ sơ
-                                        </Link>
-                                    </li>
-                                    <li className="border-b last:border-none">
-                                        <Link
-                                            to="/user-setting"
-                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
-                                            onClick={handleOptionClick}
-                                        >
-                                            Cài đặt
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <button
-                                            onClick={handleLogout}
-                                            className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
-                                        >
-                                            Đăng xuất
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+  const handleOptionClick = () => {
+    setDropdownOpen(false);
+  };
 
-                    <Link to="/shopping-cart" className="text-2xl relative">
-                        <span>
-                            <FaShoppingCart />
-                        </span>
-                        <div
-                            className="bg-orange-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center
-              absolute -top-2 -right-3"
-                        >
-                            <p className="text-sm">2</p>
-                        </div>
-                    </Link>
+  const handleUserIconClick = () => {
+    if (isLoggedIn) {
+      setDropdownOpen(!dropdownOpen);
+    } else {
+      toast.info('Vui lòng đăng nhập để tiếp tục');
+      navigate('/login');
+    }
+  };
 
-                    <div>
-                        <Link
-                            to={"/login"}
-                            className="text-white bg-orange-600 px-3 py-1 rounded-full"
-                        >
-                            Đăng nhập
-                        </Link>
-                    </div>
-                </div>
+  return (
+    <header className='h-16 shadow-md bg-yellow-400 z-30 flex items-center'>
+      <div className='container mx-auto flex items-center justify-between h-full px-4'>
+        <div className='logo-container'>
+          <Link to={'/'}>
+            <Logo w={90} h={50} />
+          </Link>
+        </div>
+        <div className='flex-grow hidden md:flex items-center rounded-full border justify-between max-w-sm focus-within:shadow pl-2 bg-white'>
+          <input
+            type='text'
+            placeholder='Vui lòng nhập từ khoá...'
+            className='w-full outline-none'
+          />
+          <div className='flex rounded-r-full items-center h-8 justify-center min-w-[50px] bg-orange-600'>
+            <IoMdSearch className='text-white text-lg' />
+          </div>
+        </div>
+        <div className='flex items-center gap-7'>
+          <Link to="/shopping-cart" className='text-2xl relative'>
+            <span><FaShoppingCart /></span>
+            <div className='bg-orange-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
+              <p className='text-sm'>0</p>
             </div>
-        </header>
-    );
+          </Link>
+
+          <div className='relative'>
+            <div
+              className='text-2xl cursor-pointer'
+              onClick={handleUserIconClick}
+              aria-haspopup="true"
+              aria-expanded={dropdownOpen}
+            >
+              {isLoggedIn ? (
+                <img
+                  src={user?.avatar || defaultProfilePic}
+                  className='w-10 h-10 rounded-full'
+                  alt={user?.name || 'User Avatar'}
+                />
+              ) : (
+                <FaRegCircleUser className='text-2xl' />
+              )}
+            </div>
+
+            {isLoggedIn && dropdownOpen && (
+              <div className='absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg border transition-all ease-in-out duration-300'>
+                <ul className='py-2'>
+                  <li className="border-b last:border-none">
+                    <Link
+                      to='/user-profile'
+                      className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                      onClick={handleOptionClick}
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li className="border-b last:border-none">
+                    <Link
+                      to='/user-setting'
+                      className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                      onClick={handleOptionClick}
+                    >
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogout}
+                      className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {!isLoggedIn && (
+            <div>
+              <Link to={'/login'} className='text-white bg-orange-600 px-3 py-1 rounded-full'>
+                Login
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

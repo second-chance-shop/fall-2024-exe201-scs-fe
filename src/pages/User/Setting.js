@@ -1,95 +1,214 @@
-// UserSetting.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UserMenu from '../../components/User/UserMenu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const UserSetting = () => {
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmNewPassword, setConfirmNewPassword] = useState('');
-  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
-  const [error, setError] = useState('');
+const ChangePassword = () => {
+  const [passwordInfo, setPasswordInfo] = useState({
+    email: '',
+    oldPassword: '',
+    newPassword: '',
+    newPasswordConfirm: '',
+  });
+  const [otp, setOtp] = useState('');
+  const [otpSent, setOtpSent] = useState(false);
+  const [timer, setTimer] = useState(180); // 3-minute countdown
+  const [errorMessage, setErrorMessage] = useState('');
+  
+  // Countdown timer
+  useEffect(() => {
+    let countdown;
+    if (otpSent && timer > 0) {
+      countdown = setInterval(() => setTimer(timer - 1), 1000);
+    }
+    return () => clearInterval(countdown);
+  }, [otpSent, timer]);
 
-  const handleCurrentPasswordSubmit = (e) => {
-    e.preventDefault();
-    
-    // Replace with your logic to verify the current password
-    if (currentPassword === 'correctOldPassword') { // Replace with actual logic
-      setIsPasswordVerified(true);
-      setError('');
-    } else {
-      setError('Mật khẩu không đúng. Vui lòng thử lại.');
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPasswordInfo({ ...passwordInfo, [name]: value });
+  };
+
+  // Submit password change request
+  const handleSubmit = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        setErrorMessage('Authentication token not found.');
+        return;
+      }
+
+      const response = await axios.put('https://scs-api.arisavinh.dev/api/v1/user/change-password', passwordInfo, {
+        headers: { Authorization: `${token}` },
+      });
+
+      if (response.status === 200 && response.data.isSuccess) {
+        setOtpSent(true);
+        toast.success('OTP đã được gửi về email của bạn.');
+        setTimer(180); // reset timer
+      } else {
+        toast.error(response.data.message || 'Đã xảy ra lỗi');
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Lỗi khi đổi mật khẩu.');
     }
   };
 
-  const handleNewPasswordSubmit = (e) => {
-    e.preventDefault();
-    
-    if (newPassword === confirmNewPassword) {
-      // Implement password change logic here
-      alert('Mật khẩu đã được thay đổi thành công!');
-    } else {
-      setError('Mật khẩu mới không khớp.');
+  // Verify OTP
+  const handleVerifyOtp = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        setErrorMessage('Authentication token not found.');
+        return;
+      }
+
+      const response = await axios.patch('https://scs-api.arisavinh.dev/api/v1/OTP/verify-set-password', {
+         otp,
+         email: passwordInfo.email 
+        }, {
+        headers: { 
+          Authorization: `${token}` 
+        }});
+
+      if (response.status === 200 && response.data.isSuccess) {
+        toast.success('Đổi mật khẩu thành công!');
+        setOtpSent(false);
+        setPasswordInfo({
+          email: '',
+          oldPassword: '',
+          newPassword: '',
+          newPasswordConfirm: '',
+        });
+        setOtp('');
+      } else {
+        toast.error(response.data.message || 'OTP không chính xác');
+      }
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Lỗi khi xác thực OTP.');
+    }
+  };
+
+  // Resend OTP
+  const handleResendOtp = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      if (!token) {
+        setErrorMessage('Authentication token not found.');
+        return;
+      }
+
+      await axios.post(`https://scs-api.arisavinh.dev/api/v1/OTP/reload-otp-set-password?email=${passwordInfo.email}`, null, {
+        headers: { Authorization: `${token}` },
+      });
+
+      setTimer(180);
+      toast.success('OTP đã được gửi lại!');
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Lỗi khi gửi lại OTP.');
     }
   };
 
   return (
     <div className="flex min-h-screen bg-gray-100">
-      <UserMenu /> {/* Integrate UserMenu here */}
-
-      {/* Settings Content */}
+      <UserMenu />
       <div className="flex-1 p-5">
-        <h1 className="text-3xl font-bold mb-5">Cài đặt người dùng</h1>
+        <h1 className="text-3xl font-bold mb-5">Đổi mật khẩu</h1>
+        <div className="bg-white shadow-md rounded-lg p-5">
+          <h2 className="text-2xl font-semibold mb-3">Thông tin mật khẩu</h2>
+          {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        {!isPasswordVerified ? (
-          <form onSubmit={handleCurrentPasswordSubmit} className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl mb-4">Xác thực mật khẩu hiện tại</h2>
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="mb-4">
-              <label className="block text-gray-700">Mật khẩu hiện tại</label>
-              <input
-                type="password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-            <button type="submit" className="bg-orange-400 text-white py-2 px-2 rounded-md hover:bg-orange-600">
-              Xác thực
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={handleNewPasswordSubmit} className="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl mb-4">Đặt mật khẩu mới</h2>
-            {error && <p className="text-red-500">{error}</p>}
-            <div className="mb-4">
-              <label className="block text-gray-700">Mật khẩu mới</label>
-              <input
-                type="password"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700">Xác nhận mật khẩu mới</label>
-              <input
-                type="password"
-                value={confirmNewPassword}
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md"
-                required
-              />
-            </div>
-            <button type="submit" className="bg-orange-400 text-white py-2 rounded-md hover:bg-orange-600">
-              Thay đổi mật khẩu
-            </button>
-          </form>
-        )}
+          {!otpSent ? (
+            <>
+              {/* Password Change Form */}
+              <div className="mb-4">
+                <label className="block text-gray-700">Email:</label>
+                <input
+                  type="email"
+                  name="email"
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  value={passwordInfo.email}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Mật khẩu cũ:</label>
+                <input
+                  type="password"
+                  name="oldPassword"
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  value={passwordInfo.oldPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Mật khẩu mới:</label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  value={passwordInfo.newPassword}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700">Xác nhận mật khẩu mới:</label>
+                <input
+                  type="password"
+                  name="newPasswordConfirm"
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  value={passwordInfo.newPasswordConfirm}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <button
+                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                onClick={handleSubmit}
+              >
+                Gửi yêu cầu
+              </button>
+            </>
+          ) : (
+            <>
+              {/* OTP Verification Form */}
+              <div className="mb-4">
+                <label className="block text-gray-700">Nhập OTP:</label>
+                <input
+                  type="text"
+                  className="w-full border border-gray-300 rounded-lg p-2 mt-1"
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-4">
+                <p className="text-gray-700">Thời gian còn lại: {timer}s</p>
+              </div>
+
+              <button
+                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mr-3"
+                onClick={handleVerifyOtp}
+              >
+                Xác nhận OTP
+              </button>
+
+              <button
+                className={`bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 ${timer > 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                onClick={handleResendOtp}
+                disabled={timer > 0} // Disable the button if timer is greater than 0
+              >
+                Gửi lại OTP
+              </button>
+
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
 };
 
-export default UserSetting;
+export default ChangePassword;

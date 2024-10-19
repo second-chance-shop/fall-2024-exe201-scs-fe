@@ -21,21 +21,25 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
-
+    
         try {
             const response = await axios.post(
                 "https://scs-api.arisavinh.dev/api/v1/auth/login",
                 data
             );
-
+    
             console.log("API Response:", response.data);
-
+    
             if (response.status === 200 && response.data.isSuccess) {
                 const { accessToken, tokenType } = response.data.data;
-
+    
                 // Save token in AsyncStorage
                 await AsyncStorage.setItem("userToken", `${tokenType} ${accessToken}`);
-
+    
+                // Check if the token is stored correctly
+                const storedToken = await AsyncStorage.getItem("userToken");
+                console.log("Stored Token:", storedToken); // Log the stored token
+    
                 toast.success(`Chào mừng bạn, ${data.username}`);
                 navigate("/user-profile");
             } else {
@@ -45,6 +49,7 @@ const Login = () => {
             toast.error(error.response?.data?.message || "Lỗi kết nối đến server");
         }
     };
+    
 
     const handleBack = () => navigate("/");
 

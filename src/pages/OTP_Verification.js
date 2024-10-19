@@ -9,18 +9,29 @@ import backgroundImage from '../assest/background.png';
 const OtpVerification = () => {
   const [otp, setOtp] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
+  const [isResendAvailable, setIsResendAvailable] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Assuming email is passed via navigate from the registration page
   const email = location.state?.email;
 
   useEffect(() => {
     if (!email) {
       toast.error('Không tìm thấy email! Hãy đăng ký lại.');
-      navigate('/register'); // Redirect to register if email is missing
+      navigate('/register');
     }
   }, [email, navigate]);
+
+  useEffect(() => {
+    // Countdown timer
+    if (timeLeft > 0) {
+      const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timerId);
+    } else {
+      setIsResendAvailable(true); // Allow resend after timer ends
+    }
+  }, [timeLeft]);
 
   const handleOtpChange = (e) => {
     setOtp(e.target.value);
@@ -31,14 +42,14 @@ const OtpVerification = () => {
     setErrorMessage('');
 
     try {
-      const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/OTP/verify', {
+      const response = await axios.patch('https://scs-api.arisavinh.dev/api/v1/OTP/verify', {
         otp,
-        email, 
+        email,
       });
 
       if (response.data.isSuccess) {
         toast.success('Xác minh OTP thành công!');
-        navigate('/login'); 
+        navigate('/login');
       } else {
         toast.error(response.data.message || 'Mã OTP không hợp lệ');
       }
@@ -47,8 +58,24 @@ const OtpVerification = () => {
     }
   };
 
+  const handleResendOtp = async () => {
+    try {
+      const response = await axios.post(`https://scs-api.arisavinh.dev/api/v1/OTP/reload-otp?email=${email}`);
+
+      if (response.data.isSuccess) {
+        toast.success('Mã OTP mới đã được gửi!');
+        setTimeLeft(180); // Restart the countdown timer
+        setIsResendAvailable(false); // Disable resend button
+      } else {
+        toast.error(response.data.message || 'Không thể gửi lại mã OTP');
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
+    }
+  };
+
   const handleBack = () => {
-    navigate(-1); 
+    navigate(-1);
   };
 
   return (
@@ -63,26 +90,23 @@ const OtpVerification = () => {
       }}
     >
       <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-lg z-10 text-center">
-        {/* Back Button */}
         <FaArrowLeft
           className="absolute top-4 left-4 text-xl text-gray-500 cursor-pointer hover:text-black"
           onClick={handleBack}
         />
 
-        {/* OTP Verification GIF */}
         <div className="flex justify-center mb-4">
           <img src={otpVerificationGif} alt="OTP Verification" className="w-32 h-32" />
         </div>
 
         <h2 className="text-2xl font-bold mb-6">Nhập mã OTP</h2>
-        
-        {/* Display email with message */}
+
         <div className="text-gray-700 mb-4">
           OTP đã được gửi về <strong>{email}</strong>. Vui lòng kiểm tra hộp thư.
         </div>
-        
+
         {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-        
+
         <form onSubmit={handleSubmit}>
           <input
             type="text"
@@ -100,6 +124,24 @@ const OtpVerification = () => {
             Xác nhận OTP
           </button>
         </form>
+
+        {/* Countdown Timer and Resend OTP Button */}
+        <div className="mt-4">
+          {timeLeft > 0 ? (
+            <p className="text-gray-600">
+              Mã OTP hết hạn sau: <strong>{timeLeft}s</strong>
+            </p>
+          ) : (
+            isResendAvailable && (
+              <button
+                onClick={handleResendOtp}
+                className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700"
+              >
+                Gửi lại mã OTP
+              </button>
+            )
+          )}
+        </div>
       </div>
 
       <div className="absolute inset-0 bg-black opacity-50 z-0"></div>
