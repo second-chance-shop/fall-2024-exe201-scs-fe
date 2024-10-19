@@ -9,14 +9,16 @@ import { toast } from 'react-toastify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import defaultProfilePic from '../assest/avatar-user-default.png';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import { AiOutlineOrderedList } from 'react-icons/ai'; // Import an icon for orders
 import { logoutUser } from './authUtils';
 
 const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [orderDropdownOpen, setOrderDropdownOpen] = useState(false); // State for orders dropdown
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector(state => state?.user?.user);
+  const user = useSelector(state => state?.user?.user); // Ensure user is coming from Redux state
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -30,9 +32,11 @@ const Header = () => {
               Authorization: `${token}`,
             },
           });
-          const userProfile = await response.json();
-          console.log('Fetch thành công: ', userProfile)
-          dispatch(setUserProfile(userProfile));
+          const result = await response.json();
+
+          if (result.isSuccess) {
+            dispatch(setUserProfile(result.data)); // Ensure to pass only the user data
+          }
         } catch (error) {
           console.error('Failed to fetch user profile:', error);
         }
@@ -42,7 +46,6 @@ const Header = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    // Re-check login status when user object updates
     setIsLoggedIn(!!user);
   }, [user]);
 
@@ -64,6 +67,10 @@ const Header = () => {
       toast.info('Vui lòng đăng nhập để tiếp tục');
       navigate('/login');
     }
+  };
+
+  const handleOrderIconClick = () => {
+    setOrderDropdownOpen(!orderDropdownOpen); // Toggle order dropdown
   };
 
   return (
@@ -138,6 +145,43 @@ const Header = () => {
                     >
                       Logout
                     </button>
+                  </li>
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* New Dropdown for Orders */}
+          <div className='relative'>
+            <div
+              className='text-2xl cursor-pointer'
+              onClick={handleOrderIconClick}
+              aria-haspopup="true"
+              aria-expanded={orderDropdownOpen}
+            >
+              <AiOutlineOrderedList /> {/* Order Icon */}
+            </div>
+
+            {isLoggedIn && orderDropdownOpen && (
+              <div className='absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg border transition-all ease-in-out duration-300'>
+                <ul className='py-2'>
+                  <li className="border-b last:border-none">
+                    <Link
+                      to='/purchase-orders' // Link to purchase orders page
+                      className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                      onClick={handleOptionClick}
+                    >
+                      Đơn mua
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to='/sale-orders' // Link to sale orders page
+                      className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                      onClick={handleOptionClick}
+                    >
+                      Đơn bán
+                    </Link>
                   </li>
                 </ul>
               </div>
