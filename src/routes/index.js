@@ -14,8 +14,9 @@ import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import RegisterShop from "../pages/Shop/RegisterShop";
 import ShopDashboard from "../pages/Shop/ShopDashboard";
-import Order from '../pages/Shop/Order'
+import Order from "../pages/Shop/Order";
 import UserUpdate from "../pages/User/Update";
+import CommitmentPage from "../pages/CommimentPage";
 
 const router = createBrowserRouter([
     {
@@ -90,7 +91,11 @@ const router = createBrowserRouter([
             },
             {
                 path: "*",
-                element: <NotFound />
+                element: <NotFound />,
+            },
+            {
+                path: "commitments",
+                element: <CommitmentPage />,
             },
         ],
     },

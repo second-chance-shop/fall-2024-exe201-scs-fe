@@ -132,7 +132,7 @@ const WarningComponent = () => {
         <div className="flex-1 mx-auto w-full min-w-[1080px] max-w-[1440px] mt-[30px]">
             <section className="block">
                 <a
-                    href="/commitments.html"
+                    href="/commitments"
                     className="relative h-[38px] flex justify-between items-center text-[16px] text-white font-medium px-[22px] bg-[#0a8800] w-full rounded-t-[8px] no-underline hover:bg-[#006600] transition-colors duration-200"
                 >
                     <div className="flex items-center">
@@ -142,7 +142,7 @@ const WarningComponent = () => {
                             alt=""
                             aria-hidden="true"
                         />
-                        <span>Cam Kết của chúng tôi</span>
+                        <span>Cam Kết của chúng mình</span>
                     </div>
                     <div class="flex items-center">
                         <div class="flex items-center ml-6">
