@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/user/UserMenu";
+import UserMenu from "../../components/User/UserMenu";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { toast } from "react-toastify";

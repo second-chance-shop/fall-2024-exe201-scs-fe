@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import UserMenu from "../../components/user/UserMenu";
+import UserMenu from "../../components/User/UserMenu";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
