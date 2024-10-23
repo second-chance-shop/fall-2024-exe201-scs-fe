@@ -3,19 +3,26 @@ import App from "../App";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Test from "../pages/Test";
+import OtpVerification from "../pages/OTP_Verification";
 import ForgotPassword from "../pages/ForgotPassword";
+
+import About from "../pages/About";
+import Test from "../pages/Test";
+
 import ShoppingCart from "../pages/ShoppingCart";
 import UserProfile from "../pages/User/Profile";
 import UserSetting from "../pages/User/Setting";
+import UserUpdate from "../pages/User/Update";
+
 import Product from "../pages/Product";
-import OtpVerification from "../pages/OTP_Verification";
-import About from "../pages/About";
+
 import NotFound from "../pages/NotFound";
+
 import RegisterShop from "../pages/Shop/RegisterShop";
 import ShopDashboard from "../pages/Shop/ShopDashboard";
 import Order from '../pages/Shop/Order'
-import UserUpdate from "../pages/User/Update";
+import ShopDetail from "../pages/Shop/ShopDetail";
+import AddProduct from "../pages/Shop/AddProduct";
 
 const router = createBrowserRouter([
     {
@@ -75,12 +82,16 @@ const router = createBrowserRouter([
                 element: <RegisterShop />,
             },
             {
-                path: "shop-dashboard",
+                path: "shop-manage",
                 element: <ShopDashboard />,
                 children: [
                     {
+                        path: "shop-detail",
+                        element: <ShopDetail />,
+                    },
+                    {
                         path: "add-product",
-                        element: <RegisterShop />,
+                        element: <AddProduct />,
                     },
                     {
                         path: "orders",

@@ -33,15 +33,13 @@ const Login = () => {
             if (response.status === 200 && response.data.isSuccess) {
                 const { accessToken, tokenType } = response.data.data;
     
-                // Save token in AsyncStorage
                 await AsyncStorage.setItem("userToken", `${tokenType} ${accessToken}`);
     
-                // Check if the token is stored correctly
                 const storedToken = await AsyncStorage.getItem("userToken");
-                console.log("Stored Token:", storedToken); // Log the stored token
+                console.log("Stored Token:", storedToken);
     
                 toast.success(`Chào mừng bạn, ${data.username}`);
-                navigate("/user-profile");
+                navigate("/");
             } else {
                 toast.error(response.data.message || "Đã xảy ra lỗi");
             }

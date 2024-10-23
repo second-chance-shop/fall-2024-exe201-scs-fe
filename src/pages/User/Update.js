@@ -146,17 +146,6 @@ const UserUpdate = () => {
             </div>
           </div>
 
-          {/* UserId Field (disabled) */}
-          <div className="mb-4">
-            <label className="block text-gray-700">ID User:</label>
-            <input
-              type="text"
-              className="w-full border border-gray-300 rounded-lg p-2 mt-1"
-              value={userInfo.userId}
-              readOnly
-            />
-          </div>
-
           {/* Username Field (disabled) */}
           <div className="mb-4">
             <label className="block text-gray-700">Tên đăng nhập:</label>

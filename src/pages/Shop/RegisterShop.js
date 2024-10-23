@@ -9,7 +9,7 @@ const RegisterShop = () => {
     shopName: '',
     description: '',
     shopEmail: '',
-    shopPhoneNumber: '',
+    shopPhonumber: '',
     cccdNumber: '',
     industry: '',
     shippingAddress: '',
@@ -28,32 +28,6 @@ const RegisterShop = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        if (!token) {
-          toast.error('Authentication token not found.');
-          navigate('/login');
-          return;
-        }
-
-        const response = await axios.get('https://scs-api.arisavinh.dev/api/v1/user/profile', {
-          headers: { Authorization: `${token}` },
-        });
-        if (response.status === 200 && response.data.isSuccess) {
-          const { userId } = response.data.data;
-          setData((prevData) => ({ ...prevData, userId }));
-        } else {
-          throw new Error('Failed to fetch user profile');
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        toast.error('Không thể lấy thông tin người dùng. Vui lòng đăng nhập lại.');
-        navigate('/login');
-      } finally {
-        setLoading(false);
-      }
-    };
 
     const fetchCategories = async () => {
       try {
@@ -81,7 +55,6 @@ const RegisterShop = () => {
       }
     };
 
-    fetchUserProfile();
     fetchCategories();
   }, [navigate]);
 
@@ -93,13 +66,17 @@ const RegisterShop = () => {
   const handleFileChange = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
-    setData((prevData) => ({ ...prevData, [name]: file }));
+    
+    if (file) {
+      console.log(`File selected for ${name}:`, file);
+      setData((prevData) => ({ ...prevData, [name]: file }));
+    }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check agreement to terms
     if (!isAgree) {
         toast.error('Bạn phải đồng ý với các điều khoản của SecondChanceShop.');
         return;
@@ -116,7 +93,7 @@ const RegisterShop = () => {
         shopName: data.shopName,
         description: data.description,
         shopEmail: data.shopEmail,
-        shopPhoneNumber: data.shopPhoneNumber,
+        shopPhonumber: data.shopPhonumber,
         cccdNumber: data.cccdNumber,
         industry: data.industry,
         shippingAddress: data.shippingAddress,
@@ -126,27 +103,30 @@ const RegisterShop = () => {
     }));
 
     if (data.shopImage) {
-      formData.append('shopImage', data.shopImage);
+        formData.append('imageShop', data.shopImage);
     } else {
-      toast.error('Bạn phải cung cấp hình ảnh cho shop.');
-      return;
+        toast.error('Bạn phải cung cấp hình ảnh cho shop.');
+        return;
     }
 
-    if (!data.frontSideOfCCCD) {
+    if (data.frontSideOfCCCD) {
+        formData.append('cccdFont', data.frontSideOfCCCD);
+    } else {
         toast.error('Bạn phải cung cấp hình ảnh cho mặt trước của CCCD.');
         return;
-    } else {
-        formData.append('cccdFont', data.cccdFont);
     }
 
-    if (!data.backSideOfCCCD) {
+    if (data.backSideOfCCCD) {
+        formData.append('cccdBack', data.backSideOfCCCD);
+    } else {
         toast.error('Bạn phải cung cấp hình ảnh cho mặt sau của CCCD.');
         return;
-    } else {
-        formData.append('cccdBack', data.cccdBack);
     }
-
-    // Make the API call
+    if (!data.shopPhonumber.trim()) {
+      toast.error('Số điện thoại không được để trống.');
+      return;
+    }
+    
     try {
         const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/shop/create', formData, {
             headers: {
@@ -165,6 +145,7 @@ const RegisterShop = () => {
         toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
 };
+
 
 
   const openTermsModal = () => setIsTermsOpen(true);
@@ -211,8 +192,8 @@ const RegisterShop = () => {
             <label className="block mb-2 font-medium">Số điện thoại của Shop</label>
             <input
               type="text"
-              name="shopPhoneNumber"
-              value={data.shopPhoneNumber}
+              name="shopPhonumber"
+              value={data.shopPhonumber}
               onChange={handleOnChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
@@ -293,7 +274,7 @@ const RegisterShop = () => {
             <label className="block mb-2 font-medium">Hình ảnh CCCD Mặt trước</label>
             <input
               type="file"
-              name="cccdFont"
+              name="frontSideOfCCCD"
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"
@@ -304,7 +285,7 @@ const RegisterShop = () => {
             <label className="block mb-2 font-medium">Hình ảnh CCCD Mặt sau</label>
             <input
               type="file"
-              name="cccdBack"
+              name="backSideOfCCCD"
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"

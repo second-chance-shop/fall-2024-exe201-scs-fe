@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logoutUser } from '../authUtils';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const UserMenu = () => {
   const navigate = useNavigate();
@@ -12,7 +13,11 @@ const UserMenu = () => {
 
   return (
     <div className="w-64 bg-white shadow-md rounded-lg p-5">
-      <h2 className="text-xl font-semibold mb-4">User Menu</h2>
+      {/* Back icon to navigate to the home page */}
+      <div className="flex items-center mb-4 cursor-pointer" onClick={() => navigate('/')}>
+        <FaArrowLeft className="mr-2 text-xl" /> {/* Icon for back */}
+        <span className="text-lg font-semibold">Quay lại</span> {/* Optional text */}
+      </div>
       <ul className="space-y-2">
         <li>
           <Link
@@ -36,6 +41,14 @@ const UserMenu = () => {
             className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
           >
             Cài đặt
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/shop-manage"
+            className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
+          >
+            Quản lý cửa hàng
           </Link>
         </li>
         <li>

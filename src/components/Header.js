@@ -126,7 +126,7 @@ const Header = () => {
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >
-                      Profile
+                      Trang cá nhân
                     </Link>
                   </li>
                   <li className="border-b last:border-none">
@@ -135,7 +135,7 @@ const Header = () => {
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >
-                      Settings
+                      Cài đặt
                     </Link>
                   </li>
                   <li>
@@ -143,7 +143,7 @@ const Header = () => {
                       onClick={handleLogout}
                       className='block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                     >
-                      Logout
+                      Đăng xuất
                     </button>
                   </li>
                 </ul>

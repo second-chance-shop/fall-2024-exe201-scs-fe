@@ -80,10 +80,7 @@ const UserProfile = () => {
               />
             </div>
           </div>
-
-          <div className="mb-4">
-            <strong>ID User:</strong> {userInfo.userId}
-          </div>
+          
           <div className="mb-4">
             <strong>Tên đăng nhập:</strong> {userInfo.username}
           </div>
