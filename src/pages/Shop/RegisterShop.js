@@ -122,10 +122,6 @@ const RegisterShop = () => {
         toast.error('Bạn phải cung cấp hình ảnh cho mặt sau của CCCD.');
         return;
     }
-    if (!data.shopPhonumber.trim()) {
-      toast.error('Số điện thoại không được để trống.');
-      return;
-    }
     
     try {
         const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/shop/create', formData, {

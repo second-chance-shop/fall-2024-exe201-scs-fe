@@ -1,52 +1,66 @@
-import React, { useEffect, useState } from 'react'; 
-import UserMenu from '../../components/User/UserMenu'; 
-import AsyncStorage from '@react-native-async-storage/async-storage'; 
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import defaultProfilePic from '../../assest/avatar-user-default.png';
+import React, { useEffect, useState } from "react";
+import UserMenu from "../../components/user/UserMenu";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import defaultProfilePic from "../../assest/avatar-user-default.png";
 
 const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({
-    userId: '',
-    username: '',
-    email: '',
-    phoneNumber: '',
-    name: '',
-    avatar: '',
-    gender: '',
-    dob: '',
-    address: ''
+    userId: "",
+    username: "",
+    email: "",
+    phoneNumber: "",
+    name: "",
+    avatar: "",
+    gender: "",
+    dob: "",
+    address: "",
   });
 
   const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [avatarPreview, setAvatarPreview] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   const navigate = useNavigate();
 
   // Fetch user information
   const fetchUserInfo = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken');
+      const token = await AsyncStorage.getItem("userToken");
       if (!token) {
-        setErrorMessage('Authentication token not found.');
+        setErrorMessage("Authentication token not found.");
         setLoading(false);
         return;
       }
-      
-      const response = await axios.get('https://scs-api.arisavinh.dev/api/v1/user/profile', {
-        headers: {
-          Authorization: `${token}`,
-        },
-      });
+
+      const response = await axios.get(
+        "https://scs-api.arisavinh.dev/api/v1/user/profile",
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        }
+      );
 
       if (response.status === 200 && response.data.isSuccess) {
-        const { userId, username, email, phoneNumber, name, avatar, gender, dob, address } = response.data.data;
-        setUserInfo({ userId, username, email, phoneNumber, name, avatar, gender, dob, address });
+        const { userId, username, email, phoneNumber, name, avatar, gender, dob, address } =
+          response.data.data;
+        setUserInfo({
+          userId,
+          username,
+          email,
+          phoneNumber,
+          name,
+          avatar,
+          gender,
+          dob,
+          address,
+        });
         setAvatarPreview(avatar || defaultProfilePic);
       }
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Error fetching user info');
+      setErrorMessage(error.response?.data?.message || "Error fetching user info");
     } finally {
       setLoading(false);
     }
@@ -57,7 +71,7 @@ const UserProfile = () => {
   }, []);
 
   if (loading) {
-    return <div className="text-center">Loading...</div>; 
+    return <div className="text-center">Loading...</div>;
   }
 
   return (
@@ -80,7 +94,10 @@ const UserProfile = () => {
               />
             </div>
           </div>
-          
+
+          <div className="mb-4">
+            <strong>ID User:</strong> {userInfo.userId}
+          </div>
           <div className="mb-4">
             <strong>Tên đăng nhập:</strong> {userInfo.username}
           </div>
@@ -97,7 +114,7 @@ const UserProfile = () => {
             <strong>Giới tính:</strong> {userInfo.gender}
           </div>
           <div className="mb-4">
-            <strong>Ngày sinh:</strong> {userInfo.dob ? userInfo.dob.split('T')[0] : ''}
+            <strong>Ngày sinh:</strong> {userInfo.dob ? userInfo.dob.split("T")[0] : ""}
           </div>
           <div className="mb-4">
             <strong>Địa chỉ:</strong> {userInfo.address}
@@ -106,7 +123,7 @@ const UserProfile = () => {
           {/* Edit Button */}
           <div className="mt-4">
             <button
-              onClick={() => navigate('/user-update')}
+              onClick={() => navigate("/user-update")}
               className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-500 transition duration-200"
             >
               Chỉnh sửa hồ sơ
