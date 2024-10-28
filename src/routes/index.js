@@ -3,20 +3,29 @@ import App from "../App";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import Test from "../pages/Test";
+import OtpVerification from "../pages/OTP_Verification";
 import ForgotPassword from "../pages/ForgotPassword";
+import About from "../pages/About";
+import Test from "../pages/Test";
 import ShoppingCart from "../pages/ShoppingCart";
 import UserProfile from "../pages/User/Profile";
 import UserSetting from "../pages/User/Setting";
+import UserUpdate from "../pages/User/Update";
 import Product from "../pages/Product";
-import OtpVerification from "../pages/OTP_Verification";
-import About from "../pages/About";
 import NotFound from "../pages/NotFound";
 import RegisterShop from "../pages/Shop/RegisterShop";
-import ShopDashboard from "../pages/Shop/ShopDashboard";
-import Order from "../pages/Shop/Order";
-import UserUpdate from "../pages/User/Update";
+import ShopManage from "../pages/Shop/ShopManage";
+import ShopUpdate from "../pages/Shop/ShopUpdate";
 import CommitmentPage from "../pages/CommimentPage";
+
+//shop
+import ShopDashboard from "../pages/Shop/Dashboard";
+import ProductManagement from "../pages/Shop/ProductManagement";
+import StarAndComment from "../pages/Shop/StarAndComment";
+
+//product 
+import AddProduct from "../pages/product/AddProduct";
+import UpdateProduct from '../pages/product/UpdateProduct'
 
 const router = createBrowserRouter([
     {
@@ -48,16 +57,25 @@ const router = createBrowserRouter([
                 element: <ForgotPassword />,
             },
             {
-                path: "user-profile",
-                element: <UserProfile />,
-            },
-            {
-                path: "user-setting",
-                element: <UserSetting />,
-            },
-            {
-                path: "user-update",
-                element: <UserUpdate />,
+                path: "user/",
+                children: [
+                    {
+                        path: "profile/:name",
+                        element: <UserProfile />,
+                    },
+                    {
+                        path: "update/:name",
+                        element: <UserUpdate />,
+                    },
+                    {
+                        path: "setting/:name",
+                        element: <UserSetting />,
+                    },
+                    {
+                        path: "shop-manage",
+                        element: <ShopManage />,
+                    },
+                ],
             },
             {
                 path: "product",
@@ -72,30 +90,52 @@ const router = createBrowserRouter([
                 element: <About />,
             },
             {
-                path: "shop-register",
-                element: <RegisterShop />,
-            },
-            {
-                path: "shop-dashboard",
-                element: <ShopDashboard />,
+                path: "shop/",
                 children: [
                     {
-                        path: "add-product",
+                        path: "create",
                         element: <RegisterShop />,
                     },
                     {
-                        path: "orders",
-                        element: <Order />,
+                        path: "dashboard",
+                        element: <ShopDashboard />,
+                    },
+                    {
+                        path: "update/:shopName",
+                        element: <ShopUpdate />,
+                    },
+                    {
+                        path: "product/",
+                        children:[
+                            {
+                                path: 'management',
+                                element: <ProductManagement />,
+                            },
+                            {
+                                path: "add",
+                                element: <AddProduct />,
+                            },
+                            {
+                                path: "update/:productName",
+                                element: <AddProduct />,
+                            },
+                        ]
+                    },
+                    {
+                        path: "star-comment",
+                        element: <StarAndComment />,
                     },
                 ],
+            },
+
+
+            {
+                path: "commitments",
+                element: <CommitmentPage />,
             },
             {
                 path: "*",
                 element: <NotFound />,
-            },
-            {
-                path: "commitments",
-                element: <CommitmentPage />,
             },
         ],
     },

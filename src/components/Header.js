@@ -11,7 +11,6 @@ import defaultProfilePic from "../assest/avatar-user-default.png";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { AiOutlineOrderedList } from "react-icons/ai"; // Import an icon for orders
 import { logoutUser } from "./authUtils";
-import Navbar from "./Navbar";
 
 const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -39,7 +38,7 @@ const Header = () => {
                     const result = await response.json();
 
                     if (result.isSuccess) {
-                        dispatch(setUserProfile(result.data)); // Ensure to pass only the user data
+                        dispatch(setUserProfile(result.data));
                     }
                 } catch (error) {
                     console.error("Failed to fetch user profile:", error);
@@ -74,13 +73,17 @@ const Header = () => {
     };
 
     const handleOrderIconClick = () => {
-        setOrderDropdownOpen(!orderDropdownOpen); // Toggle order dropdown
+        if (isLoggedIn) {
+            setOrderDropdownOpen(!orderDropdownOpen);
+        } else {
+            toast.info("Vui lòng đăng nhập để tiếp tục");
+            navigate("/login");
+        }
     };
 
     return (
-        <header>
-            {/* <Navbar /> */}
-            <div className="w-full justify-between px-4 h-16 shadow-md bg-yellow-400 z-30 flex items-center  min-w-[1080px]">
+        <header className="h-16 shadow-md bg-yellow-400 z-30 flex items-center">
+            <div className="container mx-auto flex items-center justify-between h-full px-4">
                 <div className="logo-container">
                     <Link to={"/"}>
                         <Logo w={90} h={50} />
@@ -129,20 +132,29 @@ const Header = () => {
                                 <ul className="py-2">
                                     <li className="border-b last:border-none">
                                         <Link
-                                            to="/user-profile"
+                                            to={`/user/profile/${encodeURIComponent(user.name)}`}
                                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                                             onClick={handleOptionClick}
                                         >
-                                            Profile
+                                            Trang cá nhân
                                         </Link>
                                     </li>
                                     <li className="border-b last:border-none">
                                         <Link
-                                            to="/user-setting"
+                                            to={`/user/update/${encodeURIComponent(user.name)}`}
                                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                                             onClick={handleOptionClick}
                                         >
-                                            Settings
+                                            Cài đặt
+                                        </Link>
+                                    </li>
+                                    <li className="border-b last:border-none">
+                                        <Link
+                                            to="/user/shop-manage"
+                                            className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
+                                            onClick={handleOptionClick}
+                                        >
+                                            Quản lý cửa hàng
                                         </Link>
                                     </li>
                                     <li>
@@ -150,7 +162,7 @@ const Header = () => {
                                             onClick={handleLogout}
                                             className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                                         >
-                                            Logout
+                                            Đăng xuất
                                         </button>
                                     </li>
                                 </ul>

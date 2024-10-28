@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import UserMenu from "../../components/user/UserMenu";
+import UserMenu from "../../components/User/UserMenu";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../../components/Loading";
 
 const ChangePassword = () => {
     const [passwordInfo, setPasswordInfo] = useState({
@@ -15,6 +16,7 @@ const ChangePassword = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [timer, setTimer] = useState(180); // 3-minute countdown
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // Countdown timer
     useEffect(() => {
@@ -33,10 +35,12 @@ const ChangePassword = () => {
 
     // Submit password change request
     const handleSubmit = async () => {
+        setLoading(true);
         try {
             const token = await AsyncStorage.getItem("userToken");
             if (!token) {
                 setErrorMessage("Authentication token not found.");
+                setLoading(false);
                 return;
             }
 
@@ -51,21 +55,25 @@ const ChangePassword = () => {
             if (response.status === 200 && response.data.isSuccess) {
                 setOtpSent(true);
                 toast.success("OTP đã được gửi về email của bạn.");
-                setTimer(180); // reset timer
+                setTimer(180);
             } else {
                 toast.error(response.data.message || "Đã xảy ra lỗi");
             }
         } catch (error) {
             setErrorMessage(error.response?.data?.message || "Lỗi khi đổi mật khẩu.");
+        } finally {
+            setLoading(false);
         }
     };
 
     // Verify OTP
     const handleVerifyOtp = async () => {
+        setLoading(true);
         try {
             const token = await AsyncStorage.getItem("userToken");
             if (!token) {
                 setErrorMessage("Authentication token not found.");
+                setLoading(false);
                 return;
             }
 
@@ -97,15 +105,19 @@ const ChangePassword = () => {
             }
         } catch (error) {
             setErrorMessage(error.response?.data?.message || "Lỗi khi xác thực OTP.");
+        } finally {
+            setLoading(false);
         }
     };
 
     // Resend OTP
     const handleResendOtp = async () => {
+        setLoading(true);
         try {
             const token = await AsyncStorage.getItem("userToken");
             if (!token) {
                 setErrorMessage("Authentication token not found.");
+                setLoading(false);
                 return;
             }
 
@@ -121,16 +133,21 @@ const ChangePassword = () => {
             toast.success("OTP đã được gửi lại!");
         } catch (error) {
             toast.error(error.response?.data?.message || "Lỗi khi gửi lại OTP.");
+        } finally {
+            setLoading(false);
         }
     };
 
+    if (loading) {
+        return <Loading />;
+      }
     return (
         <div className="flex min-h-screen bg-gray-100">
             <UserMenu />
             <div className="flex-1 p-5">
                 <h1 className="text-3xl font-bold mb-5">Đổi mật khẩu</h1>
                 <div className="bg-white shadow-md rounded-lg p-5">
-                    <h2 className="text-2xl font-semibold mb-3">Thông tin mật khẩu</h2>
+                    <h2 className="text-2xl font-semibold mb-3">Vui lòng điền đủ thông tin bên dưới:</h2>
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
                     {!otpSent ? (
@@ -180,7 +197,7 @@ const ChangePassword = () => {
                             </div>
 
                             <button
-                                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                                className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-blue-600"
                                 onClick={handleSubmit}
                             >
                                 Gửi yêu cầu

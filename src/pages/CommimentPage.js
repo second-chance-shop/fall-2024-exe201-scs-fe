@@ -424,19 +424,18 @@ const CommitmentPage = () => {
     const securityRef = useRef(null);
     const shippingRef = useRef(null);
     return (
-        <div class="flex flex-col justify-center items-center">
-            <div class="flex flex-col items-center w-full bg-white pb-[15px]">
+        <div className="flex flex-col justify-center items-center">
+            <div className="flex flex-col items-center w-full bg-white pb-[15px]">
                 <img
                     data-cui-image="1"
                     data-state="succ"
                     src="https://aimg.kwcdn.com/upload_aimg/m/a7686991-ab20-4b49-a016-82ca928f32c1.png.slim.png?imageView2/2/w/432/q/70/format/webp"
-                    data-did-mount="1"
-                    class="max-w-full align-top w-[144px] h-[89px]"
+                    className="max-w-full align-top w-[144px] h-[89px]"
                 />
             </div>
 
-            <div class="w-[915px] text-[16px] leading-6">
-                <div class="text-[16px] leading-[24px] flex flex-col relative max-w-[915px] pl-[45px] mb-[36px]">
+            <div className="w-[915px] text-[16px] leading-6">
+                <div className="text-[16px] leading-[24px] flex flex-col relative max-w-[915px] pl-[45px] mb-[36px]">
                     <div>
                         <img
                             data-cui-image="1"
@@ -445,7 +444,7 @@ const CommitmentPage = () => {
                             data-did-mount="1"
                             class="max-w-full align-top w-[33px] h-[33px] absolute left-[2px] top-[-2px]"
                         />
-                        <h2 class="text-[24px] leading-[28px] font-semibold text-black">
+                        <h2 className="text-[24px] leading-[28px] font-semibold text-black">
                             Làm thế nào SCS có thể mang đến giá thấp hơn so với các nơi khác?
                         </h2>
                         <div class="text-[#222] mt-[10px]">
@@ -459,7 +458,7 @@ const CommitmentPage = () => {
                     </div>
                 </div>
 
-                <div class="flex flex-col relative max-w-[915px] pl-[45px] mb-[60px]">
+                <div className="flex flex-col relative max-w-[915px] pl-[45px] mb-[60px]">
                     <div>
                         <img
                             data-cui-image="1"
@@ -468,7 +467,7 @@ const CommitmentPage = () => {
                             data-did-mount="1"
                             class="max-w-full align-top w-[33px] h-[33px] absolute left-[2px] top-[-2px]"
                         />
-                        <h2 class="text-[24px] leading-[28px] font-semibold text-black">
+                        <h2 className="text-[24px] leading-[28px] font-semibold text-black">
                             Cung cấp một loạt sản phẩm đa dạng
                         </h2>
                         <div class="text-[#222] mt-[10px]">

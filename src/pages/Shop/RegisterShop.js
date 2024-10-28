@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Modal from 'react-modal';
+import Loading from '../../components/Loading'
+import Welcome from '../../components/Welcome';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const RegisterShop = () => {
   const [data, setData] = useState({
@@ -26,35 +30,9 @@ const RegisterShop = () => {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const token = await AsyncStorage.getItem('userToken');
-        if (!token) {
-          toast.error('Authentication token not found.');
-          navigate('/login');
-          return;
-        }
-
-        const response = await axios.get('https://scs-api.arisavinh.dev/api/v1/user/profile', {
-          headers: { Authorization: `${token}` },
-        });
-        if (response.status === 200 && response.data.isSuccess) {
-          const { userId } = response.data.data;
-          setData((prevData) => ({ ...prevData, userId }));
-        } else {
-          throw new Error('Failed to fetch user profile');
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        toast.error('Không thể lấy thông tin người dùng. Vui lòng đăng nhập lại.');
-        navigate('/login');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     const fetchCategories = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
@@ -81,7 +59,6 @@ const RegisterShop = () => {
       }
     };
 
-    fetchUserProfile();
     fetchCategories();
   }, [navigate]);
 
@@ -93,21 +70,25 @@ const RegisterShop = () => {
   const handleFileChange = (e) => {
     const { name } = e.target;
     const file = e.target.files[0];
-    setData((prevData) => ({ ...prevData, [name]: file }));
+    
+    if (file) {
+      console.log(`File selected for ${name}:`, file);
+      setData((prevData) => ({ ...prevData, [name]: file }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check agreement to terms
     if (!isAgree) {
-        toast.error('Bạn phải đồng ý với các điều khoản của SecondChanceShop.');
+        toast.error('Bạn phải đồng ý với các điều khoản của 2ndChanceShop.');
         return;
     }
 
     const token = await AsyncStorage.getItem('userToken');
     if (!token) {
         toast.error('Authentication token not found.');
+        setLoading(false);
         return;
     }
 
@@ -126,27 +107,26 @@ const RegisterShop = () => {
     }));
 
     if (data.shopImage) {
-      formData.append('shopImage', data.shopImage);
+        formData.append('imageShop', data.shopImage);
     } else {
-      toast.error('Bạn phải cung cấp hình ảnh cho shop.');
-      return;
+        toast.error('Bạn phải cung cấp hình ảnh cho shop.');
+        return;
     }
 
-    if (!data.frontSideOfCCCD) {
+    if (data.frontSideOfCCCD) {
+        formData.append('cccdFont', data.frontSideOfCCCD);
+    } else {
         toast.error('Bạn phải cung cấp hình ảnh cho mặt trước của CCCD.');
         return;
-    } else {
-        formData.append('cccdFont', data.cccdFont);
     }
 
-    if (!data.backSideOfCCCD) {
+    if (data.backSideOfCCCD) {
+        formData.append('cccdBack', data.backSideOfCCCD);
+    } else {
         toast.error('Bạn phải cung cấp hình ảnh cho mặt sau của CCCD.');
         return;
-    } else {
-        formData.append('cccdBack', data.cccdBack);
     }
-
-    // Make the API call
+    
     try {
         const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/shop/create', formData, {
             headers: {
@@ -156,24 +136,42 @@ const RegisterShop = () => {
         });
 
         if (response.status === 200 && response.data.isSuccess) {
+            navigate('/user/shop-manage');
             toast.success('Đăng ký shop thành công!');
-            navigate('/');
         } else {
             toast.error(response.data.message || 'Đã xảy ra lỗi');
         }
     } catch (error) {
         toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
-};
-
+  };
 
   const openTermsModal = () => setIsTermsOpen(true);
   const closeTermsModal = () => setIsTermsOpen(false);
 
+  if (loading) {
+    return <Loading />;
+  }
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      {showWelcome ? (
+        <Welcome onStart={() => setShowWelcome(false)} />
+      ) 
+      : 
+      (
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+        <button 
+            className="flex items-center mb-4 cursor-pointer text-orange-500 hover:text-orange-700"
+            onClick={() => navigate(-1)}
+        >
+            <FaArrowLeft className="mr-2 text-xl" />
+            <span className="text-lg font-semibold">Quay lại</span>
+        </button>
+
         <h2 className="text-2xl font-bold mb-6 text-center">Đăng ký Shop</h2>
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-2 font-medium">Tên Shop</label>
@@ -293,43 +291,62 @@ const RegisterShop = () => {
             <label className="block mb-2 font-medium">Hình ảnh CCCD Mặt trước</label>
             <input
               type="file"
-              name="cccdFont"
+              name="frontSideOfCCCD"
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              required
             />
           </div>
           <div>
             <label className="block mb-2 font-medium">Hình ảnh CCCD Mặt sau</label>
             <input
               type="file"
-              name="cccdBack"
+              name="backSideOfCCCD"
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              required
             />
           </div>
-          <div className="flex items-center">
+          <div>
             <input
               type="checkbox"
+              id="agree"
               checked={isAgree}
               onChange={() => setIsAgree(!isAgree)}
               required
-              className="mr-2"
             />
-            <span>Tôi đồng ý với <a href="#" onClick={openTermsModal} className="text-blue-600 underline">các điều khoản</a></span>
+            <label htmlFor="agree" className="ml-2">
+              Tôi đồng ý với{' '}
+              <button type="button" onClick={openTermsModal} className="text-orange-500 underline">
+                điều khoản
+              </button>
+            </label>
           </div>
           <button
             type="submit"
-            className={`w-full py-2 px-4 text-white rounded-md ${loading ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+            className={`w-full p-2 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-orange-500 hover:bg-orange-600'}`}
             disabled={loading}
           >
-            {loading ? 'Đang tải...' : 'Đăng ký Shop'}
+            {loading ? 'Đang xử lý...' : 'Đăng ký Shop'}
           </button>
         </form>
       </div>
+      )}
+      <Modal isOpen={isTermsOpen} onRequestClose={closeTermsModal} className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transition-transform transform scale-95 hover:scale-100">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Điều khoản và điều kiện</h2>
+          <p className="text-gray-600 mb-4">
+            Chào mừng bạn đến với 2ndChanceShop! Trước khi bạn đăng ký một shop, hãy đọc kỹ các điều khoản và điều kiện dưới đây:
+          </p>
+          <ul className="list-disc pl-5 mb-4 text-gray-600">
+            <li>Bạn phải trên 18 tuổi để đăng ký.</li>
+            <li>Bạn phải cung cấp thông tin chính xác và đầy đủ.</li>
+            <li>Chúng tôi bảo lưu quyền từ chối hoặc chấm dứt tài khoản của bạn nếu bạn vi phạm các điều khoản.</li>
+            <li>Chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại nào liên quan đến shop của bạn.</li>
+          </ul>
+          <button onClick={closeTermsModal} className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition duration-200">Đóng</button>
+        </div>
+      </Modal>
     </div>
   );
 };

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import UserMenu from "../../components/user/UserMenu";
+import UserMenu from "../../components/User/UserMenu";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { toast } from "react-toastify";
 import axios from "axios";
 import defaultProfilePic from "../../assest/avatar-user-default.png";
+import { useNavigate } from "react-router-dom";
+import Loading from '../../components/Loading'
 
 const UserUpdate = () => {
     const [userInfo, setUserInfo] = useState({
@@ -21,6 +23,7 @@ const UserUpdate = () => {
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     const [avatarPreview, setAvatarPreview] = useState("");
+    const navigate = useNavigate();
 
     // Fetch user information
     const fetchUserInfo = async () => {
@@ -121,21 +124,23 @@ const UserUpdate = () => {
 
             if (response.status === 200 && response.data.isSuccess) {
                 toast.success("Cập nhật thông tin người dùng thành công!");
+                navigate('/user/profile');
                 fetchUserInfo();
             } else {
                 toast.error(response.data.message || "Đã xảy ra lỗi");
             }
         } catch (error) {
-            console.error("Error updating user info:", error);
             setErrorMessage(
                 error.response?.data?.message || "Lỗi khi cập nhật thông tin người dùng!"
             );
             toast.error(error.response?.data?.message || "Lỗi khi cập nhật thông tin người dùng");
+        } finally {
+            setLoading(false);
         }
     };
 
     if (loading) {
-        return <div className="text-center">Loading...</div>;
+        return <Loading />;
     }
 
     return (
@@ -145,7 +150,7 @@ const UserUpdate = () => {
             <div className="flex-1 p-5">
                 <h1 className="text-3xl font-bold mb-5">Cập nhật hồ sơ</h1>
                 <div className="bg-white shadow-md rounded-lg p-5">
-                    <h2 className="text-2xl font-semibold mb-3">Thông tin hồ sơ</h2>
+                    <h2 className="text-2xl font-semibold mb-3">Thông tin cá nhân</h2>
                     {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
                     {/* Avatar Field */}
@@ -169,16 +174,6 @@ const UserUpdate = () => {
                         </div>
                     </div>
 
-                    {/* UserId Field (disabled) */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700">ID User:</label>
-                        <input
-                            type="text"
-                            className="w-full border border-gray-300 rounded-lg p-2 mt-1"
-                            value={userInfo.userId}
-                            readOnly
-                        />
-                    </div>
 
                     {/* Username Field (disabled) */}
                     <div className="mb-4">
@@ -264,7 +259,7 @@ const UserUpdate = () => {
                     {/* Update Button */}
                     <div className="mt-4">
                         <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                            className="bg-orange-600 text-white py-2 px-4 rounded hover:bg-blue-600"
                             onClick={handleUpdate}
                         >
                             Cập nhật

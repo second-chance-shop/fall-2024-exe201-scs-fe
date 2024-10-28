@@ -8,7 +8,7 @@ export const logoutUser = async () => {
   try {
     // Clear token from AsyncStorage
     await AsyncStorage.removeItem('userToken');
-
+    await AsyncStorage.removeItem('selectedShopId');
     // Clear user profile in Redux store
     store.dispatch(setUserProfile());
 
