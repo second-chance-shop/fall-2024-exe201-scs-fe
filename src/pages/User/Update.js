@@ -124,7 +124,7 @@ const UserUpdate = () => {
 
             if (response.status === 200 && response.data.isSuccess) {
                 toast.success("Cập nhật thông tin người dùng thành công!");
-                navigate('/user-profile');
+                navigate('/user/profile');
                 fetchUserInfo();
             } else {
                 toast.error(response.data.message || "Đã xảy ra lỗi");

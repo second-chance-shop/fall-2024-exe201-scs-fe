@@ -6,6 +6,7 @@ import UserMenu from "../../components/User/UserMenu";
 import Modal from "react-modal";
 import { FiSettings, FiPlus, FiTrash2 } from 'react-icons/fi'; 
 import { ToastContainer, toast } from 'react-toastify';
+import Loading from '../../components/Loading'
 
 const ShopManage = () => {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ const ShopManage = () => {
   
 
   if (loading) {
-    return <div className="text-center">Loading...</div>;
+    return <Loading />;
   }
 
   if (errorMessage) {
