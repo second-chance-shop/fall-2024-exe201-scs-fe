@@ -56,6 +56,7 @@ const UserTitle = ({ user_titles }) => {
 const ProductCard = ({
     title,
     sale_price,
+    original_price,
     is_local,
     image,
     has_video,
@@ -112,28 +113,6 @@ const ProductCard = ({
                                 data-was-processed="true"
                             />
                         </div>
-
-                        {/* <div>
-                            <div>
-                                <div></div>
-                                <div tabindex="0" role="button">
-                                    <span></span>
-                                    <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            version="1.1"
-                                            viewBox="0 0 1024 1024"
-                                            width="1em"
-                                            height="1em"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M512 213.3c188.2 0 350.6 131 425.4 329.2-74.8 179.8-237.1 310.8-425.4 310.8-188.2 0-350.6-131-425.4-310.7 74.8-198.3 237.1-329.3 425.4-329.3z m0 149.4c-94.3 0-170.7 76.4-170.7 170.6 0 94.3 76.4 170.7 170.7 170.7 94.3 0 170.7-76.4 170.7-170.7 0-94.3-76.4-170.7-170.7-170.6z m0 46.9c68.3 0 123.7 55.4 123.7 123.7 0 68.3-55.4 123.7-123.7 123.8-68.3 0-123.7-55.4-123.7-123.8 0-68.3 55.4-123.7 123.7-123.7z"></path>
-                                        </svg>
-                                        <span>Quick look</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
 
                     <div class=" relative mt-2">
@@ -161,7 +140,7 @@ const ProductCard = ({
                         <div
                             data-sales="true"
                             data-priority-list="5321489"
-                            class=" flex w-full overflow-hidden h-[22px] min-w-0 flex-wrap flex-shrink-0 basis-min-content max-w-[calc(100%-46px)]"
+                            class="flex flex-col w-full overflow-hidden h-[22px] min-w-0 flex-wrap flex-shrink-0 basis-min-content max-w-[calc(100%-46px)]"
                         >
                             <div
                                 data-ignore="true"
@@ -170,14 +149,14 @@ const ProductCard = ({
                                 <div
                                     data-type="price"
                                     role="link"
-                                    aria-label="$50.01"
+                                    aria-label="Sale Price"
                                     class="text-[12px] leading-[22px] text-[#222] cursor-pointer select-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation flex h-[22px] whitespace-nowrap origin-[0_50%] mb-[10px] ml-[2px]"
                                 >
                                     <div
                                         aria-hidden="true"
-                                        class="text-[18px] leading-5 font-semibold text-[#222]  mt-1"
+                                        class="text-[18px] leading-5 font-semibold text-[#222] mt-1"
                                     >
-                                        {sale_price}
+                                        {sale_price.toLocaleString("vi-VN") + "đ"}
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +171,10 @@ const ProductCard = ({
                                         class="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap"
                                     >
                                         <div class="inline-block whitespace-nowrap">
-                                            <span class="font-sans relative">$59.63</span>
+                                            <span class="font-sans relative line-through">
+                                                {" "}
+                                                {original_price.toLocaleString("vi-VN") + "đ"}
+                                            </span>
                                         </div>
                                     </div>
 
@@ -215,7 +197,7 @@ const ProductCard = ({
                                 data-type="goodsCart"
                                 class="text-[12px] bg-white leading-6 text-black list-none user-select-none border-0 tap-highlight-transparent m-0 ml-[4px] p-0 px-[6px] user-select-none box-border touch-manipulation cursor-pointer h-[28px] min-w-[43px] max-w-[124px] flex flex-row justify-center items-center relative"
                             >
-                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px]"></div>
+                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px] transition-all duration-300 hover:border-[5px]"></div>
 
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

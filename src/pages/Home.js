@@ -2,12 +2,13 @@ import WarningBanner from "../components/home_components/WarningBanner";
 import LightningDeals from "../components/home_components/LightningDeals";
 import ThreeBoxes from "../components/home_components/ThreeBoxes";
 import TwoBoxes from "../components/home_components/TwoBoxes";
-import ProductRecommendList from "../components/home_components/HomeRecommendList";
+import ProductRecommendList from "../components/home_components/ProductRecommendList";
 import PayLater from "../components/home_components/PayLater";
 import CategoryRecomendation from "../components/home_components/CategoryRecomendation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { mock_recommend_products } from "../assest/mockdata/mock_recommend_products";
+// Import the JSON file
+import mock_recommend_products_vnd from "../assest/mockdata/mock_recommend_products_vnd.json";
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -32,7 +33,7 @@ const Home = () => {
                 // Fallback to mock data on error
                 setProducts([]);
                 setTimeout(() => {
-                    setProducts(mock_recommend_products);
+                    setProducts(mock_recommend_products_vnd);
                 }, 500); // Delay of 1 second
             });
     };
@@ -55,11 +56,7 @@ const Home = () => {
                     </div>
                 </div>
                 <WarningBanner />
-                <LightningDeals
-                    type="lightning"
-                    text1="Deals nhanh như chớp"
-                    text2="Ưu đãi có hạn"
-                />
+                <LightningDeals type="lightning" text1="Đồ cũ mà mới" text2="Thời gian  có hạn" />
                 <LightningDeals
                     type="clearance"
                     text1="Xả hàng tồn kho"
@@ -77,7 +74,7 @@ const Home = () => {
                         role="region"
                         class="text-[12px] list-none text-black user-select-none border-0 tap-highlight-transparent p-0 box-border touch-manipulation m-0 mx-auto font-extrabold leading-none text-center relative pt-4.5 h-14"
                     >
-                        <div class="text-[12px] text-black font-extrabold leading-none text-center border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation absolute top-[-30px] left-1/2 h-[56px] w-max transform -translate-x-1/2">
+                        {/* <div class="text-[12px] text-black font-extrabold leading-none text-center border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation absolute top-[-30px] left-1/2 h-[56px] w-max transform -translate-x-1/2">
                             <img
                                 data-state="succ"
                                 alt="b9e1574b 946f 41c5 98e1 838e8880969f.png"
@@ -85,7 +82,7 @@ const Home = () => {
                                 data-was-processed="true"
                                 class="text-[12px] font-extrabold leading-none text-center text-black user-select-none tap-highlight-transparent m-0 p-0 box-border touch-manipulation border-0 max-w-full w-auto align-top min-w-[1px] min-h-[1px] h-[56px]"
                             />
-                        </div>
+                        </div> */}
                         <div class="text-[24px] leading-[29px] font-bold text-black text-center list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation mt-[10px]">
                             <h2
                                 aria-label="Explore your interests"

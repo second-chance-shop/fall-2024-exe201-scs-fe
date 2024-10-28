@@ -3,7 +3,7 @@ import LeftContain from "../components/single_product_components/LeftContain";
 import RightContain from "../components/single_product_components/RightContain";
 import { useEffect } from "react";
 
-const Product = () => {
+const SingleProductPage = () => {
     useEffect(() => {
         window.scrollTo(0, 0); // Scroll to the top of the page
     }, []);
@@ -20,4 +20,5 @@ const Product = () => {
     );
 };
 
-export default Product;
+export default SingleProductPage;
+//

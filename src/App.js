@@ -13,7 +13,6 @@ function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 
-
     const location = useLocation();
     const noHeaderPaths = ["/login", "/register", "/forgot-password", "/otp-verification"];
 
@@ -21,10 +20,10 @@ function App() {
         <div>
             <ToastContainer />
             {!noHeaderPaths.includes(location.pathname) && <Header />}
-            
-                <main className="min-h-[calc(100vh-100px)]">
-                    <Outlet />
-                </main>
+
+            <main className="min-h-[calc(100vh-100px)]">
+                <Outlet />
+            </main>
             <Footer />
         </div>
     );
