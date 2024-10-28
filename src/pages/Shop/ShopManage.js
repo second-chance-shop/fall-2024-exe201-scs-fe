@@ -176,12 +176,14 @@ const ShopManage = () => {
             <p className="mt-4">{selectedShop?.description}</p>
             <p className="mt-2"><strong>Email:</strong> {selectedShop?.shopEmail}</p>
             <p className="mt-2"><strong>Điện thoại:</strong> {selectedShop?.shopPhoneNumber}</p>
-            <button 
-              onClick={closeModal} 
-              className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-            >
-              Đóng
-            </button>
+            <div className="flex justify-end mt-4">
+              <button 
+                onClick={closeModal} 
+                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition"
+              >
+                Đóng
+              </button>
+            </div>
           </div>
         </Modal>
         <ToastContainer />

@@ -130,7 +130,7 @@ const UserProfile = () => {
           {/* Edit Button */}
           <div className="mt-6">
             <button
-              onClick={() => navigate("/user-update")}
+              onClick={() => navigate(`/user/update/${encodeURIComponent(userInfo.name)}`)}
               className="bg-orange-600 text-white px-5 py-3 rounded-lg hover:bg-orange-500 transition duration-200 shadow-md focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-50"
             >
               Chỉnh sửa hồ sơ

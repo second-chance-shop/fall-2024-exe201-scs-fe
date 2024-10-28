@@ -57,6 +57,16 @@ const ShopMenu = () => {
 
             {/* Danh sách các liên kết trong Shop Dashboard */}
             <ul className="space-y-2">
+                {/* Dashboard */}
+                <li>
+                    <Link
+                        to="/shop/dashboard"
+                        className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
+                    >
+                        Dashboard
+                    </Link>
+                </li>
+
                 {/* Quản lý sản phẩm */}
                 <li>
                     <Link
@@ -88,14 +98,14 @@ const ShopMenu = () => {
                 </li>
 
                 {/* Đánh giá & Bình luận */}
-                <li>
+                {/* <li>
                     <Link
                         to="/shop/star-comment"
                         className="block px-4 py-2 rounded-lg hover:bg-yellow-400 transition duration-200"
                     >
                         Đánh giá & Bình luận
                     </Link>
-                </li>
+                </li> */}
 
                 {/* Về trang chủ */}
                 <li>

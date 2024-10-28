@@ -124,7 +124,7 @@ const AddProduct = () => {
       <ShopMenu />
 
       {/* Right Content Area */}
-      <div className="bg-white shadow-lg rounded-lg w-3/4 p-4">
+      <div className="bg-white shadow-md rounded-lg w-full md:w-3/4 p-6 mx-auto lg:ml-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Thêm sản phẩm</h1>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
