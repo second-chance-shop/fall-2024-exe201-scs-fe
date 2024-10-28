@@ -65,7 +65,7 @@ const ShopManage = () => {
   };
 
   const handleAddShopClick = () => {
-    navigate('/shop-register');
+    navigate('/shop/create');
   };
 
   const handleDeleteShop = async (shopId) => {
@@ -123,7 +123,7 @@ const ShopManage = () => {
         
         <button 
           onClick={handleAddShopClick}
-          className="mb-4 bg-green-500 text-white py-2 px-4 rounded flex items-center hover:bg-green-600 transition"
+          className="mb-4 bg-orange-500 text-white py-2 px-4 rounded flex items-center hover:bg-orange-600 transition"
         >
           <FiPlus className="mr-2" size={20} />
           Thêm cửa hàng

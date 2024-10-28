@@ -4,6 +4,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-modal';
+import Loading from '../../components/Loading'
+import Welcome from '../../components/Welcome';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const RegisterShop = () => {
   const [data, setData] = useState({
@@ -27,6 +30,7 @@ const RegisterShop = () => {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -84,6 +88,7 @@ const RegisterShop = () => {
     const token = await AsyncStorage.getItem('userToken');
     if (!token) {
         toast.error('Authentication token not found.');
+        setLoading(false);
         return;
     }
 
@@ -131,23 +136,42 @@ const RegisterShop = () => {
         });
 
         if (response.status === 200 && response.data.isSuccess) {
+            navigate('/user/shop-manage');
             toast.success('Đăng ký shop thành công!');
-            navigate('/shop-manage');
         } else {
             toast.error(response.data.message || 'Đã xảy ra lỗi');
         }
     } catch (error) {
         toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
-};
+  };
 
   const openTermsModal = () => setIsTermsOpen(true);
   const closeTermsModal = () => setIsTermsOpen(false);
 
+  if (loading) {
+    return <Loading />;
+  }
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      {showWelcome ? (
+        <Welcome onStart={() => setShowWelcome(false)} />
+      ) 
+      : 
+      (
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-3xl">
+        <button 
+            className="flex items-center mb-4 cursor-pointer text-orange-500 hover:text-orange-700"
+            onClick={() => navigate(-1)}
+        >
+            <FaArrowLeft className="mr-2 text-xl" />
+            <span className="text-lg font-semibold">Quay lại</span>
+        </button>
+
         <h2 className="text-2xl font-bold mb-6 text-center">Đăng ký Shop</h2>
+        
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block mb-2 font-medium">Tên Shop</label>
@@ -293,21 +317,21 @@ const RegisterShop = () => {
             />
             <label htmlFor="agree" className="ml-2">
               Tôi đồng ý với{' '}
-              <button type="button" onClick={openTermsModal} className="text-blue-500 underline">
+              <button type="button" onClick={openTermsModal} className="text-orange-500 underline">
                 điều khoản
               </button>
             </label>
           </div>
           <button
             type="submit"
-            className={`w-full p-2 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
+            className={`w-full p-2 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-orange-500 hover:bg-orange-600'}`}
             disabled={loading}
           >
             {loading ? 'Đang xử lý...' : 'Đăng ký Shop'}
           </button>
         </form>
       </div>
-
+      )}
       <Modal isOpen={isTermsOpen} onRequestClose={closeTermsModal} className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transition-transform transform scale-95 hover:scale-100">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Điều khoản và điều kiện</h2>
@@ -320,10 +344,9 @@ const RegisterShop = () => {
             <li>Chúng tôi bảo lưu quyền từ chối hoặc chấm dứt tài khoản của bạn nếu bạn vi phạm các điều khoản.</li>
             <li>Chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại nào liên quan đến shop của bạn.</li>
           </ul>
-          <button onClick={closeTermsModal} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">Đóng</button>
+          <button onClick={closeTermsModal} className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition duration-200">Đóng</button>
         </div>
       </Modal>
-
     </div>
   );
 };

@@ -128,7 +128,7 @@ const Header = () => {
                 <ul className='py-2'>
                   <li className="border-b last:border-none">
                     <Link
-                      to='/user/profile'
+                      to={`/user/profile/${encodeURIComponent(user.name)}`}
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >
@@ -137,7 +137,7 @@ const Header = () => {
                   </li>
                   <li className="border-b last:border-none">
                     <Link
-                      to='/user/setting'
+                      to={`/user/update/${encodeURIComponent(user.name)}`}
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >

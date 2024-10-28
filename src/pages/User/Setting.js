@@ -55,7 +55,7 @@ const ChangePassword = () => {
             if (response.status === 200 && response.data.isSuccess) {
                 setOtpSent(true);
                 toast.success("OTP đã được gửi về email của bạn.");
-                setTimer(180); // reset timer
+                setTimer(180);
             } else {
                 toast.error(response.data.message || "Đã xảy ra lỗi");
             }

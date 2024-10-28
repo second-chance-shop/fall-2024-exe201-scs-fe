@@ -18,11 +18,14 @@ import ShopManage from "../pages/Shop/ShopManage";
 import ShopUpdate from "../pages/Shop/ShopUpdate";
 import CommitmentPage from "../pages/CommimentPage";
 
-// Import các component mới
+//shop
 import ShopDashboard from "../pages/Shop/Dashboard";
-import AddProduct from "../pages/Shop/AddProduct";
 import ProductManagement from "../pages/Shop/ProductManagement";
 import StarAndComment from "../pages/Shop/StarAndComment";
+
+//product 
+import AddProduct from "../pages/product/AddProduct";
+import UpdateProduct from '../pages/product/UpdateProduct'
 
 const router = createBrowserRouter([
     {
@@ -57,15 +60,15 @@ const router = createBrowserRouter([
                 path: "user/",
                 children: [
                     {
-                        path: "profile",
+                        path: "profile/:name",
                         element: <UserProfile />,
                     },
                     {
-                        path: "update",
+                        path: "update/:name",
                         element: <UserUpdate />,
                     },
                     {
-                        path: "setting",
+                        path: "setting/:name",
                         element: <UserSetting />,
                     },
                     {
@@ -87,27 +90,36 @@ const router = createBrowserRouter([
                 element: <About />,
             },
             {
-                path: "shop-register",
-                element: <RegisterShop />,
-            },
-            {
                 path: "shop/",
                 children: [
+                    {
+                        path: "create",
+                        element: <RegisterShop />,
+                    },
                     {
                         path: "dashboard",
                         element: <ShopDashboard />,
                     },
                     {
-                        path: "update",
+                        path: "update/:shopName",
                         element: <ShopUpdate />,
                     },
                     {
-                        path: "add-product",
-                        element: <AddProduct />,
-                    },
-                    {
-                        path: "product-management",
-                        element: <ProductManagement />,
+                        path: "product/",
+                        children:[
+                            {
+                                path: 'management',
+                                element: <ProductManagement />,
+                            },
+                            {
+                                path: "add",
+                                element: <AddProduct />,
+                            },
+                            {
+                                path: "update/:productName",
+                                element: <AddProduct />,
+                            },
+                        ]
                     },
                     {
                         path: "star-comment",

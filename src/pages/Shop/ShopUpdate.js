@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import ShopMenu from '../../components/ShopMenu/index'
+import Loading from '../../components/Loading'
 
 const ShopUpdate = () => {
   const [data, setData] = useState({
@@ -18,7 +19,7 @@ const ShopUpdate = () => {
     categoryId: '',
     shopImage: '',
   });
-  const [categories, setCategories] = useState([]); // State to hold categories
+  const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -61,7 +62,7 @@ const ShopUpdate = () => {
       const shopId = await AsyncStorage.getItem("selectedShopId");
 
       if (!token || !shopId) {
-        navigate("/shop-manage");
+        navigate("/user/shop-manage");
         return;
       }
 
@@ -156,7 +157,7 @@ const ShopUpdate = () => {
 
       if (response.status === 200 && response.data.isSuccess) {
         toast.success('Shop updated successfully!');
-        navigate('/shop-manage');
+        navigate('/shop/dashboard');
       } else {
         toast.error(response.data.message || 'An error occurred');
       }
@@ -166,7 +167,7 @@ const ShopUpdate = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -293,21 +294,24 @@ const ShopUpdate = () => {
   
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Hình ảnh cửa hàng</label>
+            {avatarPreview && <img src={avatarPreview} alt="Avatar Preview" className="w-32 h-32 object-cover mb-3" />}
             <input
               type="file"
               name="shopImage"
               accept="image/*"
               onChange={handleFileChange}
-              className="w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-3"
+              className="border border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 p-2"
             />
           </div>
   
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white py-3 rounded-md font-medium hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
-            Cập nhật cửa hàng
-          </button>
+          <div>
+            <button
+              type="submit"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 rounded-md transition duration-200"
+            >
+              Cập nhật cửa hàng
+            </button>
+          </div>
         </form>
       </div>
     </div>
