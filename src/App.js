@@ -3,14 +3,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { setUserProfile } from "./store/userSlice";
-import Context from "./context";
+import { useState } from "react";
 
 function App() {
-    const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
 
 

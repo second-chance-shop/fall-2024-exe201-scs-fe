@@ -14,11 +14,15 @@ import UserUpdate from "../pages/User/Update";
 import Product from "../pages/Product";
 import NotFound from "../pages/NotFound";
 import RegisterShop from "../pages/Shop/RegisterShop";
-import ShopDashboard from "../pages/Shop/ShopDashboard";
-import Order from "../pages/Shop/Order";
-import ShopDetail from "../pages/Shop/ShopDetail";
-import AddProduct from "../pages/Shop/AddProduct";
+import ShopManage from "../pages/Shop/ShopManage";
+import ShopUpdate from "../pages/Shop/ShopUpdate";
 import CommitmentPage from "../pages/CommimentPage";
+
+// Import các component mới
+import ShopDashboard from "../pages/Shop/Dashboard";
+import AddProduct from "../pages/Shop/AddProduct";
+import ProductManagement from "../pages/Shop/ProductManagement";
+import StarAndComment from "../pages/Shop/StarAndComment";
 
 const router = createBrowserRouter([
     {
@@ -50,16 +54,25 @@ const router = createBrowserRouter([
                 element: <ForgotPassword />,
             },
             {
-                path: "user-profile",
-                element: <UserProfile />,
-            },
-            {
-                path: "user-setting",
-                element: <UserSetting />,
-            },
-            {
-                path: "user-update",
-                element: <UserUpdate />,
+                path: "user/",
+                children: [
+                    {
+                        path: "profile",
+                        element: <UserProfile />,
+                    },
+                    {
+                        path: "update",
+                        element: <UserUpdate />,
+                    },
+                    {
+                        path: "setting",
+                        element: <UserSetting />,
+                    },
+                    {
+                        path: "shop-manage",
+                        element: <ShopManage />,
+                    },
+                ],
             },
             {
                 path: "product",
@@ -78,23 +91,32 @@ const router = createBrowserRouter([
                 element: <RegisterShop />,
             },
             {
-                path: "shop-manage",
-                element: <ShopDashboard />,
+                path: "shop/",
                 children: [
                     {
-                        path: "shop-detail",
-                        element: <ShopDetail />,
+                        path: "dashboard",
+                        element: <ShopDashboard />,
+                    },
+                    {
+                        path: "update",
+                        element: <ShopUpdate />,
                     },
                     {
                         path: "add-product",
                         element: <AddProduct />,
                     },
                     {
-                        path: "orders",
-                        element: <Order />,
+                        path: "product-management",
+                        element: <ProductManagement />,
+                    },
+                    {
+                        path: "star-comment",
+                        element: <StarAndComment />,
                     },
                 ],
             },
+
+
             {
                 path: "commitments",
                 element: <CommitmentPage />,

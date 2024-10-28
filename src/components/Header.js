@@ -35,7 +35,7 @@ const Header = () => {
           const result = await response.json();
 
           if (result.isSuccess) {
-            dispatch(setUserProfile(result.data)); // Ensure to pass only the user data
+            dispatch(setUserProfile(result.data));
           }
         } catch (error) {
           console.error('Failed to fetch user profile:', error);
@@ -70,7 +70,13 @@ const Header = () => {
   };
 
   const handleOrderIconClick = () => {
-    setOrderDropdownOpen(!orderDropdownOpen); // Toggle order dropdown
+    if(isLoggedIn){
+      setOrderDropdownOpen(!orderDropdownOpen);
+    }
+    else {
+      toast.info('Vui lòng đăng nhập để tiếp tục');
+      navigate('/login');
+    }
   };
 
   return (
@@ -122,7 +128,7 @@ const Header = () => {
                 <ul className='py-2'>
                   <li className="border-b last:border-none">
                     <Link
-                      to='/user-profile'
+                      to='/user/profile'
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >
@@ -131,11 +137,20 @@ const Header = () => {
                   </li>
                   <li className="border-b last:border-none">
                     <Link
-                      to='/user-setting'
+                      to='/user/setting'
                       className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
                       onClick={handleOptionClick}
                     >
                       Cài đặt
+                    </Link>
+                  </li>
+                  <li className="border-b last:border-none">
+                    <Link
+                      to='/user/shop-manage'
+                      className='block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200'
+                      onClick={handleOptionClick}
+                    >
+                      Quản lý cửa hàng
                     </Link>
                   </li>
                   <li>

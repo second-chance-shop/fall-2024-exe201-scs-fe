@@ -3,13 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Modal from 'react-modal';
 
 const RegisterShop = () => {
   const [data, setData] = useState({
     shopName: '',
     description: '',
     shopEmail: '',
-    shopPhonumber: '',
+    shopPhoneNumber: '',
     cccdNumber: '',
     industry: '',
     shippingAddress: '',
@@ -28,7 +29,6 @@ const RegisterShop = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchCategories = async () => {
       try {
         const token = await AsyncStorage.getItem('userToken');
@@ -72,13 +72,12 @@ const RegisterShop = () => {
       setData((prevData) => ({ ...prevData, [name]: file }));
     }
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!isAgree) {
-        toast.error('Bạn phải đồng ý với các điều khoản của SecondChanceShop.');
+        toast.error('Bạn phải đồng ý với các điều khoản của 2ndChanceShop.');
         return;
     }
 
@@ -93,7 +92,7 @@ const RegisterShop = () => {
         shopName: data.shopName,
         description: data.description,
         shopEmail: data.shopEmail,
-        shopPhonumber: data.shopPhonumber,
+        shopPhoneNumber: data.shopPhoneNumber,
         cccdNumber: data.cccdNumber,
         industry: data.industry,
         shippingAddress: data.shippingAddress,
@@ -133,7 +132,7 @@ const RegisterShop = () => {
 
         if (response.status === 200 && response.data.isSuccess) {
             toast.success('Đăng ký shop thành công!');
-            navigate('/');
+            navigate('/shop-manage');
         } else {
             toast.error(response.data.message || 'Đã xảy ra lỗi');
         }
@@ -141,8 +140,6 @@ const RegisterShop = () => {
         toast.error(error.response?.data?.message || 'Lỗi kết nối đến server');
     }
 };
-
-
 
   const openTermsModal = () => setIsTermsOpen(true);
   const closeTermsModal = () => setIsTermsOpen(false);
@@ -188,8 +185,8 @@ const RegisterShop = () => {
             <label className="block mb-2 font-medium">Số điện thoại của Shop</label>
             <input
               type="text"
-              name="shopPhonumber"
-              value={data.shopPhonumber}
+              name="shopPhoneNumber"
+              value={data.shopPhoneNumber}
               onChange={handleOnChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
@@ -274,7 +271,6 @@ const RegisterShop = () => {
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              required
             />
           </div>
           <div>
@@ -285,28 +281,49 @@ const RegisterShop = () => {
               accept="image/*"
               onChange={handleFileChange}
               className="w-full p-2 border border-gray-300 rounded-md"
-              required
             />
           </div>
-          <div className="flex items-center">
+          <div>
             <input
               type="checkbox"
+              id="agree"
               checked={isAgree}
               onChange={() => setIsAgree(!isAgree)}
               required
-              className="mr-2"
             />
-            <span>Tôi đồng ý với <a href="#" onClick={openTermsModal} className="text-blue-600 underline">các điều khoản</a></span>
+            <label htmlFor="agree" className="ml-2">
+              Tôi đồng ý với{' '}
+              <button type="button" onClick={openTermsModal} className="text-blue-500 underline">
+                điều khoản
+              </button>
+            </label>
           </div>
           <button
             type="submit"
-            className={`w-full py-2 px-4 text-white rounded-md ${loading ? 'bg-gray-500' : 'bg-blue-600 hover:bg-blue-700'}`}
+            className={`w-full p-2 text-white rounded-md ${loading ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'}`}
             disabled={loading}
           >
-            {loading ? 'Đang tải...' : 'Đăng ký Shop'}
+            {loading ? 'Đang xử lý...' : 'Đăng ký Shop'}
           </button>
         </form>
       </div>
+
+      <Modal isOpen={isTermsOpen} onRequestClose={closeTermsModal} className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="bg-white rounded-lg shadow-lg p-6 max-w-md w-full transition-transform transform scale-95 hover:scale-100">
+          <h2 className="text-xl font-bold mb-4 text-gray-800">Điều khoản và điều kiện</h2>
+          <p className="text-gray-600 mb-4">
+            Chào mừng bạn đến với 2ndChanceShop! Trước khi bạn đăng ký một shop, hãy đọc kỹ các điều khoản và điều kiện dưới đây:
+          </p>
+          <ul className="list-disc pl-5 mb-4 text-gray-600">
+            <li>Bạn phải trên 18 tuổi để đăng ký.</li>
+            <li>Bạn phải cung cấp thông tin chính xác và đầy đủ.</li>
+            <li>Chúng tôi bảo lưu quyền từ chối hoặc chấm dứt tài khoản của bạn nếu bạn vi phạm các điều khoản.</li>
+            <li>Chúng tôi không chịu trách nhiệm cho bất kỳ thiệt hại nào liên quan đến shop của bạn.</li>
+          </ul>
+          <button onClick={closeTermsModal} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">Đóng</button>
+        </div>
+      </Modal>
+
     </div>
   );
 };
