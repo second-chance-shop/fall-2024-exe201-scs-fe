@@ -13,7 +13,7 @@ const AddProduct = () => {
     description: '',
     categoryIds: [],
     prices: '',
-    file: null,
+    file: [],
   });
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
@@ -53,9 +53,14 @@ const AddProduct = () => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'file') {
-      setFormData((prev) => ({ ...prev, file: files[0] }));
+      const newFiles = Array.from(files);
+      setFormData((prev) => ({ 
+        ...prev, file: [...prev.file, ...newFiles]
+      }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ 
+        ...prev, [name]: value 
+      }));
     }
   };
 
@@ -95,7 +100,13 @@ const AddProduct = () => {
 
     const form = new FormData();
     form.append('product', JSON.stringify(productData));
-    form.append('file', file);
+
+    // Kiểm tra xem file có phải là một mảng và có ảnh không trước khi dùng forEach
+    if (Array.isArray(file) && file.length > 0) {
+      file.forEach((fileItem) => {
+        form.append('file', fileItem);
+      });
+    }
 
     try {
       const response = await axios.post('https://scs-api.arisavinh.dev/api/v1/product/add', form, {
@@ -128,6 +139,7 @@ const AddProduct = () => {
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Thêm sản phẩm</h1>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
+          {/* Tên sản phẩm */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Tên sản phẩm</label>
             <input
@@ -139,6 +151,8 @@ const AddProduct = () => {
               className="w-full border border-gray-300 rounded-md shadow-sm p-2"
             />
           </div>
+
+          {/* Số lượng */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Số lượng</label>
             <input
@@ -150,6 +164,8 @@ const AddProduct = () => {
               className="w-full border border-gray-300 rounded-md shadow-sm p-2"
             />
           </div>
+
+          {/* Mô tả */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Mô tả</label>
             <textarea
@@ -160,6 +176,8 @@ const AddProduct = () => {
               className="w-full border border-gray-300 rounded-md shadow-sm p-2"
             />
           </div>
+
+          {/* Loại */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Danh mục</label>
             <select
@@ -175,6 +193,8 @@ const AddProduct = () => {
               ))}
             </select>
           </div>
+
+          {/* Giá */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Giá</label>
             <input
@@ -186,17 +206,21 @@ const AddProduct = () => {
               className="w-full border border-gray-300 rounded-md shadow-sm p-2"
             />
           </div>
+
+          {/* Ảnh sản phẩm */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">Hình ảnh sản phẩm</label>
             <input
               type="file"
               name="file"
               accept="image/*"
+              multiple
               onChange={handleChange}
               required
               className="w-full border border-gray-300 rounded-md shadow-sm p-2"
             />
           </div>
+
           <button type="submit" className="w-full bg-orange-500 text-white py-2 rounded-md">
             Tạo
           </button>
