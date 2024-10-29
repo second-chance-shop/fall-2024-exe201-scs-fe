@@ -51,7 +51,7 @@ const ProductManagement = () => {
       <ShopMenu />
 
       {/* Right Content Area */}
-      <div className="w-3/4 p-4 bg-white rounded-lg shadow-lg">
+      <div className="bg-white shadow-md rounded-lg w-full md:w-3/4 p-6 mx-auto lg:ml-6">
         <h1 className="text-3xl font-bold text-gray-800 mb-6">Quản lý sản phẩm</h1>
 
         {/* Add Product Button */}

@@ -110,7 +110,7 @@ const ShopDashboard = () => {
     <div className="flex min-h-screen bg-gray-100">
       <ShopMenu />
 
-      <div className="bg-white shadow-lg rounded-lg w-3/4 p-4">
+      <div className="bg-white shadow-md rounded-lg w-full md:w-3/4 p-6 mx-auto lg:ml-6">
         <div className="bg-white rounded-lg shadow-md mb-6 p-4">
           <h1 className="text-3xl font-bold text-gray-800">Shop Dashboard</h1>
           <p className="text-gray-600 mt-2">
