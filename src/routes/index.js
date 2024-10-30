@@ -27,6 +27,7 @@ import StarAndComment from "../pages/Shop/StarAndComment";
 import UploadProduct from "../pages/UploadProduct";
 import AddProduct from "../pages/product/AddProduct";
 import UpdateProduct from "../pages/product/UpdateProduct";
+import Details from "../pages/product/Details";
 
 const router = createBrowserRouter([
     {
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
                             {
                                 path: "update/:productName",
                                 element: <AddProduct />,
+                            },
+                            {
+                                path: "details/:productName",
+                                element: <Details />,
                             },
                         ],
                     },
