@@ -11,22 +11,47 @@ import axios from "axios";
 import mock_recommend_products_vnd from "../assest/mockdata/mock_recommend_products_vnd.json";
 
 const Home = () => {
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(0); // Use categoryId here
     const [products, setProducts] = useState([]);
 
-    const handleCategoryChange = (category) => {
-        setSelectedCategory(category);
-        fetchProducts(category);
+    const handleCategoryChange = (categoryId) => {
+        setSelectedCategory(categoryId); // Set categoryId when a category is selected
+        fetchProducts(categoryId); // Fetch products based on categoryId
     };
 
-    const fetchProducts = (category) => {
-        // Placeholder URL, replace with actual API endpoint
-        const url = `https://api.example.com/products?category=${category}`;
+    const fetchProducts = (categoryId) => {
+        let url;
+        // If categoryId is 0, fetch all products
+        if (categoryId === 0) {
+            url = "https://scs-api.arisavinh.dev/api/v1/product/getAll";
+        } else if (categoryId > 0) {
+            // Ensure only valid categoryId values are used to fetch products for a specific category
+            url = `https://api.example.com/products?categoryId=${categoryId}`;
+        } else {
+            console.error("Invalid categoryId provided, falling back to all products.");
+            setProducts([]); // Set empty products if invalid categoryId
+            fetchProducts(0); // Fallback to fetch all products
+            return;
+        }
+
         axios
-            .get(url)
+            .get(url, {
+                headers: {
+                    accept: "*/*",
+                },
+            })
             .then((response) => {
-                // Assume the response has an array of products
-                setProducts(response.data);
+                if (response.data.isSuccess) {
+                    // Assume products are in response.data.data.content
+                    console.log(response.data.data);
+                    setProducts(response.data.data);
+                } else {
+                    console.error(
+                        "Failed to fetch products, response status:",
+                        response.data.status
+                    );
+                    setProducts([]); // Set empty products on failure
+                }
             })
             .catch((error) => {
                 console.error("Error fetching products:", error);
@@ -40,14 +65,23 @@ const Home = () => {
 
     // Initially load products for the default category or mock data
     useEffect(() => {
-        fetchProducts(selectedCategory);
-    }, []);
+        // Make sure to not fetch invalid categories, fallback to 0 for all products if needed
+        if (selectedCategory !== null) {
+            if (selectedCategory > 0 || selectedCategory === 0) {
+                fetchProducts(selectedCategory);
+            } else {
+                console.warn("Invalid category, defaulting to fetch all products");
+                fetchProducts(0); // Fetch all products if category is invalid
+            }
+        }
+        console.log(products);
+    }, [selectedCategory]);
 
     return (
-        <div class="">
-            <div class=" w-full  mx-auto border-0 p-0">
+        <div className="">
+            <div className="w-full mx-auto border-0 p-0">
                 <div className="bg-[#C67017]">
-                    <div className="mx-auto min-w-[1080px]  px-11">
+                    <div className="mx-auto min-w-[1080px] px-11">
                         <img
                             src="/hero-image.webp" // Assuming it's in the public folder
                             alt="Hero Banner"
@@ -60,40 +94,33 @@ const Home = () => {
                 <LightningDeals
                     type="clearance"
                     text1="Xả hàng tồn kho"
-                    text2="Chỉ còn vài sản phẩm
-"
+                    text2="Chỉ còn vài sản phẩm"
                 />
                 <ThreeBoxes />
-                <TwoBoxes></TwoBoxes>
+                <TwoBoxes />
                 <PayLater />
             </div>
 
-            <div class="text-[12px] leading-6 text-black flex w-full min-w-[1080px] max-w-[1440px] mx-auto border-0 mt-[80px] user-select-none box-border touch-manipulation">
-                <div class="bg-white w-full mb-10">
+            <div className="text-[12px] leading-6 text-black flex w-full min-w-[1080px] max-w-[1440px] mx-auto border-0 mt-[80px] user-select-none box-border touch-manipulation">
+                <div className="bg-white w-full mb-10">
                     <div
                         role="region"
-                        class="text-[12px] list-none text-black user-select-none border-0 tap-highlight-transparent p-0 box-border touch-manipulation m-0 mx-auto font-extrabold leading-none text-center relative pt-4.5 h-14"
+                        className="text-[12px] list-none text-black user-select-none border-0 tap-highlight-transparent p-0 box-border touch-manipulation m-0 mx-auto font-extrabold leading-none text-center relative pt-4.5 h-14"
                     >
-                        {/* <div class="text-[12px] text-black font-extrabold leading-none text-center border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation absolute top-[-30px] left-1/2 h-[56px] w-max transform -translate-x-1/2">
-                            <img
-                                data-state="succ"
-                                alt="b9e1574b 946f 41c5 98e1 838e8880969f.png"
-                                src="https://aimg.kwcdn.com/material-put/1f14f500e60/b9e1574b-946f-41c5-98e1-838e8880969f.png?imageView2/2/w/1300/q/80/format/webp"
-                                data-was-processed="true"
-                                class="text-[12px] font-extrabold leading-none text-center text-black user-select-none tap-highlight-transparent m-0 p-0 box-border touch-manipulation border-0 max-w-full w-auto align-top min-w-[1px] min-h-[1px] h-[56px]"
-                            />
-                        </div> */}
-                        <div class="text-[24px] leading-[29px] font-bold text-black text-center list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation mt-[10px]">
+                        <div className="text-[24px] leading-[29px] font-bold text-black text-center list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation mt-[10px]">
                             <h2
                                 aria-label="Explore your interests"
-                                class="text-[24px] font-bold leading-[29px] text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation overflow-hidden text-ellipsis whitespace-nowrap text-center"
+                                className="text-[24px] font-bold leading-[29px] text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation overflow-hidden text-ellipsis whitespace-nowrap text-center"
                             >
                                 KHÁM PHÁ SỞ THÍCH CỦA BẠN
                             </h2>
                         </div>
                     </div>
 
+                    {/* Pass handleCategoryChange as a prop to update the selected category */}
                     <CategoryRecomendation onCategorySelect={handleCategoryChange} />
+
+                    {/* Render the products based on the selected category */}
                     <ProductRecommendList products={products} />
                 </div>
             </div>

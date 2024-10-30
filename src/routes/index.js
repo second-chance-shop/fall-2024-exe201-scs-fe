@@ -23,9 +23,10 @@ import ShopDashboard from "../pages/Shop/Dashboard";
 import ProductManagement from "../pages/Shop/ProductManagement";
 import StarAndComment from "../pages/Shop/StarAndComment";
 
-//product 
+//product
+import UploadProduct from "../pages/UploadProduct";
 import AddProduct from "../pages/product/AddProduct";
-import UpdateProduct from '../pages/product/UpdateProduct'
+import UpdateProduct from "../pages/product/UpdateProduct";
 
 const router = createBrowserRouter([
     {
@@ -106,9 +107,9 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "product/",
-                        children:[
+                        children: [
                             {
-                                path: 'management',
+                                path: "management",
                                 element: <ProductManagement />,
                             },
                             {
@@ -119,7 +120,7 @@ const router = createBrowserRouter([
                                 path: "update/:productName",
                                 element: <AddProduct />,
                             },
-                        ]
+                        ],
                     },
                     {
                         path: "star-comment",
@@ -128,7 +129,6 @@ const router = createBrowserRouter([
                 ],
             },
 
-
             {
                 path: "commitments",
                 element: <CommitmentPage />,
@@ -136,6 +136,10 @@ const router = createBrowserRouter([
             {
                 path: "*",
                 element: <NotFound />,
+            },
+            {
+                path: "uploadproduct",
+                element: <UploadProduct />,
             },
         ],
     },

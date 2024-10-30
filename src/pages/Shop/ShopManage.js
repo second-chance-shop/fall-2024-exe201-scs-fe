@@ -194,48 +194,20 @@ const ShopManage = () => {
                         <p className="mt-2">
                             <strong>Điện thoại:</strong> {selectedShop?.shopPhoneNumber}
                         </p>
-                        <button
-                            onClick={closeModal}
-                            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-                        >
-                            Đóng
-                        </button>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                onClick={closeModal}
+                                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition"
+                            >
+                                Đóng
+                            </button>
+                        </div>
                     </div>
                 </Modal>
                 <ToastContainer />
             </div>
         </div>
-<<<<<<< HEAD
     );
-=======
-
-        <Modal 
-          isOpen={modalIsOpen} 
-          onRequestClose={closeModal} 
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-          overlayClassName="fixed inset-0"
-        >
-          <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/3">
-            <h2 className="text-2xl font-bold">{selectedShop?.shopName}</h2>
-            <img src={selectedShop?.shopImage} alt={selectedShop?.shopName} className="w-full h-48 object-cover rounded mt-4" />
-            <p className="mt-4">{selectedShop?.description}</p>
-            <p className="mt-2"><strong>Email:</strong> {selectedShop?.shopEmail}</p>
-            <p className="mt-2"><strong>Điện thoại:</strong> {selectedShop?.shopPhoneNumber}</p>
-            <div className="flex justify-end mt-4">
-              <button 
-                onClick={closeModal} 
-                className="bg-orange-500 text-white py-2 px-4 rounded hover:bg-orange-600 transition"
-              >
-                Đóng
-              </button>
-            </div>
-          </div>
-        </Modal>
-        <ToastContainer />
-      </div>
-    </div>
-  );
->>>>>>> a947eed85a37ba10247383f4cf1bc240f33f23d5
 };
 
 export default ShopManage;

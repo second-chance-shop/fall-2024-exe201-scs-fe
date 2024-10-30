@@ -67,6 +67,7 @@ const ProductCard = ({
     number_of_rating,
     user_titles,
     rating,
+    createByUsername,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate(); // Initialize navigation hook
@@ -108,9 +109,10 @@ const ProductCard = ({
                         <div class="max-h-[256px] overflow-hidden">
                             <img
                                 data-state="succ"
-                                alt="60cm 24in doll 3 and doll"
+                                alt={title}
                                 src={image}
                                 data-was-processed="true"
+                                className="h-[256px]"
                             />
                         </div>
                     </div>
@@ -135,6 +137,19 @@ const ProductCard = ({
                             </h3>
                         </a>
                     </div>
+                    {createByUsername && (
+                        <div
+                            data-type="saleTips"
+                            className="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
+                        >
+                            <span
+                                aria-label={`bán bởi ${createByUsername}`}
+                                className="inline-flex"
+                            >
+                                <span>bán bởi {createByUsername + " "}</span>
+                            </span>
+                        </div>
+                    )}
 
                     <div class=" flex flex-row justify-between items-center relative mt-1">
                         <div
@@ -173,19 +188,24 @@ const ProductCard = ({
                                         <div class="inline-block whitespace-nowrap">
                                             <span class="font-sans relative line-through">
                                                 {" "}
-                                                {original_price.toLocaleString("vi-VN") + "đ"}
+                                                {/* {original_price.toLocaleString("vi-VN") + "đ"} */}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div
-                                        data-type="saleTips"
-                                        class="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
-                                    >
-                                        <span aria-label="87sold" class="inline-flex">
-                                            <span>{sold_number + " "} sold</span>
-                                        </span>
-                                    </div>
+                                    {sold_number > 0 && (
+                                        <div
+                                            data-type="saleTips"
+                                            className="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
+                                        >
+                                            <span
+                                                aria-label={`${sold_number} đã bán`}
+                                                className="inline-flex"
+                                            >
+                                                <span>{sold_number + " "} đã bán</span>
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -237,7 +257,7 @@ const ProductCard = ({
                         />
                     )}
 
-                    <UserTitle user_titles={user_titles} />
+                    {user_titles && <UserTitle user_titles={user_titles} />}
                 </div>
             </div>
         </div>
@@ -250,20 +270,27 @@ const ProductRecommendList = ({ products }) => {
         <div className="product-list grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
             {products.map((product, index) => (
                 <ProductCard
-                    key={index}
-                    title={product.title}
-                    sale_price={product.sale_price}
+                    key={product.productId || index}
+                    title={product.productName || product.title || ""} // productName in the API
+                    sale_price={product.sale_price || product.prices}
                     is_local={product.is_local}
-                    image={product.image}
-                    has_video={product.has_video}
-                    original_price={product.original_price}
-                    is_last_day={product.is_last_day}
-                    text_section={product.text_section}
-                    sold_number={product.sold_number}
-                    is_almost_sold_out={product.is_almost_sold_out}
-                    rating={product.rating}
-                    number_of_rating={product.number_of_rating}
-                    user_titles={product.user_titles}
+                    image={
+                        Array.isArray(product.image) && product.image.length > 0
+                            ? product.image[0]
+                            : typeof product.image === "string" && product.image.trim() !== ""
+                            ? product.image
+                            : "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png"
+                    }
+                    has_video={product.has_video || "false"}
+                    original_price={product.original_price || 0}
+                    is_last_day={product.is_last_day || false}
+                    text_section={product.text_section || false}
+                    sold_number={product.sold_number || 0}
+                    is_almost_sold_out={product.is_almost_sold_out || false}
+                    rating={product.rating || 5}
+                    number_of_rating={product.number_of_rating || 0}
+                    user_titles={product.user_titles || []}
+                    createByUsername={product.createByUsername || ""}
                 />
             ))}
         </div>

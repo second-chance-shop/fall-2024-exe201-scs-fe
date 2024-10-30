@@ -80,7 +80,7 @@ const TwoBoxes = () => {
                     />
                     <div class="px-4 w-full flex justify-between items-center gap-4">
                         {leftImageHolders.map((image, index) => (
-                            <div class="w-1/3">
+                            <div class="w-1/3" key={index}>
                                 <ImageCard
                                     key={index}
                                     src={image.src}
@@ -116,7 +116,7 @@ const TwoBoxes = () => {
                     />
                     <div class="px-4 w-full flex justify-between items-center gap-4">
                         {leftImageHolders.map((image, index) => (
-                            <div class="w-1/3">
+                            <div class="w-1/3" key={index}>
                                 <ImageCard
                                     key={index}
                                     src={image.src}
