@@ -84,6 +84,10 @@ const router = createBrowserRouter([
                 element: <Product />,
             },
             {
+                path: "product/:productId",
+                element: <Product />, // Dynamic route for product with productId
+            },
+            {
                 path: "otp-verification",
                 element: <OtpVerification />,
             },

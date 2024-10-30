@@ -43,7 +43,6 @@ const Home = () => {
             .then((response) => {
                 if (response.data.isSuccess) {
                     // Assume products are in response.data.data.content
-                    console.log(response.data.data);
                     setProducts(response.data.data);
                 } else {
                     console.error(
@@ -74,7 +73,6 @@ const Home = () => {
                 fetchProducts(0); // Fetch all products if category is invalid
             }
         }
-        console.log(products);
     }, [selectedCategory]);
 
     return (

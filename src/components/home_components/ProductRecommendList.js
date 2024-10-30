@@ -31,7 +31,6 @@ const UserTitle = ({ user_titles }) => {
         <div className="text-[12px] leading-6 cursor-pointer select-none mt-2 relative h-5 w-full overflow-hidden">
             {/* Inject Keyframes into a <style> tag */}
             <style>{keyframes}</style>
-
             <div className={`${animationClass}`} style={inlineAnimationStyles}>
                 {[...user_titles, user_titles[0]].map((userTitle, index) => (
                     <div key={index} className="h-[20px] flex items-center">
@@ -56,6 +55,7 @@ const UserTitle = ({ user_titles }) => {
 const ProductCard = ({
     title,
     sale_price,
+    productId,
     original_price,
     is_local,
     image,
@@ -82,8 +82,9 @@ const ProductCard = ({
         }, 100); // Adjust the delay (in milliseconds) as needed
     };
     const handleNavigation = () => {
-        navigate("/product"); // Redirect to product page
+        window.location.href = `/product/${productId}`; // Force a full reload to the new product page
     };
+
     return (
         <div
             className={`bg-white p-0 flex flex-col justify-between items-center border rounded-md w-full 
@@ -270,7 +271,8 @@ const ProductRecommendList = ({ products }) => {
         <div className="product-list grid grid-cols-2 gap-6 md:grid-cols-3 lg:grid-cols-5">
             {products.map((product, index) => (
                 <ProductCard
-                    key={product.productId || index}
+                    key={index}
+                    productId={product.productId || ""}
                     title={product.productName || product.title || ""} // productName in the API
                     sale_price={product.sale_price || product.prices}
                     is_local={product.is_local}
