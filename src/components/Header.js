@@ -125,7 +125,7 @@ const Header = () => {
                   alt={user?.name || 'User Avatar'}
                 />
               ) : (
-                <FaRegCircleUser className='text-2xl' />
+                <FaRegCircleUser className='text-3xl' />
               )}
             </div>
 
