@@ -24,6 +24,7 @@ const SingleProductPage = () => {
             });
             if (response.data.isSuccess) {
                 setProduct(response.data.data);
+                console.log(product.shopId);
             } else {
                 console.error("Failed to fetch product, response status:", response.data.status);
                 setProduct(null); // Set empty product on failure
