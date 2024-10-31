@@ -28,15 +28,12 @@ const Login = () => {
                 data
             );
     
-            console.log("API Response:", response.data);
-    
             if (response.status === 200 && response.data.isSuccess) {
                 const { accessToken, tokenType } = response.data.data;
     
                 await AsyncStorage.setItem("userToken", `${tokenType} ${accessToken}`);
     
                 const storedToken = await AsyncStorage.getItem("userToken");
-                console.log("Stored Token:", storedToken);
     
                 toast.success(`Chào mừng bạn, ${data.username}`);
                 navigate("/");

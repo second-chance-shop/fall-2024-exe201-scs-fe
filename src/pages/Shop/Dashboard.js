@@ -49,22 +49,26 @@ const ShopDashboard = () => {
         });
 
         // Fetch data for comments trends from shop API
-        const commentsResponse = await axios.get(`https://scs-api.arisavinh.dev/api/v1/shop/${shopId}/comments`, {
+        const commentsResponse = await axios.get('https://scs-api.arisavinh.dev/api/v1/comment', {
           headers: {
             Authorization: `${token}`,
           },
         });
         
-        setCommentData(commentsResponse.data.data); // Assumes the response format is { data: [...] }
+        // Extracting the comment counts for charting
+        const commentCounts = commentsResponse.data.data.map(comment => comment.count); // Adjust this according to the actual response structure
+        setCommentData(commentCounts);
 
         // Fetch star rating trends from the rating API
-        const starsResponse = await axios.get(`https://scs-api.arisavinh.dev/api/v1/rating`, {
+        const starsResponse = await axios.get('https://scs-api.arisavinh.dev/api/v1/rating', {
           headers: {
             Authorization: `${token}`,
           },
         });
 
-        setStarData(starsResponse.data.data); // Assumes the response format is { data: [...] }
+        // Extracting star rating counts for charting
+        const starCounts = starsResponse.data.data.map(star => star.count); // Adjust this according to the actual response structure
+        setStarData(starCounts);
       }
     } catch (error) {
       console.error("Error fetching shop data:", error);

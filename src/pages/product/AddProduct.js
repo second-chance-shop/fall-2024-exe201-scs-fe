@@ -117,9 +117,18 @@ const AddProduct = () => {
       });
       console.log('Product added successfully', response.data);
       toast.success('Tạo sản phẩm thành công!')
-      navigate('/shop/product/management');
+      setFormData({
+        productName: '',
+        quantity: '',
+        description: '',
+        categoryIds: [],
+        prices: '',
+        file: [],
+      });
+      navigate('/shop/product/management', { state: { productAdded: true } });
     } catch (error) {
       console.error('Error adding product', error);
+      toast.error('Không thể tạo sản phẩm. Vui lòng thử lại.');
     } finally {
       setLoading(false);
     }

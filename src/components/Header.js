@@ -18,7 +18,7 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector((state) => state?.user?.user); // Ensure user is coming from Redux state
+    const user = useSelector((state) => state?.user?.user);
 
     useEffect(() => {
         const checkLoginStatus = async () => {
@@ -127,7 +127,7 @@ const Header = () => {
                                     alt={user?.name || "User Avatar"}
                                 />
                             ) : (
-                                <FaRegCircleUser className="text-2xl" />
+                                <FaRegCircleUser className="text-3xl" />
                             )}
                         </div>
 
@@ -190,7 +190,7 @@ const Header = () => {
                                 <ul className="py-2">
                                     <li className="border-b last:border-none">
                                         <Link
-                                            to="/purchase-orders" // Link to purchase orders page
+                                            to="/purchase-orders"
                                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                                             onClick={handleOptionClick}
                                         >
@@ -199,7 +199,7 @@ const Header = () => {
                                     </li>
                                     <li>
                                         <Link
-                                            to="/sale-orders" // Link to sale orders page
+                                            to="/sale-orders"
                                             className="block px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200"
                                             onClick={handleOptionClick}
                                         >
