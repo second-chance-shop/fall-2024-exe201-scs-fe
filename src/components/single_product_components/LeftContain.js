@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SellerBasicInformation from "./SellerBasicInformation";
 import StarRating from "./StarRating";
 
@@ -71,21 +70,27 @@ const mockUserReviews = [
 ];
 
 // SmallImage Component
-const SmallImage = ({ setCurrentImage, currentImage }) => {
+const SmallImage = ({ setCurrentImage, currentImage, imageList }) => {
     return (
-        <div aria-label="Goods image" tabIndex="0" class=" absolute left-0 top-0 w-[62px] h-full">
+        <div
+            aria-label="Goods image"
+            tabIndex="0"
+            className="absolute left-0 top-0 w-[62px] h-full"
+        >
             <div className="w-[57px] relative">
-                {mockImageList.map((image, index) => (
-                    <div key={index} className={`h-0 overflow-hidden relative mb-5 pb-[133.33%] `}>
+                {imageList.map((image, index) => (
+                    <div key={index} className={`h-0 overflow-hidden relative mb-5 pb-[133.33%]`}>
                         <img
-                            src={image.src}
-                            alt={image.alt}
+                            src={image.src || image} // Handle array of objects or string
+                            alt={image.alt || `Product Image ${index + 1}`}
                             tabIndex="0"
                             fetchpriority="high"
                             className={`max-w-full h-auto w-full align-top cursor-pointer ${
-                                currentImage.src === image.src ? "border-2 border-black" : ""
-                            } `} // Apply border on hover
-                            onMouseEnter={() => setCurrentImage(image)} // Update the image on hover
+                                currentImage.src === (image.src || image)
+                                    ? "border-2 border-black"
+                                    : ""
+                            }`} // Apply border on hover
+                            onMouseEnter={() => setCurrentImage(image.src ? image : { src: image })} // Update on hover
                         />
                     </div>
                 ))}
@@ -259,20 +264,51 @@ const SeeMoreButton = () => {
 };
 
 // LeftContain Component
-const LeftContain = () => {
-    // State for the currently selected image
-    const [currentImage, setCurrentImage] = useState(mockImageList[0]); // Default to first image
+const LeftContain = ({ product }) => {
+    // Determine if the product exists based on product.productId
+    const productExists = product?.productId;
+    console.log(product);
+
+    // Handle product image data (either string or array) and convert it to the required format
+    const productImages = productExists
+        ? Array.isArray(product?.image)
+            ? product.image.map((image) => ({
+                  src: image,
+                  alt: "", // Provide an empty string for alt text
+              }))
+            : [
+                  {
+                      src: product.image, // If it's a single string, wrap it in an array and set alt as empty
+                      alt: "",
+                  },
+              ]
+        : mockImageList; // Fallback to mockImageList when productId doesn't exists
+
+    // Set default to the first product image, or fallback to mockImageList
+    const [currentImage, setCurrentImage] = useState(productImages[0]); // Start with no current image
+
+    useEffect(() => {
+        // Set the initial current image when the product is first loaded
+        if (productImages.length > 0 && !currentImage) {
+            setCurrentImage(productImages[0]);
+        }
+        // Do not reset the currentImage on every productImages change
+    }, [productImages, currentImage]);
 
     return (
-        <div id="leftcontain" className=" pr-12 box-border max-w-[771px] min-w-[325px]">
-            <div id="imageContent" class="flex-1 user-select-none relative pl-[70px]">
-                <SmallImage setCurrentImage={setCurrentImage} currentImage={currentImage} />
+        <div id="leftcontain" className="pr-12 box-border max-w-[771px] min-w-[325px]">
+            <div id="imageContent" className="flex-1 user-select-none relative pl-[70px]">
+                <SmallImage
+                    setCurrentImage={setCurrentImage}
+                    currentImage={currentImage}
+                    imageList={productImages} // Fallback to mock images if productImages are empty
+                />
                 <BigImages currentImage={currentImage} />
             </div>
-            {/* Mai làm  */}
-            <div id="reviewContent" class="relative w-full p-0 pt-7">
+
+            <div id="reviewContent" className="relative w-full p-0 pt-7">
                 <OverviewReviews />
-                <div class=" w-full h-[1px] mt-[11px] bg-[#b4b4b4]"></div>
+                <div className="w-full h-[1px] mt-[11px] bg-[#b4b4b4]"></div>
                 <DetailUserReviews />
                 <SeeMoreButton />
             </div>
@@ -281,5 +317,4 @@ const LeftContain = () => {
         </div>
     );
 };
-
 export default LeftContain;

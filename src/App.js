@@ -16,7 +16,7 @@ function App() {
             await new Promise((resolve) => setTimeout(resolve, 500));
             setLoading(false);
         };
-        
+
         loadData();
     }, []);
 
@@ -31,7 +31,7 @@ function App() {
                     <main className="flex-grow min-h-[calc(100vh-100px)]">
                         <Outlet />
                     </main>
-                    <Footer className='mt-4' />
+                    <Footer className="mt-4" />
                 </>
             )}
         </div>

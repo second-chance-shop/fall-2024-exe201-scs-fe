@@ -31,7 +31,6 @@ const UserTitle = ({ user_titles }) => {
         <div className="text-[12px] leading-6 cursor-pointer select-none mt-2 relative h-5 w-full overflow-hidden">
             {/* Inject Keyframes into a <style> tag */}
             <style>{keyframes}</style>
-
             <div className={`${animationClass}`} style={inlineAnimationStyles}>
                 {[...user_titles, user_titles[0]].map((userTitle, index) => (
                     <div key={index} className="h-[20px] flex items-center">
@@ -56,6 +55,8 @@ const UserTitle = ({ user_titles }) => {
 const ProductCard = ({
     title,
     sale_price,
+    productId,
+    original_price,
     is_local,
     image,
     has_video,
@@ -66,6 +67,7 @@ const ProductCard = ({
     number_of_rating,
     user_titles,
     rating,
+    createByUsername,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate(); // Initialize navigation hook
@@ -80,8 +82,9 @@ const ProductCard = ({
         }, 100); // Adjust the delay (in milliseconds) as needed
     };
     const handleNavigation = () => {
-        navigate("/product"); // Redirect to product page
+        window.location.href = `/product/${productId}`; // Force a full reload to the new product page
     };
+
     return (
         <div
             className={`bg-white p-0 flex flex-col justify-between items-center border rounded-md w-full 
@@ -107,33 +110,12 @@ const ProductCard = ({
                         <div class="max-h-[256px] overflow-hidden">
                             <img
                                 data-state="succ"
-                                alt="60cm 24in doll 3 and doll"
+                                alt={title}
                                 src={image}
                                 data-was-processed="true"
+                                className="h-[256px]"
                             />
                         </div>
-
-                        {/* <div>
-                            <div>
-                                <div></div>
-                                <div tabindex="0" role="button">
-                                    <span></span>
-                                    <span>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            version="1.1"
-                                            viewBox="0 0 1024 1024"
-                                            width="1em"
-                                            height="1em"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M512 213.3c188.2 0 350.6 131 425.4 329.2-74.8 179.8-237.1 310.8-425.4 310.8-188.2 0-350.6-131-425.4-310.7 74.8-198.3 237.1-329.3 425.4-329.3z m0 149.4c-94.3 0-170.7 76.4-170.7 170.6 0 94.3 76.4 170.7 170.7 170.7 94.3 0 170.7-76.4 170.7-170.7 0-94.3-76.4-170.7-170.7-170.6z m0 46.9c68.3 0 123.7 55.4 123.7 123.7 0 68.3-55.4 123.7-123.7 123.8-68.3 0-123.7-55.4-123.7-123.8 0-68.3 55.4-123.7 123.7-123.7z"></path>
-                                        </svg>
-                                        <span>Quick look</span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div> */}
                     </div>
 
                     <div class=" relative mt-2">
@@ -156,12 +138,25 @@ const ProductCard = ({
                             </h3>
                         </a>
                     </div>
+                    {createByUsername && (
+                        <div
+                            data-type="saleTips"
+                            className="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
+                        >
+                            <span
+                                aria-label={`bán bởi ${createByUsername}`}
+                                className="inline-flex"
+                            >
+                                <span>bán bởi {createByUsername + " "}</span>
+                            </span>
+                        </div>
+                    )}
 
                     <div class=" flex flex-row justify-between items-center relative mt-1">
                         <div
                             data-sales="true"
                             data-priority-list="5321489"
-                            class=" flex w-full overflow-hidden h-[22px] min-w-0 flex-wrap flex-shrink-0 basis-min-content max-w-[calc(100%-46px)]"
+                            class="flex flex-col w-full overflow-hidden h-[22px] min-w-0 flex-wrap flex-shrink-0 basis-min-content max-w-[calc(100%-46px)]"
                         >
                             <div
                                 data-ignore="true"
@@ -170,14 +165,14 @@ const ProductCard = ({
                                 <div
                                     data-type="price"
                                     role="link"
-                                    aria-label="$50.01"
+                                    aria-label="Sale Price"
                                     class="text-[12px] leading-[22px] text-[#222] cursor-pointer select-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation flex h-[22px] whitespace-nowrap origin-[0_50%] mb-[10px] ml-[2px]"
                                 >
                                     <div
                                         aria-hidden="true"
-                                        class="text-[18px] leading-5 font-semibold text-[#222]  mt-1"
+                                        class="text-[18px] leading-5 font-semibold text-[#222] mt-1"
                                     >
-                                        {sale_price}
+                                        {sale_price.toLocaleString("vi-VN") + "đ"}
                                     </div>
                                 </div>
                             </div>
@@ -192,18 +187,26 @@ const ProductCard = ({
                                         class="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap"
                                     >
                                         <div class="inline-block whitespace-nowrap">
-                                            <span class="font-sans relative">$59.63</span>
+                                            <span class="font-sans relative line-through">
+                                                {" "}
+                                                {/* {original_price.toLocaleString("vi-VN") + "đ"} */}
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <div
-                                        data-type="saleTips"
-                                        class="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
-                                    >
-                                        <span aria-label="87sold" class="inline-flex">
-                                            <span>{sold_number + " "} sold</span>
-                                        </span>
-                                    </div>
+                                    {sold_number > 0 && (
+                                        <div
+                                            data-type="saleTips"
+                                            className="text-[13px] text-[#777] ml-1 cursor-pointer select-none whitespace-nowrap mb-[4px]"
+                                        >
+                                            <span
+                                                aria-label={`${sold_number} đã bán`}
+                                                className="inline-flex"
+                                            >
+                                                <span>{sold_number + " "} đã bán</span>
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -215,7 +218,7 @@ const ProductCard = ({
                                 data-type="goodsCart"
                                 class="text-[12px] bg-white leading-6 text-black list-none user-select-none border-0 tap-highlight-transparent m-0 ml-[4px] p-0 px-[6px] user-select-none box-border touch-manipulation cursor-pointer h-[28px] min-w-[43px] max-w-[124px] flex flex-row justify-center items-center relative"
                             >
-                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px]"></div>
+                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px] transition-all duration-300 hover:border-[5px]"></div>
 
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -255,7 +258,7 @@ const ProductCard = ({
                         />
                     )}
 
-                    <UserTitle user_titles={user_titles} />
+                    {user_titles && <UserTitle user_titles={user_titles} />}
                 </div>
             </div>
         </div>
@@ -269,19 +272,27 @@ const ProductRecommendList = ({ products }) => {
             {products.map((product, index) => (
                 <ProductCard
                     key={index}
-                    title={product.title}
-                    sale_price={product.sale_price}
+                    productId={product.productId || ""}
+                    title={product.productName || product.title || ""} // productName in the API
+                    sale_price={product.sale_price || product.prices}
                     is_local={product.is_local}
-                    image={product.image}
-                    has_video={product.has_video}
-                    original_price={product.original_price}
-                    is_last_day={product.is_last_day}
-                    text_section={product.text_section}
-                    sold_number={product.sold_number}
-                    is_almost_sold_out={product.is_almost_sold_out}
-                    rating={product.rating}
-                    number_of_rating={product.number_of_rating}
-                    user_titles={product.user_titles}
+                    image={
+                        Array.isArray(product.image) && product.image.length > 0
+                            ? product.image[0]
+                            : typeof product.image === "string" && product.image.trim() !== ""
+                            ? product.image
+                            : "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png"
+                    }
+                    has_video={product.has_video || "false"}
+                    original_price={product.original_price || 0}
+                    is_last_day={product.is_last_day || false}
+                    text_section={product.text_section || false}
+                    sold_number={product.sold_number || 0}
+                    is_almost_sold_out={product.is_almost_sold_out || false}
+                    rating={product.rating || 5}
+                    number_of_rating={product.number_of_rating || 0}
+                    user_titles={product.user_titles || []}
+                    createByUsername={product.createByUsername || ""}
                 />
             ))}
         </div>

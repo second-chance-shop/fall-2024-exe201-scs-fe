@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { logoutUser } from '../authUtils';
-import { FaArrowLeft } from 'react-icons/fa';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { logoutUser } from "../authUtils";
+import { FaArrowLeft } from "react-icons/fa";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 
 const UserMenu = ({ userId }) => {
     const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ const UserMenu = ({ userId }) => {
 
     const handleLogout = async () => {
         await logoutUser();
-        navigate('/login');
+        navigate("/login");
     };
 
     // Fetch user information
@@ -28,14 +28,11 @@ const UserMenu = ({ userId }) => {
                 return;
             }
 
-            const response = await axios.get(
-                "https://scs-api.arisavinh.dev/api/v1/user/profile",
-                {
-                    headers: {
-                        Authorization: `${token}`,
-                    },
-                }
-            );
+            const response = await axios.get("https://scs-api.arisavinh.dev/api/v1/user/profile", {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            });
 
             if (response.status === 200 && response.data.isSuccess) {
                 const { name } = response.data.data;
@@ -53,15 +50,15 @@ const UserMenu = ({ userId }) => {
     }, []);
 
     const handleManageShop = () => {
-        navigate('/user/shop-manage', { state: { userId } });
+        navigate("/user/shop-manage", { state: { userId } });
     };
 
     return (
         <div className="w-64 bg-white shadow-md rounded-lg p-5">
             {/* Quay lại */}
-            <div 
-                className="flex items-center mb-4 cursor-pointer text-orange-500 hover:text-orange-700" 
-                onClick={() => navigate('/')}
+            <div
+                className="flex items-center mb-4 cursor-pointer text-orange-500 hover:text-orange-700"
+                onClick={() => navigate("/")}
             >
                 <FaArrowLeft className="mr-2 text-xl" /> {/* Icon for back */}
                 <span className="text-lg font-semibold">Trang chủ</span>

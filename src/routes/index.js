@@ -23,9 +23,10 @@ import ShopDashboard from "../pages/Shop/Dashboard";
 import ProductManagement from "../pages/Shop/ProductManagement";
 import StarAndComment from "../pages/Shop/StarAndComment";
 
-//product 
+//product
+import UploadProduct from "../pages/UploadProduct";
 import AddProduct from "../pages/product/AddProduct";
-import UpdateProduct from '../pages/product/UpdateProduct'
+import UpdateProduct from "../pages/product/UpdateProduct";
 import Details from "../pages/product/Details";
 
 const router = createBrowserRouter([
@@ -83,6 +84,10 @@ const router = createBrowserRouter([
                 element: <Product />,
             },
             {
+                path: "product/:productId",
+                element: <Product />, // Dynamic route for product with productId
+            },
+            {
                 path: "otp-verification",
                 element: <OtpVerification />,
             },
@@ -107,9 +112,9 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "product/",
-                        children:[
+                        children: [
                             {
-                                path: 'management',
+                                path: "management",
                                 element: <ProductManagement />,
                             },
                             {
@@ -124,7 +129,7 @@ const router = createBrowserRouter([
                                 path: "details/:productName",
                                 element: <Details />,
                             },
-                        ]
+                        ],
                     },
                     {
                         path: "star-comment",
@@ -133,7 +138,6 @@ const router = createBrowserRouter([
                 ],
             },
 
-
             {
                 path: "commitments",
                 element: <CommitmentPage />,
@@ -141,6 +145,10 @@ const router = createBrowserRouter([
             {
                 path: "*",
                 element: <NotFound />,
+            },
+            {
+                path: "uploadproduct",
+                element: <UploadProduct />,
             },
         ],
     },

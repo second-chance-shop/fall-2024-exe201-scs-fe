@@ -326,16 +326,19 @@ const PurchaseButton = () => {
     );
 };
 
-const RightContain = ({ product = mockProduct }) => {
+const RightContain = ({ product }) => {
     return (
         <div
             id="rightContain"
-            class="tab-size-4 font-normal tap-highlight-transparent antialiased leading-inherit box-border border-0 border-solid border-[#e5e7eb]  w-[45.3859%] flex-shrink-0 sticky"
+            class="tab-size-4 font-normal tap-highlight-transparent antialiased leading-inherit box-border border-0 border-solid border-[#e5e7eb] w-[45.3859%] flex-shrink-0 "
         >
-            <div class="w-full bg-white p-[5px_15px_40px_6px] overflow-y-auto overflow-x-hidden scrollbar-none m-[-5px_-6px_0_-5px] relative max-h-[930px]">
+            <div
+                class="w-full bg-white p-[5px_15px_40px_6px] overflow-y-auto overflow-x-hidden scrollbar-none m-[-5px_-6px_0_-5px] max-h-[930px] "
+                style={{ position: "sticky", top: "0px", overflow: "visible" }}
+            >
                 <ExclusiveOffer />
 
-                <ProductName name={product.name} />
+                <ProductName name={product.description} />
 
                 <ProductRating />
 
