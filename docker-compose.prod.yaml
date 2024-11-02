@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  scs-fe:
+    container_name: scs-fe
+    restart: always
+    image: ${DOCKER_USERNAME}/scs-fe:latest
+    ports:
+      - 3000:80
+    networks:
+      - secondchanceshop-network
+    labels:
+      - io.portainer.accesscontrol.restricted
+      - io.portainer.accesscontrol.teams=second-chance-shop
+
+networks:
+  secondchanceshop-network:
+    name: secondchanceshop-networks
+    external: true
