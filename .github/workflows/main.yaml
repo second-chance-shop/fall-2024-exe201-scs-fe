@@ -23,7 +23,7 @@ jobs:
     
     staging-fe-deploy:
       name: Deploy Staging FE Admin To Google Service Server For Testing
-      runs-on: arisa-deploy
+      runs-on: arisa-server
       needs: scs-fe-build
       env:
         DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
