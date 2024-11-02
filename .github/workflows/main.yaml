@@ -6,6 +6,8 @@ jobs:
     scs-fe-build:
       name: Build source code to Docker image
       runs-on: ubuntu-22.04 
+      env:
+        DOCKER_USERNAME: ${{secrets.DB_USERNAME}}
       steps:
         - name: Checkout Develop
           uses: actions/checkout@v3
