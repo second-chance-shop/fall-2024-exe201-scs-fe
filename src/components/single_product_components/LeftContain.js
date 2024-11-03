@@ -321,7 +321,7 @@ const LeftContain = ({ product }) => {
                 <SeeMoreButton />
             </div>
 
-            <SellerBasicInformation shop={shop} />
+            {/* <SellerBasicInformation shop={shop} /> */}
         </div>
     );
 };
