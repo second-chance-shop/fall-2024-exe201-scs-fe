@@ -29,6 +29,13 @@ const mockImageList = [
     },
 ];
 
+const nullProductImage = [
+    {
+        src: "https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png", // If it's a single string, wrap it in an array and set alt as empty
+        alt: "",
+    },
+];
+
 const mockUserReviews = [
     {
         username: "sa***e1",
@@ -267,23 +274,24 @@ const SeeMoreButton = () => {
 const LeftContain = ({ product }) => {
     // Determine if the product exists based on product.productId
     const productExists = product?.productId;
-    console.log(product);
+    const shopId = product.shopId;
 
     // Handle product image data (either string or array) and convert it to the required format
     const productImages = productExists
-        ? Array.isArray(product?.image)
-            ? product.image.map((image) => ({
-                  src: image,
-                  alt: "", // Provide an empty string for alt text
-              }))
-            : [
-                  {
-                      src: product.image, // If it's a single string, wrap it in an array and set alt as empty
-                      alt: "",
-                  },
-              ]
-        : mockImageList; // Fallback to mockImageList when productId doesn't exists
-
+        ? product.image && (Array.isArray(product.image) ? product.image.length > 0 : product.image)
+            ? Array.isArray(product.image)
+                ? product.image.map((image) => ({
+                      src: image,
+                      alt: "", // Provide an empty string for alt text
+                  }))
+                : [
+                      {
+                          src: product.image, // If it's a single string, wrap it in an array and set alt as empty
+                          alt: "",
+                      },
+                  ]
+            : nullProductImage // Use nullProductImage when product exists but has no valid images
+        : mockImageList; // Fallback to mockImageList when productId doesn't exist
     // Set default to the first product image, or fallback to mockImageList
     const [currentImage, setCurrentImage] = useState(productImages[0]); // Start with no current image
 
@@ -313,7 +321,7 @@ const LeftContain = ({ product }) => {
                 <SeeMoreButton />
             </div>
 
-            <SellerBasicInformation />
+            <SellerBasicInformation shop={shop} />
         </div>
     );
 };

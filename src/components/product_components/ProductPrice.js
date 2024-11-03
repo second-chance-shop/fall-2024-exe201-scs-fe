@@ -20,9 +20,10 @@ const ProductPrice = ({
             <div
                 data-sales="true"
                 data-priority-list="5321489"
-                className="flex w-full h-auto min-w-0"
+                className="flex flex-col w-full h-auto min-w-0"
             >
-                <div data-ignore="true" className="flex justify-between max-w-full">
+                {/* First Row */}
+                <div data-ignore="true" className="flex justify-between max-w-full ">
                     <div
                         data-type="price"
                         role="link"
@@ -33,21 +34,25 @@ const ProductPrice = ({
                             aria-hidden="true"
                             className="text-[12px] font-semibold text-[#FB7701]"
                         >
-                            <span className="text-[18px] font-semibold leading-5">{price}</span>
-                            <span className="text-[13px] font-bold leading-5">
-                                {(price % 1).toFixed(2).split(".")[1]}
+                            {/* Format price in VNĐ */}
+                            <span className="text-[18px] font-semibold leading-5">
+                                {price.toLocaleString("vi-VN")}₫
                             </span>
                         </div>
                     </div>
                 </div>
 
+                {/* Second Row */}
                 <div className="flex items-baseline relative shrink-0">
                     <div className="max-w-full flex flex-wrap mb-2">
                         <div
                             data-type="marketPrice"
                             className="text-[13px] leading-6 text-[#777] whitespace-nowrap mb-2 ml-1 w-auto inline-block"
                         >
-                            <span className="relative line-through">${discountPrice}</span>
+                            {/* Format discount price in VNĐ */}
+                            <span className="relative line-through">
+                                {discountPrice.toLocaleString("vi-VN")}₫
+                            </span>
                         </div>
                         <div
                             data-type="saleTips"

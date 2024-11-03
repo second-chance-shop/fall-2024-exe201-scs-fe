@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const ShoppingCart = () => {
-    const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate();
+    const { cartItems, setCartItems } = useCart();
 
     // Fetch shopping cart data using axios
     useEffect(() => {

@@ -5,13 +5,24 @@ import ProductPrice from "../product_components/ProductPrice";
 import ProductImage from "../product_components/ProductImage";
 
 const ProductDeal = ({ deal }) => {
+    const handleNavigation = () => {
+        window.location.href = `/product/${deal.productId}`; // Use productId from deal to navigate
+    };
+    console.log(deal);
     return (
-        <li className="relative flex-shrink-0 mr-[18px] group" key={deal.id}>
+        <li
+            className="relative flex-shrink-0 mr-[18px] group"
+            key={deal.id}
+            onClick={handleNavigation}
+        >
             <div className="block cursor-pointer flex-shrink-0 w-full">
-                <div className="h-full pb-[14px] cursor-pointer">
-                    <ProductImage src={deal.product_image} alt={deal.title || deal.alt} />
+                <div className="h-full pb-[14px] cursor-pointer flex flex-col space-y-5">
+                    <ProductImage
+                        src={deal.image[0]}
+                        alt={deal.productName || deal.title || deal.alt}
+                    />
                     <ProductPrice
-                        price={deal.product_price}
+                        price={deal.prices}
                         discountPrice={deal.product_sale_price}
                         discountPercentage={deal.product_sale_percentage}
                         sold={deal.product_sold}
@@ -26,5 +37,4 @@ const ProductDeal = ({ deal }) => {
         </li>
     );
 };
-
 export default ProductDeal;

@@ -96,7 +96,7 @@ const mockSeller = {
         "https://img.kwcdn.com/supplier-public-tag/1e19d46b22c/555998bf-ad38-425a-9359-424af806be95_300x300.jpeg?imageView2/2/w/300/q/70/format/webp",
 };
 
-const SellerBasicInformation = ({ seller = mockSeller }) => {
+const SellerBasicInformation = ({ shop = mockSeller }) => {
     return (
         <div id="SellerBasicInformation" class="box-border w-full mt-[48px]">
             <div class="w-full flex items-center">

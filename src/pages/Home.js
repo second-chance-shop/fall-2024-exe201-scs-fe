@@ -5,7 +5,8 @@ import TwoBoxes from "../components/home_components/TwoBoxes";
 import ProductRecommendList from "../components/home_components/ProductRecommendList";
 import PayLater from "../components/home_components/PayLater";
 import CategoryRecomendation from "../components/home_components/CategoryRecomendation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+
 import axios from "axios";
 // Import the JSON file
 import mock_recommend_products_vnd from "../assest/mockdata/mock_recommend_products_vnd.json";
@@ -13,6 +14,7 @@ import mock_recommend_products_vnd from "../assest/mockdata/mock_recommend_produ
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(0); // Use categoryId here
     const [products, setProducts] = useState([]);
+    const initialDeals = useRef(null); // Store initial deals list
 
     const handleCategoryChange = (categoryId) => {
         setSelectedCategory(categoryId); // Set categoryId when a category is selected
@@ -21,16 +23,14 @@ const Home = () => {
 
     const fetchProducts = (categoryId) => {
         let url;
-        // If categoryId is 0, fetch all products
         if (categoryId === 0) {
             url = "https://scs-api.arisavinh.dev/api/v1/product/getAll";
         } else if (categoryId > 0) {
-            // Ensure only valid categoryId values are used to fetch products for a specific category
             url = `https://api.example.com/products?categoryId=${categoryId}`;
         } else {
             console.error("Invalid categoryId provided, falling back to all products.");
-            setProducts([]); // Set empty products if invalid categoryId
-            fetchProducts(0); // Fallback to fetch all products
+            setProducts([]);
+            fetchProducts(0);
             return;
         }
 
@@ -42,23 +42,28 @@ const Home = () => {
             })
             .then((response) => {
                 if (response.data.isSuccess) {
-                    // Assume products are in response.data.data.content
-                    setProducts(response.data.data);
+                    const fetchedProducts = response.data.data;
+
+                    // Set initialDeals only if it's the first fetch
+                    if (initialDeals.current === null) {
+                        initialDeals.current = fetchedProducts;
+                    }
+
+                    setProducts(fetchedProducts);
                 } else {
                     console.error(
                         "Failed to fetch products, response status:",
                         response.data.status
                     );
-                    setProducts([]); // Set empty products on failure
+                    setProducts([]);
                 }
             })
             .catch((error) => {
                 console.error("Error fetching products:", error);
-                // Fallback to mock data on error
                 setProducts([]);
                 setTimeout(() => {
                     setProducts(mock_recommend_products_vnd);
-                }, 500); // Delay of 1 second
+                }, 500);
             });
     };
 
@@ -80,16 +85,18 @@ const Home = () => {
             <div className="w-full mx-auto border-0 p-0">
                 <div className="bg-[#C67017]">
                     <div className="mx-auto min-w-[1080px] px-11">
-                        <img
-                            src="/hero-image.webp" // Assuming it's in the public folder
-                            alt="Hero Banner"
-                            className="w-full" // Make the image take up the full width of its container
-                        />
+                        <img src="/hero-image.webp" alt="Hero Banner" className="w-full" />
                     </div>
                 </div>
                 <WarningBanner />
-                <LightningDeals type="lightning" text1="Đồ cũ mà mới" text2="Thời gian  có hạn" />
                 <LightningDeals
+                    deals={initialDeals.current || []} // Pass initial deals only
+                    type="lightning"
+                    text1="Đồ cũ mà mới"
+                    text2="Thời gian có hạn"
+                />
+                <LightningDeals
+                    deals={initialDeals.current || []} // Pass initial deals only
                     type="clearance"
                     text1="Xả hàng tồn kho"
                     text2="Chỉ còn vài sản phẩm"

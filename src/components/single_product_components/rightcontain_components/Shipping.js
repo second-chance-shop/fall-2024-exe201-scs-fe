@@ -18,14 +18,14 @@ const ShippingOption = ({ index, label, cost, deliveryTime, companies, ariaHidde
                 </span>
             </div>
             <div className="mb-2">
-                <span tabIndex="0">Delivery: </span>
+                <span tabIndex="0">Cam kết: </span>
                 <span tabIndex="0" className="text-black">
                     {deliveryTime}
                 </span>
             </div>
             <div className="relative flex flex-wrap items-center gap-x-2">
                 <span tabIndex="0" className="text-[#777777]">
-                    Courier company:
+                    Đơn vị vận chuyển:
                 </span>
                 {companies.map((company, idx) => (
                     <div key={idx} className="flex items-center">

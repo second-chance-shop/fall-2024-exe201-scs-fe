@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 import StarRating from "../single_product_components/StarRating";
 const svg_card_path =
@@ -70,7 +70,7 @@ const ProductCard = ({
     createByUsername,
 }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const navigate = useNavigate(); // Initialize navigation hook
+    const { addToCart } = useCart(); // Access addToCart from context
 
     const handleMouseEnter = () => {
         setIsHovered(true); // Trigger animation on hover.
@@ -99,12 +99,7 @@ const ProductCard = ({
             role="button"
             onClick={handleNavigation}
         >
-            <div
-                aria-label="24in Lifelike Soft Silicone Reborn Doll - 60cm Handmade Art Toy with 3D-Paint Skin, Realistic Blood Vessels, and Unique Birthday Gift Idea"
-                tabindex="-1"
-                role="link"
-                class="rounded-md relative w-full"
-            >
+            <div tabindex="-1" role="link" class="rounded-md relative w-full">
                 <div class=" p-[9px] h-full">
                     <div class="relavitve">
                         <div class="max-h-[256px] overflow-hidden">
@@ -211,19 +206,26 @@ const ProductCard = ({
                             </div>
                         </div>
 
+                        {/* Add to cart button */}
                         <div>
                             <div
                                 role="button"
                                 aria-label="Add to cart"
                                 data-type="goodsCart"
-                                class="text-[12px] bg-white leading-6 text-black list-none user-select-none border-0 tap-highlight-transparent m-0 ml-[4px] p-0 px-[6px] user-select-none box-border touch-manipulation cursor-pointer h-[28px] min-w-[43px] max-w-[124px] flex flex-row justify-center items-center relative"
+                                className="text-[12px] bg-white leading-6 text-black list-none user-select-none border-0 tap-highlight-transparent m-0 ml-[4px] p-0 px-[6px] box-border touch-manipulation cursor-pointer h-[28px] min-w-[43px] max-w-[124px] flex flex-row justify-center items-center relative group"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    addToCart(productId); // Call addToCart from context
+                                }}
                             >
-                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px] transition-all duration-300 hover:border-[5px]"></div>
+                                {/* Hover border and background effect */}
+                                <div className="absolute top-0 left-0 w-full h-full bg-white border border-[#222] rounded-[15px] transition-all duration-500 ease-in-out group-hover:border-[3px] group-hover:bg-gray-100 group-hover:shadow-lg"></div>
 
+                                {/* Icon */}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 1024 1024"
-                                    className="relative inline-block w-6 h-6 cursor-pointer overflow-hidden select-none"
+                                    className="relative inline-block w-6 h-6 cursor-pointer overflow-hidden select-none transition-transform duration-300 ease-in-out group-hover:scale-110"
                                 >
                                     <path d={svg_card_path} />
                                 </svg>

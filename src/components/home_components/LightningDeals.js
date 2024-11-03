@@ -150,6 +150,11 @@ const LightningDeals = ({ deals = mockProducts, type, text1, text2 }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
+    console.log(deals);
+    const displayedDeals =
+        type === "lightning"
+            ? deals.slice(0, 10) // First 10 deals for "lightning" type
+            : deals.slice(10, 20); // Deals 11 to 20 for other types
 
     const handleMouseDown = (e) => {
         setIsDragging(true);
@@ -197,7 +202,7 @@ const LightningDeals = ({ deals = mockProducts, type, text1, text2 }) => {
                         <div className="relative visible">
                             <div className="relative overflow-hidden z-0">
                                 <ul className="flex h-full backface-hidden translate-x-0 scrollbar-hide select-none">
-                                    {deals.map((deal) => (
+                                    {displayedDeals.map((deal) => (
                                         <ProductDeal key={deal.id} deal={deal}></ProductDeal>
                                     ))}
                                 </ul>
