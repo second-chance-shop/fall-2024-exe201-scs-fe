@@ -1,6 +1,7 @@
-// CartContext.js
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // Create the context
 const CartContext = createContext();
@@ -13,22 +14,17 @@ export const CartProvider = ({ children }) => {
     const addToCart = async (productId, quantity = 1) => {
         try {
             const userToken = localStorage.getItem("userToken");
-            console.log(userToken);
             if (!userToken) {
-                console.error("User token not found!");
+                toast.error("User not authenticated. Please log in.");
                 return;
             }
 
-            // Send POST request to add the product to the cart
             const response = await axios.post(
                 "https://scs-api.arisavinh.dev/api/v1/order/add-cart",
-                {
-                    productId,
-                    quantity, // Set quantity to default 1 if not specified
-                },
+                { productId, quantity },
                 {
                     headers: {
-                        Authorization: `Bearer ${userToken}`, // Add Bearer token for authorization
+                        Authorization: `${userToken}`,
                         "Content-Type": "application/json",
                     },
                 }
@@ -36,11 +32,12 @@ export const CartProvider = ({ children }) => {
 
             if (response.data.isSuccess) {
                 setCartItems((prevItems) => [...prevItems, response.data.data]);
-                console.log("Item added to cart successfully");
+                toast.success("Product added to cart successfully!");
             } else {
-                console.error("Failed to add item to cart");
+                toast.error("Failed to add product to cart.");
             }
         } catch (error) {
+            toast.error("An error occurred while adding to cart.");
             console.error("Error adding item to cart:", error.response?.data || error.message);
         }
     };
