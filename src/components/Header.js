@@ -11,6 +11,7 @@ import defaultProfilePic from "../assest/avatar-user-default.png";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { AiOutlineOrderedList } from "react-icons/ai";
 import { logoutUser } from "./authUtils";
+import SearchHeader from "./navbar_components/SearchHeader";
 
 const Header = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -93,16 +94,8 @@ const Header = () => {
                     </Link>
                 </div>
 
-                <div className="flex-grow hidden md:flex items-center rounded-full border justify-between max-w-sm focus-within:shadow pl-2 bg-white">
-                    <input
-                        type="text"
-                        placeholder="Vui lòng nhập từ khoá..."
-                        className="w-full outline-none"
-                    />
-                    <div className="flex rounded-r-full items-center h-10 justify-center min-w-[50px] bg-orange-600">
-                        <IoMdSearch className="text-white text-lg" />
-                    </div>
-                </div>
+                <SearchHeader />
+
                 <div className="flex items-center gap-7">
                     <Link to="/shopping-cart" className="text-3xl relative">
                         <span>

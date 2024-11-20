@@ -150,7 +150,6 @@ const LightningDeals = ({ deals = mockProducts, type, text1, text2 }) => {
     const [isDragging, setIsDragging] = useState(false);
     const [startX, setStartX] = useState(0);
     const [scrollLeft, setScrollLeft] = useState(0);
-    console.log(deals);
     const displayedDeals =
         type === "lightning"
             ? deals.slice(0, 10) // First 10 deals for "lightning" type

@@ -8,7 +8,6 @@ const ProductDeal = ({ deal }) => {
     const handleNavigation = () => {
         window.location.href = `/product/${deal.productId}`; // Use productId from deal to navigate
     };
-    console.log(deal);
     return (
         <li
             className="relative flex-shrink-0 mr-[18px] group"
