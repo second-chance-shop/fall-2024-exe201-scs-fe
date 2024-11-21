@@ -53,7 +53,7 @@ const CategoryList = ({ onCategorySelect }) => {
                     categoryName: "Gợi Ý",
                 },
             ];
-            let categoryId = 1;
+            let categoryId = 10;
             let isSuccess = true;
 
             // Loop to fetch categories one by one until we reach 20 or hit an error
