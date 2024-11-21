@@ -1,7 +1,7 @@
 FROM nginx:alpine AS base
 WORKDIR /usr/share/nginx/html
 
-FROM node:alpine AS build
+FROM node:20.18.1-alpine3.19 AS build
 WORKDIR /build
 COPY package.json /build/package.json
 COPY package-lock.json /build/package-lock.json
