@@ -173,21 +173,66 @@ function PaymentMethods({ selectedMethod, setSelectedMethod }) {
     ));
 }
 
+const checkoutOrder = async (selectedOrderId, methodPayment) => {
+    try {
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+            throw new Error("Authentication token not found.");
+        }
+
+        const response = await axios.put(
+            `https://scs-api.arisavinh.dev/api/v1/order/checkout/${selectedOrderId}?methodPayment=${methodPayment}`,
+            {},
+            {
+                headers: {
+                    Authorization: `${token}`,
+                },
+            }
+        );
+
+        if (response.status === 200 && response.data.isSuccess) {
+            const { urlPayment } = response.data.data;
+
+            // If the payment method is CREDIT_CARD, redirect to the payment URL
+            if (methodPayment === "CREDIT_CARD" && urlPayment) {
+                console.log("Redirecting to payment URL:", urlPayment);
+                window.location.href = urlPayment;
+            } else {
+                alert("Đặt hàng thành công!");
+            }
+        } else {
+            throw new Error(response.data.message || "Đặt hàng thất bại.");
+        }
+    } catch (error) {
+        console.error("Checkout error:", error);
+        alert(error.response?.data?.message || "Đã xảy ra lỗi trong quá trình đặt hàng.");
+    }
+};
+
 const Checkout = () => {
     const [selectedMethod, setSelectedMethod] = useState(null);
-    const [paymentStatus, setPaymentStatus] = useState(null); // 'success' or 'fail'
-    const { checkoutOrder, selectedOrderId } = useCart();
+    const [paymentStatus, setPaymentStatus] = useState(null);
+    const { selectedOrderId, cartItems, productDetails } = useCart(); // Include cart data and product details
+    const [totalPrice, setTotalPrice] = useState(0);
 
     const handlePlaceOrder = async () => {
-        if (selectedMethod && selectedOrderId) {
-            try {
-                await checkoutOrder(selectedMethod);
-                setPaymentStatus("success"); // Mark success if no error
-            } catch (error) {
-                setPaymentStatus("fail"); // Mark fail if there's an error
-            }
+        if (!selectedMethod) {
+            alert("Vui lòng chọn phương thức thanh toán.");
+            return;
         }
+
+        // Proceed with checkout using the selected payment method
+        checkoutOrder(selectedOrderId, selectedMethod);
     };
+
+    useEffect(() => {
+        if (selectedOrderId && cartItems.length > 0) {
+            const selectedItem = cartItems.find((item) => item.orderId === selectedOrderId);
+            const product = productDetails[selectedItem.productId];
+            const calculatedPrice = selectedItem.quantity * (product?.prices || 0);
+            setTotalPrice(calculatedPrice);
+        }
+    }, [selectedOrderId, cartItems, productDetails]);
 
     return (
         <div className="min-h-screen flex flex-col items-center bg-gray-100 p-5">
@@ -220,7 +265,12 @@ const Checkout = () => {
             <section className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-5 mt-5">
                 <div className="flex justify-between items-center">
                     <h3 className="text-lg font-semibold">Tổng cộng:</h3>
-                    <p className="text-xl font-bold text-orange-600">₫60.512</p>
+                    <p className="text-xl font-bold text-orange-600">
+                        {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                        }).format(totalPrice)}
+                    </p>
                 </div>
                 <button
                     className={`mt-5 w-full py-3 rounded-lg transition-all ${
