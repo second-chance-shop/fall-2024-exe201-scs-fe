@@ -5,10 +5,7 @@ import ShareTo from "./rightcontain_components/ShareTo";
 import ExclusiveOffer from "./rightcontain_components/ExclusiveOffer";
 import Cookies from "js-cookie";
 import Shipping from "./rightcontain_components/Shipping";
-
-const mockProduct = {
-    name: "Áo thun nữ tay dài cổ tròn in họa tiết hoa sống động - Chất liệu mềm mại, thoáng khí, thoải mái cho mùa xuân và mùa thu - Thời trang thường ngày đầy phong cách",
-};
+import { useCart } from "../../context/CartContext";
 
 const ProductName = ({ name }) => {
     const [shareToHovered, setShareToHovered] = useState(false);
@@ -190,27 +187,40 @@ const VariationBox = () => {
     return <div className="h-[100px]"></div>;
 };
 
-const PurchaseButton = () => {
+const PurchaseButton = ({ productId }) => {
     const [hover, setHover] = useState(false);
+    const { addToCart } = useCart(); // Access addToCart function from context
+
+    const handleAddToCart = () => {
+        if (!productId) {
+            console.error("Product ID is missing.");
+            return;
+        }
+
+        // Add the product to the cart with a default quantity of 1
+        addToCart(productId, 1);
+    };
+
     return (
-        <div id="PurchaseButton" class="w-full">
-            <div class="text-[16px] leading-6 text-black pt-5 flex flex-row justify-start items-center">
-                <div class="flex-1 max-w-full flex flex-row justify-start items-center overflow-visible">
+        <div id="PurchaseButton" className="w-full">
+            <div className="text-[16px] leading-6 text-black pt-5 flex flex-row justify-start items-center">
+                <div className="flex-1 max-w-full flex flex-row justify-start items-center overflow-visible">
                     <div
                         aria-label="Add to cart"
                         role="button"
                         data-id="button"
-                        class="flex-1 relative min-w-0 "
+                        className="flex-1 relative min-w-0"
                     >
                         <div
-                            tabindex="0"
+                            tabIndex="0"
                             role="button"
-                            class="text-center cursor-pointer select-none relative z-[1] w-full h-12 text-lg font-semibold leading-[18px] flex flex-col justify-center items-center "
+                            className="text-center cursor-pointer select-none relative z-[1] w-full h-12 text-lg font-semibold leading-[18px] flex flex-col justify-center items-center"
                             onMouseEnter={() => setHover(true)}
                             onMouseLeave={() => setHover(false)}
+                            onClick={handleAddToCart} // Trigger addToCart on click
                         >
                             <span
-                                class="absolute z-[-1] inset-0 rounded-full bg-[#fb7701] transition-all ease-in-out duration-150"
+                                className="absolute z-[-1] inset-0 rounded-full bg-[#fb7701] transition-all ease-in-out duration-150"
                                 style={{
                                     backgroundColor: hover ? "#fbb401" : "#fb7701",
                                     transition: "all 0.15s ease-in-out",
@@ -221,9 +231,9 @@ const PurchaseButton = () => {
                                 }}
                             ></span>
                             <span
-                                tabindex="0"
+                                tabIndex="0"
                                 role="button"
-                                class="w-full px-[19px] overflow-hidden flex text-white text-[16px] font-semibold leading-[18px]"
+                                className="w-full px-[19px] overflow-hidden flex text-white text-[16px] font-semibold leading-[18px]"
                                 style={{
                                     WebkitLineClamp: 2,
                                     WebkitBoxOrient: "vertical",
@@ -233,7 +243,7 @@ const PurchaseButton = () => {
                                 Add to cart
                             </span>
                             <div
-                                class="whitespace-nowrap opacity-95 w-[calc(100%-50px)] text-[12px] text-white leading-4 font-normal justify-center items-start inline-flex overflow-hidden h-0"
+                                className="whitespace-nowrap opacity-95 w-[calc(100%-50px)] text-[12px] text-white leading-4 font-normal justify-center items-start inline-flex overflow-hidden h-0"
                                 style={{
                                     transform: "translateZ(0)",
                                     animation: "_1Ttp-ZWB .3s linear 1s forwards",
@@ -241,7 +251,7 @@ const PurchaseButton = () => {
                             >
                                 <div
                                     aria-hidden="true"
-                                    class="flex w-full text-center justify-center items-center"
+                                    className="flex w-full text-center justify-center items-center"
                                 >
                                     <img
                                         data-cui-image="1"
@@ -250,12 +260,12 @@ const PurchaseButton = () => {
                                         data-type="100"
                                         alt=""
                                         aria-hidden="true"
-                                        class="w-[12px] h-[12px] align-middle"
+                                        className="w-[12px] h-[12px] align-middle"
                                     />
                                     <span
                                         data-type="0"
                                         aria-hidden="true"
-                                        class="pl-1 overflow-hidden text-ellipsis whitespace-nowrap align-middle"
+                                        className="pl-1 overflow-hidden text-ellipsis whitespace-nowrap align-middle"
                                     >
                                         Almost sold out
                                     </span>
@@ -292,7 +302,7 @@ const RightContain = ({ product }) => {
 
                 <VariationBox />
 
-                <PurchaseButton />
+                <PurchaseButton productId={product.productId} />
 
                 <div data-id="modules">
                     <Shipping></Shipping>

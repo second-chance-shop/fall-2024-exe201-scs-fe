@@ -26,8 +26,8 @@ import StarAndComment from "../pages/Shop/StarAndComment";
 //product
 import UploadProduct from "../pages/UploadProduct";
 import AddProduct from "../pages/product/AddProduct";
-import UpdateProduct from "../pages/product/UpdateProduct";
 import Details from "../pages/product/Details";
+import Checkout from "../pages/Checkout";
 
 const router = createBrowserRouter([
     {
@@ -149,6 +149,10 @@ const router = createBrowserRouter([
             {
                 path: "uploadproduct",
                 element: <UploadProduct />,
+            },
+            {
+                path: "checkout",
+                element: <Checkout />,
             },
         ],
     },

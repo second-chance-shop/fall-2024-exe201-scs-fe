@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
@@ -7,107 +6,34 @@ import { toast } from "react-toastify";
 
 const ShoppingCart = () => {
     const navigate = useNavigate();
-    const { cartItems, setCartItems } = useCart();
-    const [productDetails, setProductDetails] = useState({}); // Store product details
-
-    // Fetch shopping cart data
-    useEffect(() => {
-        const fetchCartItems = async () => {
-            try {
-                const userToken = localStorage.getItem("userToken");
-                if (!userToken) {
-                    console.error("User token not found!");
-                    return;
-                }
-
-                const response = await axios.get(
-                    "https://scs-api.arisavinh.dev/api/v1/order/user-cart",
-                    {
-                        headers: {
-                            Authorization: ` ${userToken}`,
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-
-                const cartItems = response.data.data;
-                setCartItems(cartItems);
-
-                // Fetch product details for each item
-                const productData = await Promise.all(
-                    cartItems.map(async (item) => {
-                        const productResponse = await axios.get(
-                            `https://scs-api.arisavinh.dev/api/v1/product/${item.productId}`,
-                            {
-                                headers: {
-                                    accept: "*/*",
-                                },
-                            }
-                        );
-                        return { productId: item.productId, ...productResponse.data.data };
-                    })
-                );
-
-                // Store product details in a map for quick lookup
-                const productDetailsMap = {};
-                productData.forEach((product) => {
-                    productDetailsMap[product.productId] = product;
-                });
-                setProductDetails(productDetailsMap);
-            } catch (error) {
-                toast.error("Error fetching shopping cart data.");
-                console.error(
-                    "Error fetching shopping cart data:",
-                    error.response?.data || error.message
-                );
-            }
-        };
-
-        fetchCartItems();
-    }, [setCartItems]);
+    const {
+        cartItems,
+        productDetails,
+        removeFromCart,
+        updateCartItemQuantity,
+        selectedOrderId,
+        setSelectedOrderId,
+        checkoutOrder,
+    } = useCart();
 
     // Handle quantity change
-    const handleQuantityChange = (orderId, quantity) => {
-        setCartItems((prevItems) =>
-            prevItems.map((item) =>
-                item.orderId === orderId ? { ...item, quantity: Math.max(1, quantity) } : item
-            )
-        );
-    };
-
-    // Remove item from cart
-    const handleRemoveItem = async (orderId) => {
-        try {
-            const userToken = localStorage.getItem("userToken");
-            if (!userToken) {
-                console.error("User token not found!");
-                return;
-            }
-
-            await axios.delete(`https://scs-api.arisavinh.dev/api/v1/order/delete/${orderId}`, {
-                headers: {
-                    Authorization: `Bearer ${userToken}`,
-                    "Content-Type": "application/json",
-                },
-            });
-
-            setCartItems((prevItems) => prevItems.filter((item) => item.orderId !== orderId));
-            toast.success("Item removed from cart successfully!");
-        } catch (error) {
-            toast.error("Error removing item from cart.");
-            console.error("Error removing item:", error.response?.data || error.message);
+    const handleQuantityChange = (productId, quantity) => {
+        const item = cartItems.find((item) => item.productId === productId);
+        if (item) {
+            const newQuantity = Math.max(1, quantity); // Ensure quantity is at least 1
+            updateCartItemQuantity(item.orderId, newQuantity); // Update quantity using context
         }
     };
 
-    // Calculate total price
+    // Calculate total price for the selected item
     const calculateTotal = () => {
-        return cartItems
-            .reduce((total, item) => {
-                const product = productDetails[item.productId];
-                const price = product?.prices ?? 0; // Use product price if available, otherwise default to 0
-                return total + price * item.quantity;
-            }, 0)
-            .toFixed(2);
+        const selectedItem = cartItems.find((item) => item.orderId === selectedOrderId);
+        if (selectedItem) {
+            const product = productDetails[selectedItem.productId];
+            const price = product?.prices ?? 0; // Use product price if available, otherwise default to 0
+            return price * selectedItem.quantity;
+        }
+        return 0;
     };
 
     return (
@@ -127,18 +53,27 @@ const ShoppingCart = () => {
                 ) : (
                     cartItems.map((item) => {
                         const product = productDetails[item.productId] || {};
+                        const isSelected = item.orderId === selectedOrderId; // Check if item is selected
                         return (
-                            <div key={item.orderId} className="flex items-center border-b py-4">
+                            <div
+                                key={item.orderId}
+                                onClick={() => setSelectedOrderId(item.orderId)} // Set selected order ID
+                                className={`flex items-center border rounded-lg p-4 mb-3 cursor-pointer transition-all duration-300 ${
+                                    isSelected
+                                        ? "bg-orange-100 border-orange-600"
+                                        : "hover:bg-gray-100"
+                                }`}
+                            >
                                 <img
                                     src={product.image?.[0] || "/path/to/default-image.jpg"} // Use first image or a placeholder
                                     alt={product.productName || "Product"}
-                                    className="w-24 h-24 object-cover mr-4"
+                                    className="w-16 h-16 object-cover mr-4 rounded"
                                 />
                                 <div className="flex-1">
-                                    <h2 className="text-xl font-semibold">
+                                    <h2 className="text-lg font-semibold text-gray-800">
                                         {product.productName || "Product Name"}
                                     </h2>
-                                    <p className="text-gray-600">
+                                    <p className="text-gray-600 text-sm">
                                         {product.prices
                                             ? new Intl.NumberFormat("vi-VN", {
                                                   style: "currency",
@@ -148,31 +83,36 @@ const ShoppingCart = () => {
                                     </p>
                                     <div className="flex items-center mt-2">
                                         <button
-                                            className="border rounded px-2 py-1 mr-2"
-                                            onClick={() =>
+                                            className="border rounded px-2 py-1 mr-2 text-sm"
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the selection
                                                 handleQuantityChange(
-                                                    item.orderId,
+                                                    item.productId,
                                                     item.quantity - 1
-                                                )
-                                            }
+                                                );
+                                            }}
                                         >
                                             -
                                         </button>
                                         <span>{item.quantity}</span>
                                         <button
-                                            className="border rounded px-2 py-1 ml-2"
-                                            onClick={() =>
+                                            className="border rounded px-2 py-1 ml-2 text-sm"
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the selection
                                                 handleQuantityChange(
-                                                    item.orderId,
+                                                    item.productId,
                                                     item.quantity + 1
-                                                )
-                                            }
+                                                );
+                                            }}
                                         >
                                             +
                                         </button>
                                         <button
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // Prevent triggering the selection
+                                                removeFromCart(item.orderId);
+                                            }}
                                             className="ml-4 text-red-600"
-                                            onClick={() => handleRemoveItem(item.orderId)}
                                         >
                                             <FaTrashAlt />
                                         </button>
@@ -195,17 +135,20 @@ const ShoppingCart = () => {
                 )}
                 {cartItems.length > 0 && (
                     <button
-                        className="mt-5 w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-500 transition-all duration-300"
-                        onClick={() =>
-                            toast.info(
-                                `Proceeding to payment. Total: ${new Intl.NumberFormat("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
-                                }).format(calculateTotal())}`
-                            )
-                        }
+                        className={`mt-5 w-full py-2 rounded transition-all duration-300 ${
+                            !selectedOrderId
+                                ? "bg-gray-400 cursor-not-allowed text-white"
+                                : "bg-orange-600 hover:bg-orange-500 text-white"
+                        }`}
+                        onClick={() => {
+                            if (selectedOrderId) {
+                                toast.success("Chuyển đến thanh toán");
+                                navigate("/checkout"); // Navigate to checkout page
+                            }
+                        }}
+                        disabled={!selectedOrderId} // Disable button if no item is selected
                     >
-                        Thanh toán
+                        {!selectedOrderId ? "Chọn sản phẩm trước khi thanh toán" : "Thanh toán"}
                     </button>
                 )}
             </div>
