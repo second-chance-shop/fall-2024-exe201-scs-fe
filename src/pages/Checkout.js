@@ -190,15 +190,23 @@ const checkoutOrder = async (selectedOrderId, methodPayment) => {
             }
         );
 
-        if (response.status === 200 && response.data.isSuccess) {
-            const { urlPayment } = response.data.data;
+        if (response.status === 200) {
+            const { isSuccess, data, message, location } = response.data;
 
-            // If the payment method is CREDIT_CARD, redirect to the payment URL
-            if (methodPayment === "CREDIT_CARD" && urlPayment) {
-                console.log("Redirecting to payment URL:", urlPayment);
-                window.location.href = urlPayment;
+            if (isSuccess) {
+                // Nếu thanh toán thành công, điều hướng đến trang thanh toán hoặc trang chủ
+                if (methodPayment === "CREDIT_CARD" && data?.urlPayment) {
+                    window.location.href = data.urlPayment; // Điều hướng đến trang thanh toán
+                } else {
+                    alert("Đặt hàng thành công!");
+                    window.location.href = location || "https://2ndchanceshop.vercel.app/";
+                }
+            } else if (message === "Order canceled") {
+                // Nếu giao dịch bị huỷ, điều hướng về trang checkout
+                alert("Giao dịch đã bị huỷ!");
+                window.location.href = "https://2ndchanceshop.vercel.app/checkout";
             } else {
-                alert("Đặt hàng thành công!");
+                alert("Đặt hàng thất bại: " + message);
             }
         } else {
             throw new Error(response.data.message || "Đặt hàng thất bại.");
@@ -208,6 +216,7 @@ const checkoutOrder = async (selectedOrderId, methodPayment) => {
         alert(error.response?.data?.message || "Đã xảy ra lỗi trong quá trình đặt hàng.");
     }
 };
+
 
 const Checkout = () => {
     const [selectedMethod, setSelectedMethod] = useState(null);
