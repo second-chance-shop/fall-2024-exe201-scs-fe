@@ -190,8 +190,7 @@ export const CartProvider = ({ children }) => {
     // Function to handle checkout
     const checkoutOrder = async (methodPayment) => {
         if (!selectedOrderId) {
-            toast.error("Please select an order to process payment.");
-            return;
+            throw new Error("Please select an order to process payment.");
         }
 
         try {
@@ -202,18 +201,17 @@ export const CartProvider = ({ children }) => {
                     headers: getAuthHeaders(),
                 }
             );
-
+            console.log(response.data);
             if (response.status === 200) {
                 toast.success("Order processed successfully!");
-                console.log(response.data);
-                // Optionally, refresh the cart or perform additional logic here
-                fetchCartItems();
+                fetchCartItems(); // Optionally refresh the cart
+                return response.data; // Return the response data for success
             } else {
-                toast.error("Failed to process payment.");
+                throw new Error("Failed to process payment.");
             }
         } catch (error) {
-            toast.error("An error occurred during checkout.");
-            console.error("Error in checkoutOrder:", error.response?.data || error.message);
+            // Rethrow the error for the calling function to handle
+            throw error.response?.data?.message || error.message || "An unknown error occurred.";
         }
     };
 

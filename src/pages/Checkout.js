@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { HiLocationMarker } from "react-icons/hi"; // Replace the location icon
 import { useCart } from "../context/CartContext";
 import axios from "axios";
+import PaymentStatusModal from "../components/PaymentStatusModal";
 
 // constants.js
 
@@ -174,11 +175,17 @@ function PaymentMethods({ selectedMethod, setSelectedMethod }) {
 
 const Checkout = () => {
     const [selectedMethod, setSelectedMethod] = useState(null);
+    const [paymentStatus, setPaymentStatus] = useState(null); // 'success' or 'fail'
     const { checkoutOrder, selectedOrderId } = useCart();
 
-    const handlePlaceOrder = () => {
-        if (selectedMethod) {
-            checkoutOrder(selectedMethod);
+    const handlePlaceOrder = async () => {
+        if (selectedMethod && selectedOrderId) {
+            try {
+                await checkoutOrder(selectedMethod);
+                setPaymentStatus("success"); // Mark success if no error
+            } catch (error) {
+                setPaymentStatus("fail"); // Mark fail if there's an error
+            }
         }
     };
 
@@ -227,6 +234,12 @@ const Checkout = () => {
                     {selectedMethod ? "Đặt hàng" : "Chọn phương thức thanh toán"}
                 </button>
             </section>
+
+            {/* Payment Status Modal */}
+            <PaymentStatusModal
+                isOpen={!!paymentStatus} // Show if paymentStatus is set
+                status={paymentStatus} // 'success' or 'fail'
+            />
         </div>
     );
 };
