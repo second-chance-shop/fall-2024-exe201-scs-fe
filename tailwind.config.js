@@ -24,6 +24,18 @@ module.exports = {
             animation: {
                 cardHover: "cardHover 0.5s ease-in-out",
             },
+            fontFamily: {
+                montserrat: ["Montserrat", "sans-serif"],
+                robotoMono: ["Roboto Mono", "monospace"],
+                oswald: ["Oswald", "sans-serif"],
+                nunito: ["Nunito", "sans-serif"],
+                playfair: ["Playfair Display", "serif"],
+                manrope: ["Manrope", "sans-serif"],
+                quicksand: ["Quicksand", "sans-serif"],
+                dosis: ["Dosis", "sans-serif"],
+                ballet: ["Ballet", "cursive"],
+                hanoienne: ['"L’Hanoienne"', "serif"], // Add L’Hanoienne Free Typeface
+            },
         },
     },
     plugins: [],

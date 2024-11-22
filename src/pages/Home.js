@@ -6,6 +6,7 @@ import ProductRecommendList from "../components/home_components/ProductRecommend
 import PayLater from "../components/home_components/PayLater";
 import CategoryRecomendation from "../components/home_components/CategoryRecomendation";
 import React, { useState, useEffect, useRef } from "react";
+import Banner2 from "../components/home_components/Banner2";
 
 import axios from "axios";
 // Import the JSON file
@@ -83,11 +84,7 @@ const Home = () => {
     return (
         <div className="">
             <div className="w-full mx-auto border-0 p-0">
-                <div className="bg-[#C67017]">
-                    <div className="mx-auto min-w-[1080px] px-11">
-                        <img src="/hero-image.webp" alt="Hero Banner" className="w-full" />
-                    </div>
-                </div>
+                <Banner2 />
                 <WarningBanner />
                 <LightningDeals
                     deals={initialDeals.current || []} // Pass initial deals only
