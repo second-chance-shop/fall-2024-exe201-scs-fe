@@ -94,7 +94,7 @@ const useProductData = () => {
     return { products, displayProducts, filteredProducts, filterProducts };
 };
 
-const SearchHeader = () => {
+const SearchBar = () => {
     const { displayProducts, filteredProducts, filterProducts } = useProductData();
     const { placeholder, handleInputFocus, handleInputBlur, isDropdownVisible } =
         useDynamicPlaceholder();
@@ -199,4 +199,4 @@ const SearchHeader = () => {
         </div>
     );
 };
-export default SearchHeader;
+export default SearchBar;

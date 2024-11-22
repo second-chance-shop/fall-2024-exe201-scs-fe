@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState, useEffect } from "react";
 import Loading from "./components/Loading"; // Import component Loading
+import Header2 from "./components/Header2";
 
 function App() {
     const [loading, setLoading] = useState(true);

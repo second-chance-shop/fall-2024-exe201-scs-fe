@@ -10,7 +10,7 @@ import defaultProfilePic from "../assest/avatar-user-default.png";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { AiOutlineOrderedList } from "react-icons/ai";
 import { logoutUser } from "./authUtils";
-import SearchHeader from "./navbar_components/SearchHeader";
+import SearchHeader from "./header_components/SearchBar";
 import { useCart } from "../context/CartContext";
 
 const Header = () => {
