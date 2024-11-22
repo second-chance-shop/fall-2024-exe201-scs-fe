@@ -1,45 +1,36 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
     const [isVisible, setIsVisible] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
-    const [htmlContent, setHtmlContent] = useState(null); // Store the extracted HTML
+    const [countdown, setCountdown] = useState(5);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
             setTimeout(() => setIsAnimating(true), 10);
-
-            // If payment method is CREDIT_CARD, fetch the payment page HTML
-            if (paymentData?.namePayment === "CREDIT_CARD" && paymentData?.urlPayment) {
-                fetchPaymentPage(paymentData.urlPayment);
-            }
         } else {
             setIsAnimating(false);
             setTimeout(() => setIsVisible(false), 300);
         }
-    }, [isOpen, paymentData]);
+    }, [isOpen]);
 
-    // Fetch and extract the relevant part of the payment page
-    const fetchPaymentPage = async (url) => {
-        try {
-            const response = await fetch(url);
-            const htmlText = await response.text();
+    useEffect(() => {
+        if (isOpen && countdown > 0 && (!paymentData || !paymentData.urlPayment)) {
+            const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+            return () => clearInterval(timer);
+        } else if (countdown === 0) {
+            handleRedirect();
+        }
+    }, [isOpen, countdown, paymentData]);
 
-            // Parse the HTML to extract the relevant section
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, "text/html");
-            console.log(doc);
-            const extractedContent = doc.querySelector(".w-full.flex.flex-col.items-center");
-
-            if (extractedContent) {
-                setHtmlContent(extractedContent.outerHTML); // Save the extracted HTML
-            } else {
-                setHtmlContent("<p>Không thể tải nội dung thanh toán.</p>");
-            }
-        } catch (error) {
-            console.error("Error fetching payment page:", error);
-            setHtmlContent("<p>Đã xảy ra lỗi khi tải nội dung thanh toán.</p>");
+    const handleRedirect = () => {
+        if (status === "success") {
+            navigate("/");
+        } else if (status === "fail") {
+            navigate("/shopping-cart");
         }
     };
 
@@ -48,7 +39,7 @@ const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
     return (
         <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-300 ease-out">
             <div
-                className={`bg-gradient-to-br from-white via-gray-50 to-gray-200 rounded-lg shadow-2xl transform transition-all items-center duration-300 ease-in-out p-[36px_40px] flex flex-col relative w-[700px] ${
+                className={`bg-gradient-to-br from-white via-gray-50 to-gray-200 rounded-lg shadow-2xl transform transition-all items-center duration-300 ease-in-out p-[36px_40px] flex flex-col relative w-[500px] ${
                     isAnimating ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 }`}
             >
@@ -60,41 +51,67 @@ const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
                     &times;
                 </button>
 
-                {/* Display HTML Content or Fallback Message */}
-                {status === "success" && paymentData?.namePayment === "CREDIT_CARD" ? (
+                {/* Icon and Message */}
+                <div className="mb-4">
                     <div
-                        className="w-full overflow-y-auto max-h-[500px]"
-                        dangerouslySetInnerHTML={{ __html: htmlContent }}
-                    ></div>
+                        className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto ${
+                            status === "success"
+                                ? "bg-green-100 text-green-600"
+                                : "bg-red-100 text-red-600"
+                        }`}
+                    >
+                        {status === "success" ? "✓" : "!"}
+                    </div>
+                </div>
+                <h2
+                    className={`text-[24px] font-bold ${
+                        status === "success" ? "text-green-600" : "text-red-600"
+                    }`}
+                >
+                    {status === "success" ? "Thanh toán thành công!" : "Thanh toán thất bại!"}
+                </h2>
+
+                <p className="text-gray-600 mt-2">
+                    {status === "success"
+                        ? paymentData?.namePayment === "CREDIT_CARD"
+                            ? "Vui lòng thanh toán tại đường dẫn sau:"
+                            : "Bạn sẽ được chuyển về trang chủ sau:"
+                        : "Bạn sẽ được chuyển về giỏ hàng sau:"}
+                </p>
+
+                {/* Countdown or Link */}
+                {paymentData?.namePayment === "CREDIT_CARD" && paymentData?.urlPayment ? (
+                    <a
+                        href={paymentData.urlPayment}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline text-lg font-semibold mt-4 hover:text-blue-700"
+                    >
+                        Nhấp vào đây để thanh toán
+                    </a>
                 ) : (
-                    <div>
-                        <h2
-                            className={`text-[24px] font-bold ${
-                                status === "success" ? "text-green-600" : "text-red-600"
-                            }`}
-                        >
-                            {status === "success"
-                                ? "Thanh toán thành công!"
-                                : "Thanh toán thất bại!"}
-                        </h2>
-                        <p className="text-gray-600 mt-2">
-                            {status === "success"
-                                ? "Bạn sẽ được chuyển về trang chủ sau:"
-                                : "Bạn sẽ được chuyển về giỏ hàng sau:"}
-                        </p>
+                    <div
+                        className="text-5xl font-bold my-6 text-orange-500 animate-bounce"
+                        style={{ transition: "all 0.3s ease-in-out" }}
+                    >
+                        {countdown}
                     </div>
                 )}
 
                 {/* Redirect Button */}
                 <button
-                    className={`w-[320px] h-[48px] mt-6 rounded-full text-white font-semibold shadow-lg transform hover:scale-105 transition-all ${
+                    className={`w-[320px] h-[48px] rounded-full text-white font-semibold shadow-lg transform hover:scale-105 transition-all ${
                         status === "success"
                             ? "bg-gradient-to-r from-green-400 to-green-600"
                             : "bg-gradient-to-r from-red-400 to-red-600"
                     }`}
-                    onClick={onClose}
+                    onClick={handleRedirect}
                 >
-                    {status === "success" ? "Hoàn tất" : "Quay Lại Giỏ Hàng"}
+                    {status === "success" && paymentData?.namePayment === "CREDIT_CARD"
+                        ? "Về Trang Chủ Sau Thanh Toán"
+                        : status === "success"
+                        ? "Về Trang Chủ"
+                        : "Quay Lại Giỏ Hàng"}
                 </button>
             </div>
         </div>
