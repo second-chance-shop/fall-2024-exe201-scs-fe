@@ -50,7 +50,7 @@ export const CartProvider = ({ children }) => {
             const rawCartItems = response.data.data;
             const consolidatedItems = consolidateCartItems(rawCartItems);
             setCartItems(consolidatedItems);
-
+            console.log(response.data.data);
             // Fetch product details for each unique item
             const productData = await Promise.all(
                 consolidatedItems.map(async (item) => {
@@ -190,7 +190,7 @@ export const CartProvider = ({ children }) => {
     // Function to handle checkout
     const checkoutOrder = async (methodPayment) => {
         if (!selectedOrderId) {
-            throw new Error("Please select an order to process payment.");
+            throw new Error("Vui lòng chọn đơn hàng để thanh toán.");
         }
 
         try {
@@ -202,16 +202,27 @@ export const CartProvider = ({ children }) => {
                 }
             );
             console.log(response.data);
+
+            // Check if the response is successful and code is ORDER_SUCCESS
             if (response.status === 200) {
-                toast.success("Order processed successfully!");
-                fetchCartItems(); // Optionally refresh the cart
-                return response.data; // Return the response data for success
+                const { code, message, data } = response.data;
+
+                if (code === "ORDER_SUCCESS") {
+                    await fetchCartItems(); // Refresh the cart
+                    return data; // Return the complete response data for further use
+                } else {
+                    throw new Error(`Có lỗi xảy ra: ${message || "Không thể xử lý đơn hàng."}`);
+                }
             } else {
-                throw new Error("Failed to process payment.");
+                throw new Error("Không thể xử lý thanh toán. Vui lòng thử lại sau.");
             }
         } catch (error) {
-            // Rethrow the error for the calling function to handle
-            throw error.response?.data?.message || error.message || "An unknown error occurred.";
+            // Handle API errors and rethrow for the calling function
+            const errorMessage =
+                error.response?.data?.message ||
+                error.message ||
+                "Đã xảy ra lỗi không xác định. Vui lòng thử lại.";
+            throw new Error(errorMessage);
         }
     };
 

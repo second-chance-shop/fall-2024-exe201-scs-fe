@@ -13,7 +13,6 @@ const ShoppingCart = () => {
         updateCartItemQuantity,
         selectedOrderId,
         setSelectedOrderId,
-        checkoutOrder,
     } = useCart();
 
     // Handle quantity change

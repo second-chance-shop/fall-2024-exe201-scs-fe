@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { HiLocationMarker } from "react-icons/hi"; // Replace the location icon
 import { useCart } from "../context/CartContext";
+import { toast } from "react-toastify";
 import axios from "axios";
 import PaymentStatusModal from "../components/PaymentStatusModal";
 
@@ -173,65 +174,35 @@ function PaymentMethods({ selectedMethod, setSelectedMethod }) {
     ));
 }
 
-const checkoutOrder = async (selectedOrderId, methodPayment) => {
-    try {
-        const token = localStorage.getItem("userToken");
-        if (!token) {
-            throw new Error("Authentication token not found.");
-        }
-
-        const response = await axios.put(
-            `https://scs-api.arisavinh.dev/api/v1/order/checkout/${selectedOrderId}?methodPayment=${methodPayment}`,
-            {},
-            {
-                headers: {
-                    Authorization: `${token}`,
-                },
-            }
-        );
-
-        if (response.status === 200) {
-            const { isSuccess, data, message, location } = response.data;
-
-            if (isSuccess) {
-                // Nếu thanh toán thành công, điều hướng đến trang thanh toán hoặc trang chủ
-                if (methodPayment === "CREDIT_CARD" && data?.urlPayment) {
-                    window.location.href = data.urlPayment; // Điều hướng đến trang thanh toán
-                } else {
-                    alert("Đặt hàng thành công!");
-                    window.location.href = location || "https://2ndchanceshop.vercel.app/";
-                }
-            } else if (message === "Order canceled") {
-                // Nếu giao dịch bị huỷ, điều hướng về trang checkout
-                alert("Giao dịch đã bị huỷ!");
-                window.location.href = "https://2ndchanceshop.vercel.app/checkout";
-            } else {
-                alert("Đặt hàng thất bại: " + message);
-            }
-        } else {
-            throw new Error(response.data.message || "Đặt hàng thất bại.");
-        }
-    } catch (error) {
-        console.error("Checkout error:", error);
-        alert(error.response?.data?.message || "Đã xảy ra lỗi trong quá trình đặt hàng.");
-    }
-};
-
-
 const Checkout = () => {
     const [selectedMethod, setSelectedMethod] = useState(null);
     const [paymentStatus, setPaymentStatus] = useState(null);
-    const { selectedOrderId, cartItems, productDetails } = useCart(); // Include cart data and product details
+    const [paymentData, setPaymentData] = useState(null);
+    const { selectedOrderId, cartItems, productDetails, checkoutOrder } = useCart(); // Include cart data and product details
     const [totalPrice, setTotalPrice] = useState(0);
 
     const handlePlaceOrder = async () => {
-        if (!selectedMethod) {
-            alert("Vui lòng chọn phương thức thanh toán.");
-            return;
-        }
+        try {
+            if (!selectedMethod) {
+                toast.error("Vui lòng chọn phương thức thanh toán");
+                return;
+            }
 
-        // Proceed with checkout using the selected payment method
-        checkoutOrder(selectedOrderId, selectedMethod);
+            // Call the checkoutOrder function and get the payment data
+            const paymentData = await checkoutOrder(selectedMethod);
+
+            // Check for CREDIT_CARD payment type and handle URL
+            if (paymentData.namePayment === "CREDIT_CARD" && paymentData.urlPayment) {
+                toast.info("Vui lòng hoàn tất thanh toán qua liên kết cung cấp.");
+            }
+
+            // Pass the payment data to the modal
+            setPaymentData(paymentData);
+            setPaymentStatus("success"); // Set modal status to success
+        } catch (error) {
+            console.error("Đã có lỗi xảy ra:", error);
+            setPaymentStatus("fail"); // Set modal status to fail
+        }
     };
 
     useEffect(() => {
@@ -296,8 +267,10 @@ const Checkout = () => {
 
             {/* Payment Status Modal */}
             <PaymentStatusModal
-                isOpen={!!paymentStatus} // Show if paymentStatus is set
-                status={paymentStatus} // 'success' or 'fail'
+                isOpen={!!paymentStatus}
+                onClose={() => setPaymentStatus(null)}
+                status={paymentStatus}
+                paymentData={paymentData} // Pass the payment data to the modal
             />
         </div>
     );

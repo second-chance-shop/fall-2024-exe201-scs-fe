@@ -89,35 +89,40 @@ const Header = () => {
     };
 
     return (
-        <header className="h-18 shadow-md bg-yellow-400 z-30 flex items-center">
-            <div className="container mx-auto flex items-center justify-between h-full px-4">
-                <div className="logo-container pl-10 flex items-center">
-                    <Link to={"/"} className="flex items-center">
-                        <span className="ml-2 text-xl font-bold text-gray-800">SecondChance</span>
-                        <div className="p-2">
-                            <Logo />
-                        </div>
+        <header className="h-20 shadow-lg bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-500 z-30 flex items-center sticky top-0 transition-all duration-300 ease-in-out">
+            <div className="container mx-auto flex items-center justify-between h-full px-6">
+                {/* Logo Section */}
+                <div className="logo-container pl-4 flex items-center gap-3">
+                    <Link to={"/"} className="flex items-center group">
+                        <Logo className="w-12 h-12 transition-transform group-hover:scale-110" />
+                        <span className="ml-2 text-2xl font-extrabold text-gray-800 group-hover:text-gray-900 transition-all duration-300">
+                            SecondChance
+                        </span>
                     </Link>
                 </div>
 
-                <SearchHeader />
+                {/* Search Section */}
+                <SearchHeader className="flex-grow mx-6 transition-all duration-300 hover:shadow-md" />
 
-                <div className="flex items-center gap-7">
-                    <a href="/shopping-cart" className="text-3xl relative">
-                        <span>
-                            <FaShoppingCart />
-                        </span>
-                        {/* Cart badge */}
+                {/* Action Buttons */}
+                <div className="flex items-center gap-6">
+                    {/* Shopping Cart */}
+                    <a
+                        href="/shopping-cart"
+                        className="text-3xl relative group hover:scale-110 transition-transform duration-300"
+                    >
+                        <FaShoppingCart className="text-gray-800 group-hover:text-orange-600 transition-colors duration-300" />
                         {getTotalCartItems() > 0 && (
-                            <div className="bg-orange-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3">
-                                <p className="text-sm">{getTotalCartItems()}</p>
+                            <div className="bg-red-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3 animate-bounce">
+                                <p className="text-xs font-bold">{getTotalCartItems()}</p>
                             </div>
                         )}
                     </a>
 
+                    {/* User Dropdown */}
                     <div className="relative">
                         <div
-                            className="text-3xl cursor-pointer"
+                            className="text-3xl cursor-pointer group"
                             onClick={handleUserIconClick}
                             aria-haspopup="true"
                             aria-expanded={dropdownOpen}
@@ -125,16 +130,16 @@ const Header = () => {
                             {isLoggedIn ? (
                                 <img
                                     src={user?.avatar || defaultProfilePic}
-                                    className="w-11 h-11 rounded-full"
+                                    className="w-11 h-11 rounded-full border-2 border-orange-600 shadow-lg transition-transform group-hover:scale-110"
                                     alt={user?.name || "User Avatar"}
                                 />
                             ) : (
-                                <FaRegCircleUser className="text-3xl" />
+                                <FaRegCircleUser className="text-gray-800 group-hover:text-orange-600 transition-colors duration-300" />
                             )}
                         </div>
 
                         {isLoggedIn && dropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg border transition-all ease-in-out duration-300">
+                            <div className="absolute right-0 mt-2 w-56 bg-white shadow-2xl rounded-lg border border-gray-200 transition-all ease-in-out duration-300">
                                 <ul className="py-2">
                                     <li className="border-b last:border-none">
                                         <Link
@@ -176,19 +181,19 @@ const Header = () => {
                         )}
                     </div>
 
-                    {/* New Dropdown for Orders */}
+                    {/* Order Dropdown */}
                     <div className="relative">
                         <div
-                            className="text-3xl cursor-pointer"
+                            className="text-3xl cursor-pointer group hover:scale-110 transition-transform duration-300"
                             onClick={handleOrderIconClick}
                             aria-haspopup="true"
                             aria-expanded={orderDropdownOpen}
                         >
-                            <AiOutlineOrderedList /> {/* Order Icon */}
+                            <AiOutlineOrderedList className="text-gray-800 group-hover:text-orange-600 transition-colors duration-300" />
                         </div>
 
                         {isLoggedIn && orderDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white shadow-md rounded-lg border transition-all ease-in-out duration-300">
+                            <div className="absolute right-0 mt-2 w-56 bg-white shadow-2xl rounded-lg border border-gray-200 transition-all ease-in-out duration-300">
                                 <ul className="py-2">
                                     <li className="border-b last:border-none">
                                         <Link
@@ -213,13 +218,14 @@ const Header = () => {
                         )}
                     </div>
 
+                    {/* Login Button */}
                     {!isLoggedIn && (
                         <div>
                             <Link
                                 to={"/login"}
-                                className="text-white bg-orange-600 px-3 py-1 rounded-full"
+                                className="text-white bg-gradient-to-r from-orange-500 to-red-500 px-5 py-2 rounded-full font-bold shadow-lg hover:brightness-110 hover:scale-105 transition-all duration-200"
                             >
-                                Login
+                                Đăng nhập
                             </Link>
                         </div>
                     )}
