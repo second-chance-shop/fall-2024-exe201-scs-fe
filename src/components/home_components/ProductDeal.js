@@ -4,10 +4,16 @@ import ProductStars from "../product_components/ProductStars";
 import ProductPrice from "../product_components/ProductPrice";
 import ProductImage from "../product_components/ProductImage";
 
-const ProductDeal = ({ deal }) => {
-    const handleNavigation = () => {
-        window.location.href = `/product/${deal.productId}`; // Use productId from deal to navigate
+const ProductDeal = ({ deal, isDragging }) => {
+    const handleNavigation = (e) => {
+        if (isDragging) {
+            // Prevent navigation if dragging
+            e.preventDefault();
+            return;
+        }
+        window.location.href = `/product/${deal.productId}`; // Navigate to product page
     };
+
     return (
         <li
             className="relative flex-shrink-0 mr-[18px] group"
@@ -36,4 +42,5 @@ const ProductDeal = ({ deal }) => {
         </li>
     );
 };
+
 export default ProductDeal;

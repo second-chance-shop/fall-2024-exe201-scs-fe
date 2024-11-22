@@ -10,7 +10,7 @@ const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
     useEffect(() => {
         if (isOpen) {
             setIsVisible(true);
-            setTimeout(() => setIsAnimating(true), 10);
+            setTimeout(() => setIsAnimating(true), 10); // Start animations
         } else {
             setIsAnimating(false);
             setTimeout(() => setIsVisible(false), 300);
@@ -18,13 +18,26 @@ const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
     }, [isOpen]);
 
     useEffect(() => {
-        if (isOpen && countdown > 0 && (!paymentData || !paymentData.urlPayment)) {
-            const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
-            return () => clearInterval(timer);
-        } else if (countdown === 0) {
-            handleRedirect();
+        if (isOpen) {
+            if (
+                status === "success" &&
+                paymentData?.namePayment === "CREDIT_CARD" &&
+                paymentData?.urlPayment
+            ) {
+                setTimeout(() => {
+                    window.open(paymentData.urlPayment, "_blank");
+                }, 1200); // Slight delay before opening payment link
+                return;
+            }
+
+            if (countdown > 0 && (!paymentData || !paymentData.urlPayment)) {
+                const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+                return () => clearInterval(timer);
+            } else if (countdown === 0) {
+                handleRedirect();
+            }
         }
-    }, [isOpen, countdown, paymentData]);
+    }, [isOpen, countdown, paymentData, status]);
 
     const handleRedirect = () => {
         if (status === "success") {
@@ -37,81 +50,91 @@ const PaymentStatusModal = ({ isOpen, onClose, status, paymentData }) => {
     if (!isVisible) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-300 ease-out">
+        <div
+            className={`fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out ${
+                isAnimating ? "opacity-100" : "opacity-0"
+            }`}
+        >
             <div
-                className={`bg-gradient-to-br from-white via-gray-50 to-gray-200 rounded-lg shadow-2xl transform transition-all items-center duration-300 ease-in-out p-[36px_40px] flex flex-col relative w-[500px] ${
+                className={`relative bg-white rounded-lg shadow-lg p-[50px] flex flex-col items-center w-[550px] ${
                     isAnimating ? "scale-100 opacity-100" : "scale-95 opacity-0"
                 }`}
             >
+                {/* Animated Border */}
+                <div
+                    className="absolute inset-0 rounded-lg border-[5px] border-dashed animate-running-border"
+                    style={{
+                        borderImageSource:
+                            "linear-gradient(to right, #6EE7B7, #3B82F6, #6366F1, #9333EA)",
+                        borderImageSlice: 1,
+                    }}
+                ></div>
+
                 {/* Close Button */}
                 <button
-                    className="absolute top-3 right-3 text-2xl font-bold text-gray-400 hover:text-gray-600 transition-all"
+                    className="absolute top-3 right-3 text-3xl font-bold text-gray-400 hover:text-green-500 transition-transform transform hover:rotate-[360deg] hover:scale-125"
                     onClick={onClose}
                 >
                     &times;
                 </button>
 
-                {/* Icon and Message */}
-                <div className="mb-4">
-                    <div
-                        className={`w-14 h-14 rounded-full flex items-center justify-center mx-auto ${
-                            status === "success"
-                                ? "bg-green-100 text-green-600"
-                                : "bg-red-100 text-red-600"
-                        }`}
-                    >
-                        {status === "success" ? "✓" : "!"}
-                    </div>
-                </div>
-                <h2
-                    className={`text-[24px] font-bold ${
-                        status === "success" ? "text-green-600" : "text-red-600"
-                    }`}
+                {/* Icon with Dancing and Hover Effects */}
+                <div
+                    className={`mb-6 rounded-full w-24 h-24 flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg animate-jump hover:animate-dance transition-transform hover:scale-110 hover:rotate-[10deg]`}
                 >
-                    {status === "success" ? "Thanh toán thành công!" : "Thanh toán thất bại!"}
+                    <span className="text-4xl font-black">{status === "success" ? "✓" : "!"}</span>
+                </div>
+
+                {/* Header */}
+                <h2
+                    className={`text-[28px] font-black text-center ${
+                        status === "success" ? "text-green-500" : "text-red-500"
+                    } mb-6`}
+                >
+                    {status === "success" && paymentData?.namePayment === "CREDIT_CARD"
+                        ? "CHỜ THANH TOÁN QUA NGÂN HÀNG!"
+                        : "ĐẶT HÀNG THÀNH CÔNG!"}
                 </h2>
 
-                <p className="text-gray-600 mt-2">
-                    {status === "success"
-                        ? paymentData?.namePayment === "CREDIT_CARD"
-                            ? "Vui lòng thanh toán tại đường dẫn sau:"
-                            : "Bạn sẽ được chuyển về trang chủ sau:"
-                        : "Bạn sẽ được chuyển về giỏ hàng sau:"}
-                </p>
+                {/* Body */}
+                <div className="text-gray-600 text-center space-y-4 leading-relaxed">
+                    {status === "success" && paymentData?.namePayment === "CREDIT_CARD" ? (
+                        <>
+                            <p>Đang chờ bạn hoàn tất thanh toán tại trang ngân hàng...</p>
+                            <p className="font-medium">
+                                Hãy hoàn tất thanh toán tại{" "}
+                                <span className="text-blue-500 font-bold">tab mới được mở</span>!
+                            </p>
+                            <p>
+                                Nếu trang thanh toán không tự mở, hãy nhấp vào liên kết sau:
+                                <br />
+                                <a
+                                    href={paymentData.urlPayment}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-600 underline text-lg font-bold hover:text-blue-800 transition-all"
+                                >
+                                    Nhấp vào đây để thanh toán
+                                </a>
+                            </p>
+                        </>
+                    ) : (
+                        <p>Bạn sẽ được chuyển về trang chủ sau vài giây...</p>
+                    )}
+                </div>
 
-                {/* Countdown or Link */}
-                {paymentData?.namePayment === "CREDIT_CARD" && paymentData?.urlPayment ? (
-                    <a
-                        href={paymentData.urlPayment}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline text-lg font-semibold mt-4 hover:text-blue-700"
-                    >
-                        Nhấp vào đây để thanh toán
-                    </a>
-                ) : (
-                    <div
-                        className="text-5xl font-bold my-6 text-orange-500 animate-bounce"
-                        style={{ transition: "all 0.3s ease-in-out" }}
-                    >
-                        {countdown}
-                    </div>
-                )}
-
-                {/* Redirect Button */}
+                {/* Button */}
                 <button
-                    className={`w-[320px] h-[48px] rounded-full text-white font-semibold shadow-lg transform hover:scale-105 transition-all ${
+                    className={`w-[350px] h-[60px] mt-8 rounded-full text-white font-bold shadow-lg transform hover:scale-110 transition-all ${
                         status === "success"
-                            ? "bg-gradient-to-r from-green-400 to-green-600"
-                            : "bg-gradient-to-r from-red-400 to-red-600"
+                            ? "bg-gradient-to-r from-green-400 to-blue-500"
+                            : "bg-gradient-to-r from-red-500 to-yellow-500"
                     }`}
                     onClick={handleRedirect}
                 >
                     {status === "success" && paymentData?.namePayment === "CREDIT_CARD"
-                        ? "Về Trang Chủ Sau Thanh Toán"
-                        : status === "success"
-                        ? "Về Trang Chủ"
-                        : "Quay Lại Giỏ Hàng"}
+                        ? "ĐỢI THANH TOÁN XONG"
+                        : "VỀ TRANG CHỦ"}
                 </button>
             </div>
         </div>

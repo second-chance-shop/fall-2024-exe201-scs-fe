@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import BackgroundBanner from "./BackgroundBanner";
+import ImageGallery from "./ImageGallery";
 const fonts = [
     "font-montserrat",
     "font-robotoMono",
@@ -29,6 +30,15 @@ const fontStyles = {
 const HeroBanner = ({ onButtonClick }) => {
     const [currentFont, setCurrentFont] = useState(fonts[0]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [hoverIndex, setHoverIndex] = useState(null);
+
+    const handleHover = (index) => {
+        setHoverIndex(index);
+    };
+
+    const handleHoverEnd = () => {
+        setHoverIndex(null);
+    };
 
     useEffect(() => {
         // Start with the current font without triggering any immediate changes
@@ -113,18 +123,29 @@ const HeroBanner = ({ onButtonClick }) => {
             </motion.div>
 
             {/* Right Image Section */}
-            <div className="flex-[1.5] flex justify-center mt-20 md:mt-0 space-x-10">
+            <div className="flex-[1.5] flex justify-center md:mt-[-100px] space-x-10">
                 {/* First Image */}
                 <motion.div
                     className="relative transform rotate-[-10deg] rounded-[30px] overflow-hidden shadow-2xl"
-                    whileHover={{ rotate: -5, scale: 1.5 }}
+                    whileHover={{
+                        rotate: -5,
+                        scale: 1.4,
+                    }}
                     whileTap={{ scale: 0.9 }}
+                    onHoverStart={() => handleHover(0)}
+                    onHoverEnd={() => handleHoverEnd()}
                     transition={{ type: "spring", stiffness: 300 }}
                 >
-                    <img
+                    <motion.img
                         src="https://m.media-amazon.com/images/I/811BWlyGc7L._AC_UF1000,1000_QL80_.jpg"
                         alt="Model 1"
-                        className="w-[600px] h-[600px] object-cover"
+                        className="object-cover"
+                        animate={hoverIndex === 0 ? { width: "600px" } : { width: "300px" }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        style={{
+                            height: "600px",
+                            transition: "width",
+                        }}
                         loading="lazy"
                     />
                 </motion.div>
@@ -132,14 +153,25 @@ const HeroBanner = ({ onButtonClick }) => {
                 {/* Second Image */}
                 <motion.div
                     className="relative transform rotate-[5deg] rounded-[30px] overflow-hidden shadow-2xl"
-                    whileHover={{ rotate: 0, scale: 1.5 }}
+                    whileHover={{
+                        rotate: 0,
+                        scale: 1.4,
+                    }}
                     whileTap={{ scale: 0.9 }}
+                    onHoverStart={() => handleHover(1)}
+                    onHoverEnd={() => handleHoverEnd()}
                     transition={{ type: "spring", stiffness: 300 }}
                 >
-                    <img
+                    <motion.img
                         src="https://pbs.twimg.com/media/EaLG8OnX0AU6-eL.jpg:large"
                         alt="Model 2"
-                        className="w-[600px] h-[600px] object-cover"
+                        className="object-cover"
+                        animate={hoverIndex === 1 ? { width: "600px" } : { width: "300px" }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        style={{
+                            height: "600px",
+                            transition: "width",
+                        }}
                         loading="lazy"
                     />
                 </motion.div>
@@ -147,14 +179,25 @@ const HeroBanner = ({ onButtonClick }) => {
                 {/* Third Image */}
                 <motion.div
                     className="relative transform rotate-[-5deg] rounded-[30px] overflow-hidden shadow-2xl"
-                    whileHover={{ rotate: 5, scale: 1.5 }}
+                    whileHover={{
+                        rotate: 5,
+                        scale: 1.4,
+                    }}
                     whileTap={{ scale: 0.9 }}
+                    onHoverStart={() => handleHover(2)}
+                    onHoverEnd={() => handleHoverEnd()}
                     transition={{ type: "spring", stiffness: 300 }}
                 >
-                    <img
+                    <motion.img
                         src="https://m.media-amazon.com/images/I/51VzSLbARtS._AC_UF894,1000_QL80_.jpg"
                         alt="Model 3"
-                        className="w-[600px] h-[600px] object-cover"
+                        className="object-cover"
+                        animate={hoverIndex === 2 ? { width: "600px" } : { width: "300px" }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                        style={{
+                            height: "600px",
+                            transition: "width",
+                        }}
                         loading="lazy"
                     />
                 </motion.div>

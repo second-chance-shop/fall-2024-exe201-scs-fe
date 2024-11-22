@@ -160,10 +160,10 @@ const carousel7 = [
     "95.png",
     "96.png",
 ];
+const carousels = [carousel1, carousel2, carousel3, carousel4, carousel5, carousel6, carousel7];
 
 const BackgroundBanner = () => {
     // Dynamically load images and shuffle them
-    const carousels = [carousel1, carousel2, carousel3, carousel4, carousel5, carousel6, carousel7];
 
     return (
         <div className="absolute inset-0 overflow-hidden z-0" style={{ top: "50px" }}>

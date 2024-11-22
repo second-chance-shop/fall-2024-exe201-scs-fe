@@ -32,7 +32,7 @@ const About = () => {
 
     return (
         <div className="bg-gradient-to-b from-white via-green-50 to-white py-12 px-6">
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-7xl mx-auto">
                 {/* Hero Section */}
                 <motion.section
                     className="text-center mb-16"
@@ -56,13 +56,13 @@ const About = () => {
                         mới hoặc đã qua sử dụng, giúp sản phẩm có "cơ hội thứ hai" để được sử dụng.
                     </motion.p>
                     <motion.img
-                        src="https://aimg.kwcdn.com/upload_aimg/personal/25472687-6a51-42f1-82ac-259b561c7ac5.png.slim.png?imageView2/q/70/format/webp"
+                        src="/SCS_LOGO.jpg"
                         alt="Second Chance Shop"
-                        className="mt-8 mx-auto rounded-lg shadow-md"
+                        className="mt-8 mx-auto rounded-lg shadow-md h-32 md:h-48" // Adjust sizes here
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
-                        whileHover={{ scale: 1.1, rotate: 3 }}
+                        whileHover={{ scale: 1.1, rotate: 360 }}
                     />
                 </motion.section>
 
