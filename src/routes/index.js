@@ -17,6 +17,7 @@ import RegisterShop from "../pages/Shop/RegisterShop";
 import ShopManage from "../pages/Shop/ShopManage";
 import ShopUpdate from "../pages/Shop/ShopUpdate";
 import CommitmentPage from "../pages/CommimentPage";
+import CareersPage from "../pages/CareersPage";
 
 //shop
 import ShopDashboard from "../pages/Shop/Dashboard";
@@ -153,6 +154,10 @@ const router = createBrowserRouter([
             {
                 path: "checkout",
                 element: <Checkout />,
+            },
+            {
+                path: "career",
+                element: <CareersPage />,
             },
         ],
     },

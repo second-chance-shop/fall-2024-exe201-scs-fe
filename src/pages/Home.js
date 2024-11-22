@@ -6,8 +6,7 @@ import ProductRecommendList from "../components/home_components/ProductRecommend
 import PayLater from "../components/home_components/PayLater";
 import CategoryRecomendation from "../components/home_components/CategoryRecomendation";
 import React, { useState, useEffect, useRef } from "react";
-import Banner2 from "../components/home_components/Banner2";
-
+import HeroBanner from "../components/home_components/HeroBanner";
 import axios from "axios";
 // Import the JSON file
 import mock_recommend_products_vnd from "../assest/mockdata/mock_recommend_products_vnd.json";
@@ -91,7 +90,7 @@ const Home = () => {
     return (
         <div className="">
             <div className="w-full mx-auto border-0 p-0">
-                <Banner2 onButtonClick={handleScrollToDiv} />
+                <HeroBanner onButtonClick={handleScrollToDiv} />
                 <WarningBanner />
                 <LightningDeals
                     deals={initialDeals.current || []} // Pass initial deals only

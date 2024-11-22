@@ -1,119 +1,221 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const About = () => {
+    // Animation Variants
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+    };
+
+    const bounce = {
+        hidden: { y: 0 },
+        visible: { y: [0, -15, 0] },
+    };
+
+    const pulse = {
+        hidden: { scale: 1 },
+        visible: {
+            scale: [1, 1.05, 1],
+            transition: { duration: 1, repeat: Infinity },
+        },
+    };
+
+    const hoverShadow = {
+        rest: { scale: 1, boxShadow: "0px 0px 0px rgba(0, 0, 0, 0)" },
+        hover: {
+            scale: 1.1,
+            boxShadow: "0px 20px 40px rgba(0, 128, 0, 0.3)",
+            transition: { duration: 0.3 },
+        },
+    };
+
     return (
-        <div className="bg-gray-100 px-8 py-12 text-gray-800">
-            {/* Section: Intro */}
-            <section className="mb-12">
-                <h1 className="text-4xl font-extrabold text-center text-indigo-700 mb-6">
-                    Second Chance Shop là gì?
-                </h1>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                    <img
-                        className="rounded-lg shadow-md hover:scale-105 transition-transform duration-300"
+        <div className="bg-gradient-to-b from-white via-green-50 to-white py-12 px-6">
+            <div className="max-w-5xl mx-auto">
+                {/* Hero Section */}
+                <motion.section
+                    className="text-center mb-16"
+                    initial="hidden"
+                    animate="visible"
+                    variants={fadeInUp}
+                    transition={{ delay: 0.2, duration: 0.8 }}
+                >
+                    <motion.h1
+                        className="text-5xl font-extrabold text-green-600 leading-tight mb-6"
+                        whileHover={{ scale: 1.05, color: "#0b6600" }}
+                    >
+                        Second Chance Shop là gì?
+                    </motion.h1>
+                    <motion.p
+                        className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto"
+                        whileHover={{ scale: 1.02, color: "#1f2937" }}
+                    >
+                        Second Chance Shop là nền tảng giúp kết nối người dùng với cộng đồng tiêu
+                        dùng bền vững. Tại đây, người dùng có thể dễ dàng mua bán, trao đổi hàng hóa
+                        mới hoặc đã qua sử dụng, giúp sản phẩm có "cơ hội thứ hai" để được sử dụng.
+                    </motion.p>
+                    <motion.img
                         src="https://aimg.kwcdn.com/upload_aimg/personal/25472687-6a51-42f1-82ac-259b561c7ac5.png.slim.png?imageView2/q/70/format/webp"
                         alt="Second Chance Shop"
+                        className="mt-8 mx-auto rounded-lg shadow-md"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                        whileHover={{ scale: 1.1, rotate: 3 }}
                     />
-                    <p className="text-lg leading-relaxed">
-                        <strong className="text-indigo-700">Second Chance Shop</strong> là nền tảng
-                        giúp kết nối người dùng với cộng đồng tiêu dùng bền vững. Tại đây, người
-                        dùng có thể dễ dàng mua bán, trao đổi hàng hóa mới hoặc đã qua sử dụng, giúp
-                        sản phẩm có "cơ hội thứ hai" để được sử dụng.
-                    </p>
-                </div>
-            </section>
+                </motion.section>
 
-            {/* Section: Meaning */}
-            <section className="mb-12 text-center">
-                <h2 className="text-3xl font-semibold text-indigo-600 mb-4">
-                    Second Chance Shop có ý nghĩa gì?
-                </h2>
-                <p className="text-lg leading-relaxed">
-                    <strong className="text-indigo-700">"Cơ hội thứ hai"</strong> – Mang đến giải
-                    pháp tiêu dùng bền vững. Tận dụng tối đa giá trị sản phẩm và giảm thiểu tác động
-                    tiêu cực đến môi trường.
-                </p>
-            </section>
+                {/* Meaning Section */}
+                <section className="mb-16 text-center">
+                    <motion.h2
+                        className="text-3xl font-semibold text-green-500 mb-4"
+                        variants={fadeInUp}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.4 }}
+                    >
+                        Second Chance Shop có ý nghĩa gì?
+                    </motion.h2>
+                    <motion.p
+                        className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                    >
+                        <strong>"Cơ hội thứ hai"</strong> – Mang đến giải pháp tiêu dùng bền vững.
+                        Tận dụng tối đa giá trị sản phẩm và giảm thiểu tác động tiêu cực đến môi
+                        trường.
+                    </motion.p>
+                </section>
 
-            {/* Section: Product Origins */}
-            <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-indigo-600 mb-4">
-                    Sản phẩm trên Second Chance Shop đến từ đâu?
-                </h2>
-                <p className="text-lg leading-relaxed">
-                    Các sản phẩm được cung cấp bởi cộng đồng người bán đa dạng, mang đến sự lựa chọn
-                    phong phú và phù hợp với mọi nhu cầu.
-                </p>
-            </section>
+                {/* Product Origins Section */}
+                <section className="mb-16 text-center">
+                    <motion.h2
+                        className="text-3xl font-semibold text-green-500 mb-4"
+                        variants={fadeInUp}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.6 }}
+                    >
+                        Sản phẩm trên Second Chance Shop đến từ đâu?
+                    </motion.h2>
+                    <motion.p
+                        className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto"
+                        variants={fadeInUp}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.7 }}
+                    >
+                        Các sản phẩm được cung cấp bởi cộng đồng người bán đa dạng, mang đến sự lựa
+                        chọn phong phú và phù hợp với mọi nhu cầu.
+                    </motion.p>
+                </section>
 
-            {/* Section: Strengths */}
-            <section className="mb-12">
-                <h2 className="text-3xl font-semibold text-indigo-600 mb-6">
-                    Điểm mạnh của Second Chance Shop
-                </h2>
-                <ul className="space-y-6">
-                    {[
-                        "Khả năng cung cấp đa dạng sản phẩm",
-                        "Hỗ trợ người dùng trong việc trao đổi và mua bán dễ dàng",
-                        "Tạo dựng cộng đồng tiêu dùng bền vững",
-                    ].map((point, index) => (
-                        <li
-                            key={index}
-                            className="flex items-start bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-                        >
-                            <span className="text-indigo-700 text-xl font-bold mr-4">
-                                {index + 1}.
-                            </span>
-                            <span className="text-lg">{point}</span>
-                        </li>
-                    ))}
-                </ul>
-            </section>
+                {/* Strengths Section */}
+                <section className="mb-16 text-center">
+                    <motion.h2
+                        className="text-3xl font-semibold text-green-500 mb-6"
+                        variants={fadeInUp}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.8 }}
+                    >
+                        Điểm mạnh của Second Chance Shop
+                    </motion.h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            "Khả năng cung cấp đa dạng sản phẩm",
+                            "Hỗ trợ người dùng trong việc trao đổi và mua bán dễ dàng",
+                            "Tạo dựng cộng đồng tiêu dùng bền vững",
+                        ].map((item, index) => (
+                            <motion.div
+                                key={index}
+                                className="bg-white p-6 rounded-lg shadow-md cursor-pointer"
+                                variants={hoverShadow}
+                                initial="rest"
+                                whileHover="hover"
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <div className="flex items-center">
+                                    <div
+                                        className="w-10 h-10 flex items-center justify-center rounded-full bg-green-600 text-white font-bold mr-4"
+                                        variants={pulse}
+                                    >
+                                        {index + 1}
+                                    </div>
+                                    <p className="text-lg text-gray-700">{item}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
 
-            {/* Section: Core Values */}
-            <section>
-                <h2 className="text-3xl font-semibold text-indigo-600 mb-6">Giá trị cốt lõi</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                    {[
-                        {
-                            title: "Bền vững",
-                            description: "Khuyến khích tái sử dụng và giảm thiểu lãng phí.",
-                            img: "https://aimg.kwcdn.com/upload_aimg/personal/dafbac80-c8be-45af-a2af-8da487aeebd1.png.slim.png?imageView2/q/70/format/webp",
-                        },
-                        {
-                            title: "Cộng đồng",
-                            description:
-                                "Tạo môi trường giao lưu, mua bán thân thiện và đáng tin cậy.",
-                            img: "https://aimg.kwcdn.com/upload_aimg/personal/ca3bb170-0805-46cd-8e58-b1a714d93bab.png.slim.png?imageView2/q/70/format/webp",
-                        },
-                        {
-                            title: "Trách nhiệm xã hội",
-                            description: "Cam kết bảo vệ môi trường và hỗ trợ tiêu dùng bền vững.",
-                            img: "https://aimg.kwcdn.com/upload_aimg/personal/deb5c606-319e-4790-88f6-177d3d987abd.png?imageView2/q/70/format/webp",
-                        },
-                        {
-                            title: "Tôn trọng sự khác biệt",
-                            description: "Đón nhận sự đa dạng và khác biệt trong cộng đồng.",
-                            img: "https://aimg.kwcdn.com/upload_aimg/personal/9413ab21-d252-4e6d-9996-e2d8aa7b6093.png.slim.png?imageView2/q/70/format/webp",
-                        },
-                    ].map((value, index) => (
-                        <div
-                            key={index}
-                            className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
-                        >
-                            <img
-                                className="h-24 w-24 mx-auto rounded-full mb-4"
-                                src={value.img}
-                                alt={value.title}
-                            />
-                            <h3 className="text-lg font-semibold text-indigo-700 mb-2">
-                                {value.title}
-                            </h3>
-                            <p className="text-sm text-gray-600">{value.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </section>
+                {/* Core Values Section */}
+                <section className="text-center">
+                    <motion.h2
+                        className="text-3xl font-semibold text-green-500 mb-6"
+                        variants={fadeInUp}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 1 }}
+                    >
+                        Giá trị cốt lõi
+                    </motion.h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {[
+                            {
+                                title: "Bền vững",
+                                description: "Khuyến khích tái sử dụng và giảm thiểu lãng phí.",
+                                img: "https://aimg.kwcdn.com/upload_aimg/personal/dafbac80-c8be-45af-a2af-8da487aeebd1.png.slim.png?imageView2/q/70/format/webp",
+                            },
+                            {
+                                title: "Cộng đồng",
+                                description:
+                                    "Tạo môi trường giao lưu, mua bán thân thiện và đáng tin cậy.",
+                                img: "https://aimg.kwcdn.com/upload_aimg/personal/ca3bb170-0805-46cd-8e58-b1a714d93bab.png.slim.png?imageView2/q/70/format/webp",
+                            },
+                            {
+                                title: "Trách nhiệm xã hội",
+                                description:
+                                    "Cam kết bảo vệ môi trường và hỗ trợ tiêu dùng bền vững.",
+                                img: "https://aimg.kwcdn.com/upload_aimg/personal/deb5c606-319e-4790-88f6-177d3d987abd.png?imageView2/q/70/format/webp",
+                            },
+                            {
+                                title: "Tôn trọng sự khác biệt",
+                                description: "Đón nhận sự đa dạng và khác biệt trong cộng đồng.",
+                                img: "https://aimg.kwcdn.com/upload_aimg/personal/9413ab21-d252-4e6d-9996-e2d8aa7b6093.png.slim.png?imageView2/q/70/format/webp",
+                            },
+                        ].map((value, index) => (
+                            <motion.div
+                                key={index}
+                                className="flex flex-col items-center bg-white p-6 rounded-lg shadow-md cursor-pointer"
+                                variants={hoverShadow}
+                                initial="rest"
+                                whileHover="hover"
+                            >
+                                <motion.img
+                                    src={value.img}
+                                    alt={value.title}
+                                    className="h-20 w-20 mb-4 rounded-full"
+                                    whileHover={{ scale: 1.2 }}
+                                    transition={{ duration: 0.4 }}
+                                />
+                                <motion.h3
+                                    className="text-lg font-bold text-green-600 mb-2"
+                                    variants={bounce}
+                                    initial="hidden"
+                                    animate="visible"
+                                    transition={{ delay: 0.2, duration: 0.5 }}
+                                >
+                                    {value.title}
+                                </motion.h3>
+                                <p className="text-gray-600 text-center">{value.description}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </section>
+            </div>
         </div>
     );
 };
