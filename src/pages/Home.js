@@ -16,6 +16,13 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState(0); // Use categoryId here
     const [products, setProducts] = useState([]);
     const initialDeals = useRef(null); // Store initial deals list
+    const targetDivRef = useRef(null);
+
+    const handleScrollToDiv = () => {
+        const targetPosition = targetDivRef.current.getBoundingClientRect().top + window.scrollY;
+        const offset = 100; // Adjust this value to control the gap above the target element
+        window.scrollTo({ top: targetPosition - offset, behavior: "smooth" });
+    };
 
     const handleCategoryChange = (categoryId) => {
         setSelectedCategory(categoryId); // Set categoryId when a category is selected
@@ -84,7 +91,7 @@ const Home = () => {
     return (
         <div className="">
             <div className="w-full mx-auto border-0 p-0">
-                <Banner2 />
+                <Banner2 onButtonClick={handleScrollToDiv} />
                 <WarningBanner />
                 <LightningDeals
                     deals={initialDeals.current || []} // Pass initial deals only
@@ -103,28 +110,22 @@ const Home = () => {
                 <PayLater />
             </div>
 
-            <div className="text-[12px] leading-6 text-black flex w-full min-w-[1080px] max-w-[1440px] mx-auto border-0 mt-[80px] user-select-none box-border touch-manipulation">
-                <div className="bg-white w-full mb-10">
-                    <div
-                        role="region"
-                        className="text-[12px] list-none text-black user-select-none border-0 tap-highlight-transparent p-0 box-border touch-manipulation m-0 mx-auto font-extrabold leading-none text-center relative pt-4.5 h-14"
-                    >
-                        <div className="text-[24px] leading-[29px] font-bold text-black text-center list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation mt-[10px]">
-                            <h2
-                                aria-label="Explore your interests"
-                                className="text-[24px] font-bold leading-[29px] text-black list-none border-0 tap-highlight-transparent m-0 p-0 user-select-none box-border touch-manipulation overflow-hidden text-ellipsis whitespace-nowrap text-center"
-                            >
-                                KHÁM PHÁ SỞ THÍCH CỦA BẠN
-                            </h2>
-                        </div>
-                    </div>
+            <div
+                ref={targetDivRef}
+                className="text-[12px] leading-6 text-black flex flex-col w-full min-w-[1080px] max-w-[1440px] mx-auto border-0 mt-[80px] user-select-none box-border touch-manipulation bg-white mb-10"
+            >
+                <h2
+                    aria-label="Explore your interests"
+                    className="overflow-hidden text-ellipsis whitespace-nowrap text-[24px] font-bold leading-[29px] text-black text-center list-none border-0 tap-highlight-transparent p-4 user-select-none box-border touch-manipulation"
+                >
+                    KHÁM PHÁ SỞ THÍCH CỦA BẠN
+                </h2>
 
-                    {/* Pass handleCategoryChange as a prop to update the selected category */}
-                    <CategoryRecomendation onCategorySelect={handleCategoryChange} />
+                {/* Pass handleCategoryChange as a prop to update the selected category */}
+                <CategoryRecomendation onCategorySelect={handleCategoryChange} />
 
-                    {/* Render the products based on the selected category */}
-                    <ProductRecommendList products={products} />
-                </div>
+                {/* Render the products based on the selected category */}
+                <ProductRecommendList products={products} />
             </div>
         </div>
     );

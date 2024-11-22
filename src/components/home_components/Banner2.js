@@ -15,53 +15,58 @@ const fonts = [
 ];
 
 const fontStyles = {
-    "font-montserrat": "md:text-[100px] leading-[1.4]",
-    "font-robotoMono": "md:text-[120px] leading-[1.25]",
-    "font-oswald": "md:text-[120px] leading-[1.25]",
-    "font-nunito": "md:text-[100px] leading-[1.4]",
-    "font-playfair": "md:text-[100px] leading-[1.4]",
-    "font-manrope": "md:text-[100px] leading-[1.4]",
-    "font-quicksand": "md:text-[100px] leading-[1.4]",
-    "font-dosis": "md:text-[120px] leading-[1.1]",
-    "font-hanoienne": "md:text-[100px] leading-[1.4]",
+    "font-montserrat": "md:text-[100px] leading-[1.12]",
+    "font-robotoMono": "md:text-[120px] leading-[1]",
+    "font-oswald": "md:text-[120px] leading-[1]",
+    "font-nunito": "md:text-[100px] leading-[1.12]",
+    "font-playfair": "md:text-[100px] leading-[1.12]",
+    "font-manrope": "md:text-[100px] leading-[1.12]",
+    "font-quicksand": "md:text-[100px] leading-[1.12]",
+    "font-dosis": "md:text-[120px] leading-[0.88]",
+    "font-hanoienne": "md:text-[100px] leading-[1.12]",
 };
 
-const Banner2 = () => {
+const Banner2 = ({ onButtonClick }) => {
     const [currentFont, setCurrentFont] = useState(fonts[0]);
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        let animationFrameId;
-        const changeFont = () => {
-            setCurrentIndex((prevIndex) => {
-                const nextIndex = (prevIndex + 1) % fonts.length; // Loop back to start
-                setCurrentFont(fonts[nextIndex]); // Update the font
-                return nextIndex; // Update the index
-            });
-            animationFrameId = setTimeout(changeFont, 1000); // Repeat every 1 second
-        };
+        // Start with the current font without triggering any immediate changes
+        setCurrentFont(fonts[currentIndex]);
 
-        changeFont();
+        // Start the interval with a slight delay
+        const timeoutId = setTimeout(() => {
+            const intervalId = setInterval(() => {
+                setCurrentIndex((prevIndex) => {
+                    const nextIndex = (prevIndex + 1) % fonts.length; // Loop through fonts
+                    setCurrentFont(fonts[nextIndex]); // Update the font
+                    return nextIndex; // Update the index
+                });
+            }, 1000); // Change font every 1 second
 
-        return () => {
-            clearTimeout(animationFrameId); // Cleanup animation frame on unmount
-        };
+            // Store interval ID for cleanup
+            return () => {
+                clearInterval(intervalId); // Cleanup interval on unmount
+            };
+        }, 100); // Initial delay of 100ms before the first interval
+
+        // Cleanup timeout on unmount
+        return () => clearTimeout(timeoutId);
     }, []);
-
     return (
-        <div className="bg-black text-white min-h-screen flex flex-col md:flex-row items-center px-16 md:px-40  overflow-hidden gap-16 md:gap-32 pt-8">
+        <div className="bg-black text-white min-h-screen flex flex-col md:flex-row items-center px-16 md:px-40  overflow-hidden gap-8 md:gap-8 pt-8">
             {/* Background Animation */}
             <BackgroundBanner />
             {/* Left Text Section */}
             <motion.div
-                className="flex-1 text-center md:text-left self-start"
+                className="flex-[1] text-center md:text-left self-start max-w-[700px] pl-10"
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 1 }}
             >
                 {/* Topline Text */}
                 <motion.h1
-                    className={`h-[600px] text-[48px] ${fontStyles[currentFont]} font-light md:font-bold uppercase tracking-[2px] md:tracking-wider ${currentFont}`}
+                    className={`h-[500px] text-[48px] ${fontStyles[currentFont]} font-light md:font-bold uppercase tracking-[2px] md:tracking-wider ${currentFont}`}
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ duration: 1.5 }}
@@ -83,8 +88,8 @@ const Banner2 = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 1 }}
                 >
-                    Kho báu hợp túi tiền. Mua sắm bền vững. <br />
-                    Phong cách tạo nên sự khác biệt.
+                    Mua sắm hợp túi tiền <br /> tiền Mua sắm bền vững. <br />
+                    Mua sắm sự khác biệt.
                 </motion.p>
 
                 {/* Call-to-Action Button */}
@@ -96,6 +101,7 @@ const Banner2 = () => {
                         backgroundColor: "#E88933",
                         color: "#FFF",
                     }}
+                    onClick={onButtonClick}
                 >
                     Shop Now!
                     <motion.div
@@ -107,7 +113,7 @@ const Banner2 = () => {
             </motion.div>
 
             {/* Right Image Section */}
-            <div className="flex-1 flex justify-center mt-20 md:mt-0 space-x-10">
+            <div className="flex-[1.5] flex justify-center mt-20 md:mt-0 space-x-10">
                 {/* First Image */}
                 <motion.div
                     className="relative transform rotate-[-10deg] rounded-[30px] overflow-hidden shadow-2xl"
@@ -118,7 +124,7 @@ const Banner2 = () => {
                     <img
                         src="https://m.media-amazon.com/images/I/811BWlyGc7L._AC_UF1000,1000_QL80_.jpg"
                         alt="Model 1"
-                        className="w-[400px] h-[600px] object-cover"
+                        className="w-[600px] h-[600px] object-cover"
                         loading="lazy"
                     />
                 </motion.div>
@@ -133,7 +139,7 @@ const Banner2 = () => {
                     <img
                         src="https://pbs.twimg.com/media/EaLG8OnX0AU6-eL.jpg:large"
                         alt="Model 2"
-                        className="w-[400px] h-[600px] object-cover"
+                        className="w-[600px] h-[600px] object-cover"
                         loading="lazy"
                     />
                 </motion.div>
@@ -148,7 +154,7 @@ const Banner2 = () => {
                     <img
                         src="https://m.media-amazon.com/images/I/51VzSLbARtS._AC_UF894,1000_QL80_.jpg"
                         alt="Model 3"
-                        className="w-[400px] h-[600px] object-cover"
+                        className="w-[600px] h-[600px] object-cover"
                         loading="lazy"
                     />
                 </motion.div>

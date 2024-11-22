@@ -1,41 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
-const mockCategories = [
-    "Recommended",
-    "Women's Clothing",
-    "Home & Kitchen",
-    "Women's Curve Clothing",
-    "Sports & Outdoors",
-    "Women's Lingerie & Lounge",
-    "Office & School Supplies",
-    "Toys & Games",
-    "Kids' Shoes",
-    "Beachwear",
-    "Men's Shoes",
-    "Women's Shoes",
-    "Smart Home",
-    "Appliances",
-    "Men's Underwear & Sleepwear",
-    "Electronics",
-    "Kids' Fashion",
-    "Bags & Luggage",
-    "Baby & Maternity",
-    "Beauty & Health",
-    "Musical Instruments",
-    "Jewelry & Accessories",
-    "Pet Supplies",
-    "Business, Industry & Science",
-    "Tools & Home Improvement",
-    "Automotive",
-    "Men's Clothing",
-    "Health & Household",
-    "Cell Phones & Accessories",
-    "Patio, Lawn & Garden",
-    "Arts, Crafts & Sewing",
-    "Men's Big & Tall",
-    "Food & Grocery",
-    "Books",
-];
 
 const CategoryList = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
@@ -187,48 +151,6 @@ const CategoryRecomendation = ({ onCategorySelect }) => {
                 aria-roledescription="carousel"
                 className="inline-block max-w-full"
             >
-                <div>
-                    <div
-                        aria-label="Previous slide"
-                        aria-controls="splide03-track"
-                        className="absolute w-[84px] h-full flex items-center justify-end bg-gradient-to-r from-white to-transparent left-[-2px] z-10 opacity-0"
-                    >
-                        <div className="flex justify-center items-center w-[44px] h-[44px] relative">
-                            <div className="w-full h-full rounded-full bg-white border border-[rgba(0,0,0,0.05)] absolute shadow-[0_-4px_7px_rgba(0,0,0,0.1)] transition-transform duration-150 ease"></div>
-                            <svg
-                                viewBox="0 0 1024 1024"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                alt="common_arrows"
-                                aria-label="common_arrows"
-                                aria-hidden="true"
-                                className="w-4 h-4 fill-black relative z-2 rotate-[-90deg]"
-                            >
-                                <path d="M846.6 329.7c19.9-17.2 49.9-15 67.1 4.9 15.4 17.9 15.2 44 0.5 61.6l-5.4 5.5-365.3 315.5c-15.9 13.7-38.5 15.2-55.8 4.6l-6.3-4.6-366.1-315.5c-19.9-17.1-22.1-47.2-5-67 15.4-17.9 41.3-21.5 60.8-9.6l6.2 4.6 335.1 288.7 334.2-288.7z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    <div aria-label="Next slide" aria-controls="splide03-track">
-                        <div>
-                            <svg
-                                viewBox="0 0 1024 1024"
-                                version="1.1"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="1em"
-                                height="1em"
-                                alt="common_arrows"
-                                aria-label="common_arrows"
-                                aria-hidden="true"
-                            >
-                                <path></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
                 <CategoryList onCategorySelect={onCategorySelect} />
             </div>
         </div>
