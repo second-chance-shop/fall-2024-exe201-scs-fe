@@ -187,15 +187,17 @@ const Checkout = () => {
                 toast.error("Vui lòng chọn phương thức thanh toán");
                 return;
             }
-
+    
             // Call the checkoutOrder function and get the payment data
             const paymentData = await checkoutOrder(selectedMethod);
-
+    
             // Check for CREDIT_CARD payment type and handle URL
             if (paymentData.namePayment === "CREDIT_CARD" && paymentData.urlPayment) {
-                toast.info("Vui lòng hoàn tất thanh toán qua liên kết cung cấp.");
+                toast.info("Đang chuyển hướng đến trang thanh toán...");
+                window.location.href = paymentData.urlPayment; // Chuyển hướng sang URL thanh toán trên tab hiện tại
+                return; // Kết thúc hàm để tránh thực hiện các bước không cần thiết
             }
-
+    
             // Pass the payment data to the modal
             setPaymentData(paymentData);
             setPaymentStatus("success"); // Set modal status to success
@@ -204,6 +206,7 @@ const Checkout = () => {
             setPaymentStatus("fail"); // Set modal status to fail
         }
     };
+
 
     useEffect(() => {
         if (selectedOrderId && cartItems.length > 0) {
