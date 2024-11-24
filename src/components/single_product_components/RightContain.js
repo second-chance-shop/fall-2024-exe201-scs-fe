@@ -88,7 +88,7 @@ const ProductRating = ({ productId }) => {
     );
 };
 
-const PriceArea = ({ price, discountPercentage = 80 }) => {
+const PriceArea = ({ price, discountPercentage = 30 }) => {
     const discountedPrice = (price * (1 - discountPercentage / 100)).toFixed(0);
     return (
         <div id="PriceArea" className="relative mt-[16px] flex flex-wrap items-end">
@@ -296,7 +296,7 @@ const RightContain = ({ product }) => {
 
                 <ProductRating sold={1500} />
 
-                <PriceArea price={product.prices} discountPercentage={80} />
+                <PriceArea price={product.prices} discountPercentage={30} />
 
                 <Card />
 

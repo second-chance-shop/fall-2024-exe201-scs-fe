@@ -35,69 +35,96 @@ const nullProductImage = [
         alt: "",
     },
 ];
-
 const mockUserReviews = [
     {
-        username: "sa***e1",
-        date: "Sep 21, 2024",
-        location: "United States",
+        username: "ha***93",
+        date: "21 Tháng 9, 2024",
+        location: "Hà Nội",
         content:
-            "Just love. The casual look with a jacket & a pair of heels you will look and feel absolutely fabulous!! The quality is out of this world. Would do business with again.",
+            "Chỉ có thể nói là yêu. Phong cách thoải mái kết hợp với áo khoác và một đôi giày cao gót, bạn sẽ trông và cảm thấy thật tuyệt vời!! Chất lượng vượt ngoài mong đợi. Sẽ giao dịch lại lần nữa.",
         rating: 5,
     },
     {
-        username: "lu***62",
-        date: "Sep 27, 2024",
-        location: "United States",
+        username: "mi***77",
+        date: "27 Tháng 9, 2024",
+        location: "Sài Gòn",
         content:
-            "Highly recommended, 100% really love it. So soft and pretty. Lightweight, easy dry, perfect fit, excellent item.",
+            "Rất khuyến khích, 100% thực sự rất thích. Rất mềm mại và xinh xắn. Nhẹ, khô nhanh, vừa vặn hoàn hảo, sản phẩm xuất sắc.",
         rating: 4.5,
     },
     {
-        username: "Sy***ge",
-        date: "Sep 20, 2024",
-        location: "Viet nam",
-        content: "Very pretty, great material and very comfortable.",
+        username: "vu***ng",
+        date: "20 Tháng 9, 2024",
+        location: "Vũng Tàu",
+        content: "Rất đẹp, chất liệu tuyệt vời và rất thoải mái.",
         rating: 3.9,
     },
     {
-        username: "Sy***ge",
-        date: "Sep 20, 2024",
-        location: "Thailand",
-        content: "Very pretty, great material and very comfortable.",
+        username: "qu***01",
+        date: "20 Tháng 9, 2024",
+        location: "Đà Nẵng",
+        content: "Rất đẹp, chất liệu tuyệt vời và rất thoải mái.",
         rating: 3.7,
     },
     {
-        username: "Sy***ge",
-        date: "Sep 20, 2024",
-        location: "United States",
-        content: "Very pretty, great material and very comfortable.",
+        username: "ho***22",
+        date: "20 Tháng 9, 2024",
+        location: "Cần Thơ",
+        content: "Rất đẹp, chất liệu tuyệt vời và rất thoải mái.",
         rating: 2.7,
     },
+    {
+        username: "ng***90",
+        date: "15 Tháng 9, 2024",
+        location: "Hải Phòng",
+        content: "Chất liệu tốt, giá cả hợp lý, sẽ ủng hộ thêm trong tương lai.",
+        rating: 4.2,
+    },
+    {
+        username: "tr***an",
+        date: "14 Tháng 9, 2024",
+        location: "Nha Trang",
+        content: "Màu sắc như hình, mặc rất vừa vặn. Cực kỳ hài lòng.",
+        rating: 4.8,
+    },
+    {
+        username: "le***85",
+        date: "10 Tháng 9, 2024",
+        location: "Huế",
+        content: "Chất lượng vải mềm, thoải mái khi mặc nhưng giao hàng hơi chậm.",
+        rating: 3.5,
+    },
+    {
+        username: "ph***88",
+        date: "5 Tháng 9, 2024",
+        location: "Biên Hòa",
+        content: "Hơi rộng so với mong đợi, nhưng vẫn đẹp. Dịch vụ hỗ trợ rất tốt.",
+        rating: 3.9,
+    },
+    {
+        username: "an***12",
+        date: "1 Tháng 9, 2024",
+        location: "Buôn Ma Thuột",
+        content: "Sản phẩm đúng mô tả, phù hợp với giá tiền. Giao hàng nhanh.",
+        rating: 4.0,
+    },
 ];
+
+
 
 // SmallImage Component
 const SmallImage = ({ setCurrentImage, currentImage, imageList }) => {
     return (
-        <div
-            aria-label="Goods image"
-            tabIndex="0"
-            className="absolute left-0 top-0 w-[62px] h-full"
-        >
+        <div aria-label="Thumbnail images" tabIndex="0" className="absolute left-0 top-0 w-[62px] h-full">
             <div className="w-[57px] relative">
                 {imageList.map((image, index) => (
-                    <div key={index} className={`h-0 overflow-hidden relative mb-5 pb-[133.33%]`}>
+                    <div key={index} className="relative mb-5">
                         <img
-                            src={image.src || image} // Handle array of objects or string
-                            alt={image.alt || `Product Image ${index + 1}`}
-                            tabIndex="0"
-                            fetchpriority="high"
-                            className={`max-w-full h-auto w-full align-top cursor-pointer ${
-                                currentImage.src === (image.src || image)
-                                    ? "border-2 border-black"
-                                    : ""
-                            }`} // Apply border on hover
-                            onMouseEnter={() => setCurrentImage(image.src ? image : { src: image })} // Update on hover
+                            src={image.src || image}
+                            alt={image.alt || `Thumbnail ${index + 1}`}
+                            loading="lazy"
+                            className={`cursor-pointer ${currentImage.src === (image.src || image) ? "border-2 border-black" : ""}`}
+                            onMouseEnter={() => setCurrentImage(image)}
                         />
                     </div>
                 ))}
@@ -105,6 +132,7 @@ const SmallImage = ({ setCurrentImage, currentImage, imageList }) => {
         </div>
     );
 };
+
 
 // BigImage Component
 const BigImages = ({ currentImage }) => {
@@ -197,7 +225,7 @@ const DetailUserReviews = ({ userReviews = mockUserReviews }) => {
                                         class="list-none rounded-full box-border relative  w-[30px] h-[30px] cursor-pointer"
                                     />
                                     <div class="text-[14px] leading-[18px] text-[#222] font-semibold border-0 m-0 p-0 box-border overflow-hidden truncate whitespace-nowrap cursor-pointer">
-                                        Semiiiiiiiiii {userReviews.username}
+                                        {userReview.username}
                                     </div>
                                     <div class="ml-[4px] text-[14px] leading-[18px] font-normal flex items-center border-0 box-border shrink-0 whitespace-nowrap">
                                         <span>
@@ -207,14 +235,14 @@ const DetailUserReviews = ({ userReviews = mockUserReviews }) => {
                                         </span>
                                         <span>
                                             <img
-                                                src="https://aimg.kwcdn.com/upload_aimg/openingemail/flags/559eb015-f86e-4573-9585-c11bc8f69c33.png.slim.png?imageView2/2/w/51/q/70/format/webp"
+                                                src="https://emojigraph.org/media/google/flag-vietnam_1f1fb-1f1f3.png"
                                                 alt=""
                                                 class="font-normal box-border max-w-full align-top w-[17px] h-[13px] mr-[4px] ml-[4px]"
                                             />
                                         </span>
                                         <span>
                                             <span class="text-[14px] font-normal leading-6 text-[#AAAAAA]">
-                                                {userReviews.location} on {userReviews.date}
+                                                {userReview.location} on {userReview.date}
                                             </span>
                                         </span>
                                     </div>
@@ -265,7 +293,7 @@ const SeeMoreButton = () => {
                     hovered ? "border-[#222] scale-[1.02] shadow-[0_0_0_1px_#222]" : "border-[#888]"
                 } transition-all duration-300 ease-in-out`}
             ></span>
-            <span>See all reviews</span>
+            <span>Xem tất cả bình luận</span>
         </div>
     );
 };
