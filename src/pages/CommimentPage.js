@@ -20,7 +20,7 @@ const SwitchButton = ({ securityRef, shippingRef }) => {
     }, [securityRef, shippingRef]);
 
     const scrollToSection = (section) => {
-        const offset = -100; // Adjust this value to control how much the page scrolls above the heading
+        const offset = -200; // Adjust this value to control how much the page scrolls above the heading
         let sectionRef;
 
         if (section === "security") {
@@ -41,7 +41,7 @@ const SwitchButton = ({ securityRef, shippingRef }) => {
     };
 
     return (
-        <div className="w-[920px] h-[51px] mb-[37px] text-[16px] leading-[24px] sticky top-0 z-50 bg-white">
+        <div className="w-[920px] h-[51px] mb-[37px] text-[16px] leading-[24px] sticky top-[100px] z-50 bg-white">
             <div
                 className="flex items-center w-full h-full border-2 border-[#0a8800] rounded-lg bg-white p-[3px]"
                 style={{
